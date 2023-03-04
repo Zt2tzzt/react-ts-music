@@ -1,6 +1,27 @@
-body, button, dd, dl, dt, form, h1, h2, h3, h4, h5, h6, hr, input, li, ol, p, pre, td, textarea, th, ul {
-  padding: 0;
-  margin: 0;
+body,
+button,
+dd,
+dl,
+dt,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+input,
+li,
+ol,
+p,
+pre,
+td,
+textarea,
+th,
+ul {
+	padding: 0;
+	margin: 0;
 }
 
 button {
@@ -18,6 +39,7 @@ img {
 	vertical-align: top;
 }
 
-ul, li {
+ul,
+li {
 	list-style: none;
 }
