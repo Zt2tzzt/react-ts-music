@@ -1,5 +1,5 @@
 import React, { lazy } from 'react'
-import { Navigate, RouteObject } from 'react-router-dom'
+import { Navigate, type RouteObject } from 'react-router-dom'
 
 // 一级路由
 const Discover = lazy(() => import('@/views/discover/Discover'))
