@@ -505,7 +505,7 @@ const theme = {
 export default theme
 ```
 
-5.在 `index.tsx` 中，使用 `ThemeProvider`
+5.在 `index.tsx` 中，使用 `<ThemeProvider>`
 
 src\index.tsx
 
@@ -526,13 +526,13 @@ root.render(
 )
 ```
 
----
+在 `AppHeader.tsx` 中加入 `HeaderLeft.tsx` 和 `HeaderRight.txs`
 
-在 AppHeader 中加入 HeaderLeft 和 HeaderRight
+### 1.HeaderLeft 区域
 
 在 HeaderLeft 中，编写 logo，拷贝以前的样式。
 
----
+
 
 在 AppHeader 中，编写导航。
 
