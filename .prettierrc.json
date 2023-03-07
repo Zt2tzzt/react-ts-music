@@ -7,5 +7,5 @@
 	"semi": false,
 	"arrowParens": "avoid",
 	"jsxSingleQuote": true,
-	"jsxBracketSameLine": true
+	"jsxBracketSameLine": false
 }

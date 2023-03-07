@@ -8,12 +8,12 @@ const Focus = lazy(() => import('@/views/focus/Focus'))
 const Download = lazy(() => import('@/views/download/Download'))
 
 // 二级路由
-const Alibum = lazy(() => import('@/views/discover/alibum/Alibum'))
-const Artist = lazy(() => import('@/views/discover/artist/Artist'))
-const Djradio = lazy(() => import('@/views/discover/djradio/Djradio'))
-const Ranking = lazy(() => import('@/views/discover/ranking/Ranking'))
-const Recommend = lazy(() => import('@/views/discover/recommend/Recommend'))
-const Songs = lazy(() => import('@/views/discover/songs/Songs'))
+const Alibum = lazy(() => import('@/views/discover/views/alibum/Alibum'))
+const Artist = lazy(() => import('@/views/discover/views/artist/Artist'))
+const Djradio = lazy(() => import('@/views/discover/views/djradio/Djradio'))
+const Ranking = lazy(() => import('@/views/discover/views/ranking/Ranking'))
+const Recommend = lazy(() => import('@/views/discover/views/recommend/Recommend'))
+const Songs = lazy(() => import('@/views/discover/views/songs/Songs'))
 
 const routes: RouteObject[] = [
 	{

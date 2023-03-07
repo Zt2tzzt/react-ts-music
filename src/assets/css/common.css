@@ -3,9 +3,23 @@
 	--textColorSecondary: #222;
 }
 
-body {
-	font-size: 14px;
-	font-family: 'Circular', 'PingFang-SC', 'Hiragino Sans GB', '微软雅黑', 'Microsoft YaHei', 'Heiti SC';
-	/* color: #484848; */
-	color: red;
+body, textarea, input, button {
+	font-size: 12px;
+	color: #333;
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: #f5f5f5;
+}
+
+.wrap_v1 {
+	width: 1100px;
+	margin: 0 auto;
+}
+
+.wrap_v2 {
+	width: 980px;
+	margin: 0 auto;
+}
+
+.sprite_01 {
+	background: url(../img/sprite_01.png) no-repeat 0 9999px;
 }

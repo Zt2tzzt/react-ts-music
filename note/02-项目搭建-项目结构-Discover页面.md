@@ -10,7 +10,7 @@ npm i axios
 
 2.将基于 *axios* 封装好的网络请求代码放入项目中。
 
-3.将第三层封装中，interceptor 携带 token 的代码暂时注释掉。
+3.将第三层封装中，interceptor 携带 token 的代码，暂时注释掉。
 
 ## 2.区分环境（webpack）
 
@@ -18,7 +18,7 @@ webpack 中如何区分环境？有三种方式：
 
 ### 1.手动切换
 
-在项目打包前，通过手动的注释代码，来区分环境（不推荐）。
+在项目打包前，通过手动注释代码，来区分环境（不推荐）。
 
 src\service\request\config.ts
 
@@ -31,7 +31,11 @@ src\service\request\config.ts
 
 项目中使用该方案。
 
-1.通过环境变量 `process.env.NODE_ENV` 进行区分，它的类型为：`'development' | 'production' | 'test'`（联合类型）。
+1.通过 webpack 的环境变量 `process.env.NODE_ENV` 进行区分，
+
+它的类型为：`'development' | 'production' | 'test'`（联合类型）。
+
+src\service\request\config.ts
 
 ```typescript
 /**
@@ -56,7 +60,7 @@ switch (process.env.NODE_ENV) {
 
 2.进行测试：
 
-将项目打包 允许如下命令
+将项目打包 允许如下命令：
 
 ```shell
 npm run build
@@ -72,7 +76,7 @@ serve -s build # 启动本地服务，并指定 build 目录下的文件，作�
 
 ### 3.配置文件
 
-在根目录编写以下文件，其中定义的变量，必须以 “`REACT_APP_`” 前缀开头，才能被 webpack 读取。
+在根目录编写以下文件，其中定义的变量，必须以 “`REACT_APP_`” 前缀开头，才能被 *webpack* 读取。
 
 .env.development
 
@@ -95,7 +99,7 @@ console.log(process.env.REACT_APP_BASE_URL)
 
 ### 4.补充（类型）
 
-`process.env` 的类型来自于 `src\react-app-env.d.ts` 文件所引用的位置。
+webpack 环境变量 `process.env` 的类型，来自于 `src\react-app-env.d.ts` 文件所引用的位置。
 
 node_modules\react-scripts\lib\react-app.d.ts
 
@@ -110,7 +114,7 @@ declare namespace NodeJS {
 
 可以在上述位置，声明自定义变量 `REACT_APP_BASE_URL` 的类型；
 
-但这样做不好，不要去修改源码。而是在 `src\react-app-env.d.ts` 中进行声明
+但这样做不好，不要去修改源码。而是在 `src\react-app-env.d.ts` 中进行重复声明。
 
 ```typescript
 declare namespace NodeJS {
@@ -122,7 +126,7 @@ declare namespace NodeJS {
 
 ## 3.API 文档
 
-阅读 [项目 API 文档](http://codercba.com:9002)，将 `BASE_URL` 改为该地址。
+阅读 [项目 API 文档](http://codercba.com:9002)。
 
 ## 4.网络请求测试
 
@@ -132,7 +136,7 @@ declare namespace NodeJS {
 
 src\views\discover\recommend\Recommend.tsx
 
-```typescript
+```tsx
 interface IProps {
 	children?: ReactNode
 }
@@ -251,7 +255,7 @@ export class Demo extends PureComponent<IProps, IState> {
 export default Demo
 ```
 
-3.1.将 `state` 写在类组件的成员变量中，进行初始化，代码更加简洁（不用谢 `constructor`）。
+3.1.将 `state` 写在类组件的成员变量中，进行初始化，代码更加简洁（不用写 `constructor`）。
 
 ```tsx
 import React, { PureComponent } from 'react'
@@ -456,7 +460,7 @@ npm i --save-dev @types/styled-components
 
 src\components\app-header\app-header-style.ts
 
-```typescript
+```less
 import styled from 'styled-components'
 
 const AppHeaderWrapper = styled.header`
@@ -466,7 +470,6 @@ const AppHeaderWrapper = styled.header`
 	color: #fff;
 `
 export default AppHeaderWrapper
-
 ```
 
 src\components\app-header\AppHeader.tsx
@@ -496,9 +499,9 @@ const theme = {
 	size: {},
 	misin: {
 		wrapv1: `
-		width: 1100px;
-		margin: 0 auto
-	`
+      width: 1100px;
+      margin: 0 auto
+    `
 	}
 }
 
@@ -526,125 +529,624 @@ root.render(
 )
 ```
 
-在 `AppHeader.tsx` 中加入 `HeaderLeft.tsx` 和 `HeaderRight.txs`
+在 `AppHeader.tsx` 中加入 `<HeaderLeftWrapper>` 和 `<HeaderRightWrapper>` 区域。
 
 ### 1.HeaderLeft 区域
 
-在 HeaderLeft 中，编写 logo，拷贝以前的样式。
+在 `<HeaderLeftWrapper>` 中：
 
+- 编写 logo，拷贝以前的样式。
+- 编写导航元素，使用 `<NavLink>` 或 `<a>`。
 
+将导航对应的路径，放入到一个 `assetes/data/header-titles.son` 文件中。
 
-在 AppHeader 中，编写导航。
+在 `AppHeader.tsx` 中引入 json 文件。
 
-将导航对应的路径，放入到一个 jassetes/data/header-titles.son 文件中。
+> react 脚手架创建的 ts 项目，默认有 json 文件的模块声明。
 
-react 脚手架，默认有 json 文件的声明。在 AppHeader.tsx 中引入 json 文件。
+遍历 json 文件导出的列表，判断是使用 `<NavLink>` 还是 `<a>` 元素。
 
-遍历 json 文件，判断是 Link 还是 a 元素。
+src\components\app-header\AppHeader.tsx
+
+```tsx
+const AppHeader: FC<IProps> = memo(() => {
+
+	return (
+		<AppHeaderWrapper>
+			<div className='content wrap_v1'>
+				<HeaderLeftWrapper>
+          {/* logo */}
+					<a className='logo sprite_01' href='/'>
+						网易云音乐
+					</a>
+          {/* 一级路由 */}
+					<div className='title-list'>
+						{headerTitles.map(item => (
+							<div className='item' key={item.title}>
+								{item.type === 'path' ? (
+									<NavLink to={item.link} className={({ isActive }) => (isActive ? 'active' : undefined)}>
+										{item.title}
+										<i className='icon sprite_01'></i>
+									</NavLink>
+								) : item.type === 'link' ? (
+									<a href={item.link} rel='noreferrer' target='_blank'>
+										{item.title}
+									</a>
+								) : undefined}
+							</div>
+						))}
+					</div>
+				</HeaderLeftWrapper>
+			</div>
+		</AppHeaderWrapper>
+	)
+})
+```
 
 将样式拷贝过来，并做调整。
 
----
+为什么用 `<NavLink>` 而不是 `<Link>`
 
-在 AppHeader 中，为选中的 title 加上选中效果。
+因为在为选中的 title 加上选中效果时，有两种方案：
 
-方案一：使用 useState 记录（错误的方案，页面刷新后，状态消失）
+- 方案一：使用 `useState` 记录选中 title 的 index
+  - **错误的方案**，页面刷新后，无法根据当前 url，去匹配 title 对应的 link；
 
-方案二：使用 NavLink（项目中采用）。
+- 方案二：使用 `<NavLink>`（项目中采用）。
 
----
+src\components\app-header\style.ts
 
-在 AppHeadert 中，HeaderRight 中，编写搜索框。使用 AntDesign 中的组件。
+```less
+export const HeaderLeftWrapper = styled.div`
+	display: flex;
 
-安装 AntDesign 库。
+	.logo {
+		display: block;
+		width: 176px;
+		height: 70px;
+		background-position: 0 0;
+		text-indent: -9999px;
+	}
+
+	.title-list {
+		display: flex;
+		line-height: 70px;
+
+		.item {
+			position: relative;
+
+			a {
+				display: block;
+				padding: 0 20px;
+				color: #ccc;
+			}
+
+			:last-of-type a {
+				position: relative;
+				::after {
+					position: absolute;
+					content: '';
+					width: 28px;
+					height: 19px;
+					background-image: url(${require('@/assets/img/sprite_01.png')});
+					background-position: -190px 0;
+					top: 20px;
+					right: -15px;
+				}
+			}
+
+			&:hover a,
+			.active {
+				color: #fff;
+				background-color: #000;
+			}
+
+			.active .icon {
+				position: absolute;
+				display: inline-block;
+				width: 12px;
+				height: 7px;
+				bottom: -1px;
+				left: 50%;
+				transform: translateX(-50%);
+				background-position: -226px 0;
+			}
+		}
+	}
+`
+```
+
+### 2.HeaderRight 区域
+
+在 `<HeaderRightWrapper>` 中，编写搜索框。使用 AntDesign 中的组件。
+
+1.安装 *AntDesign* 库。
 
 ```shell
 npm install antd
 ```
 
-antDesign 采用 tree shaking 模式，没有按需引入。
+> AntDesign 采用 tree shaking 模式，无需做按需引入的配哦。
 
-安装 Antdesign 的图标库。
+2.安装 *Antdesign* 的图标库。
 
 ```shell
 npm install --save @ant-design/icons
 ```
 
-使用 Antdesign 的 Input 组件，编写搜索框，并在前面加上图标。
+3.使用 *Antdesign* 的 `<Input>` 组件，编写搜索框，并在前面加上图标。
+
+src\components\app-header\AppHeader.tsx
+
+```tsx
+//...
+<HeaderRightWrapper>
+  <Input
+    // onFocus={onFoucs}
+    className='search'
+    placeholder='音乐/视频/电台/用户'
+    prefix={<SearchOutlined></SearchOutlined>}
+  ></Input>
+  <span className='center'>创作者中心</span>
+  <span className='sign-in'>登录</span>
+</HeaderRightWrapper>
+//...
+```
 
 调整样式。
 
----
+src\components\app-header\style.ts
 
-在 Discover 页面中，分为两部分内容，header 和 content。
+```less
+export const HeaderRightWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	color: #787878;
+	font-size: 12px;
+
+	> .search {
+		width: 158px;
+		height: 32px;
+		border-radius: 16px;
+
+		input::placeholder {
+			font-size: 12px;
+		}
+	}
+
+	.center {
+		width: 90px;
+		height: 32px;
+		line-height: 32px;
+		margin: 0 16px;
+		text-align: center;
+		border: 1px #666 solid;
+		border-radius: 16px;
+		color: #ccc;
+		cursor: pointer;
+
+		&:hover {
+			color: #fff;
+			border-color: #fff;
+		}
+	}
+`
+```
+
+## 2.Discover 页面
+
+在 `Discover.tsx` 页面中，分为两部分内容，header 和 content。
+
+### 1.header 区域
 
 同样将 header 中的 titles 放到 json 文件中。
 
-遍历 json 文件中的 titles，使用 NavLink 作为导航元素。
+src\assets\data\discover-titles.json
 
-调整样式。
+遍历 json 文件中的 titles，使用 `<NavLink>` 作为导航元素。
 
----
+src\views\discover\Discover.tsx
 
-在 Discover 中，编写轮播图。
+```tsx
+const Discover: FC<IProps> = memo(() => {
+	return (
+		<div>
+			<NavBar></NavBar>
+			<Suspense>
+				<Outlet></Outlet>
+			</Suspense>
+		</div>
+	)
+})
+```
+
+src\views\discover\cpns\nav-bar\NavBar.tsx
+
+```tsx
+import React, { memo } from 'react'
+import type { FC, ReactNode } from 'react'
+import NavBarWrapper from './style'
+import discoverTitles from '@/assets/data/discover-titles.json'
+import { NavLink } from 'react-router-dom'
+
+interface IProps {
+	children?: ReactNode
+}
+const NavBar: FC<IProps> = memo(() => {
+	return (
+		<NavBarWrapper>
+			<div className='nav wrap_v1'>
+				{discoverTitles.map(item => (
+					<div className='item' key={item.link}>
+						<NavLink to={item.link}>{item.title}</NavLink>
+					</div>
+				))}
+			</div>
+		</NavBarWrapper>
+	)
+})
+```
+
+调整样式
+
+src\views\discover\cpns\nav-bar\style.ts
+
+```less
+import styled from 'styled-components'
+
+const NavBarWrapper = styled.nav`
+	height: 30px;
+	background-color: ${props => props.theme.color.primary};
+
+	.nav {
+		display: flex;
+		padding-left: 360px;
+		position: relative;
+		top: -4px;
+
+		.item {
+			a {
+				display: inline-block;
+				height: 20px;
+				line-height: 20px;
+				padding: 0 13px;
+				margin: 7px 17px 0;
+				color: #fff;
+				font-size: 12px;
+
+				&:hover,
+				&.active {
+					background-color: #9b0909;
+					border-radius: 20px;
+				}
+			}
+		}
+	}
+`
+
+export default NavBarWrapper
+```
+
+### 2.Content 区域
 
 发送网络请求，采用分层架构，但目录按照业务来划分。
 
-在 recommend 目录下创建 service 文件夹。
+可在 recommend 目录下创建 service 、store 文件夹（但项目中未采用这种分层架构）。
 
-创建 recommend 的 store，在其中发送网络请求，使用 createAsyncThunk。
+```shell
+discover
+└─views
+    ├─alibum
+    ├─artist
+    ├─djradio
+    ├─ranking
+    ├─recommend
+    └─songs
+```
 
-回顾两种处理异步 action 的方案。使用第二种发难。
+#### 1.Recommend.tsx 页面
 
----
+##### 1.轮播图组件 TopBanners.tsx
 
-将轮播图封装成一个组件。
+创建 recommend 的 store，在其中发送网络请求，使用 `createAsyncThunk`。
 
-封装成 TopBanner 组件。
+src\store\features\discover\recommend.ts
+
+```typescript
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { IBanner } from '@/types'
+import { getBanners } from '@/service/features/discover/recommend'
+
+const initialState: {
+	banners: IBanner[]
+} = {
+	banners: []
+}
+
+const recommendSlice = createSlice({
+	name: 'recommend',
+	initialState,
+	reducers: {
+		changeBannersAction(state, { payload }) {
+			state.banners = payload
+		}
+	}
+})
+
+export const fetchBannerDataAction = createAsyncThunk('banners', (param, { dispatch }) => {
+	getBanners().then(res => {
+		dispatch(changeBannersAction(res.banners))
+	})
+})
+
+export const { changeBannersAction } = recommendSlice.actions
+export default recommendSlice.reducer
+```
+
+> 【回顾】：两种处理异步 action 的方案。使用第二种发难。
+
+src\views\discover\views\recommend\Recommend.tsx
+
+```tsx
+import React, { memo, useEffect } from 'react'
+import type { FC, ReactNode } from 'react'
+import { fetchBannerDataAction } from '@/store/features/discover/recommend'
+import TopBanners from './cpns/top-banners/TopBanners'
+import { useAppDispatch } from '@/store'
+
+interface IProps {
+	children?: ReactNode
+}
+const Recommend: FC<IProps> = memo(() => {
+  // 发送请求
+	const dispatch = useAppDispatch()
+	useEffect(() => {
+		dispatch(fetchBannerDataAction())
+	}, [])
+
+	return (
+		<div>
+			<TopBanners></TopBanners>
+		</div>
+	)
+})
+
+Recommend.displayName = 'Recommend'
+
+export default Recommend
+```
+
+将轮播图封装成一个组件 `TopBanners.tsx`。
 
 从 store 中获取轮播图数据。
 
-网易云音乐服务器图片资源管理很好：在 url 后跟上参数，可改变图片的尺寸和高斯模糊。
+src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
----
+```typescript
+const { banners } = useAppSelector(
+  state => ({
+    banners: state.recommend.banners
+  }),
+  shallowEqual
+)
+```
 
-TopBanner 中，分三个区域：BannerLeft，BannerControl，BannerRight。
+`TopBanner.tsx` 中，分三个区域：BannerLeft，BannerRight，BannerControl。
 
-在 BannerLeft 中，使用 AntDesign 的走马灯组件 Carousel。
+在 BannerLeft 中，使用 AntDesign 的走马灯组件 `<Carousel>`。
 
 在 BannerRight 中，使用编写下载客户端的背景图片。
 
 在 BannerControl 中，编写箭头，并做绝对定位。
 
----
+src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
-在 TopHeader 中，点击箭头，轮播图切换。
+```tsx
+<TopBannersWrapper style={{ background: `url('${bgImgUrl}') center center / 6000px` }}>
+  <div className='banner wrap_v2'>
+    
+    <BannerLeftWrapper>
+      {/* 轮播图 */}
+      {/* 轮播图切换的淡入，淡出效果编写。传入 effect 属性进行控制。*/}
+      <Carousel
+        autoplay
+        dots={false}
+        autoplaySpeed={3000}
+        effect='fade'
+        ref={carouselRef}
+        beforeChange={onCarouselBeforechange}
+      >
+        {banners.map(item => (
+          <div className='banner-item' key={item.imageUrl}>
+            <img className='image' src={item.imageUrl} alt={item.typeTitle} />
+          </div>
+        ))}
+      </Carousel>
+      {/* 轮播图指示器 */}
+      <ul className='dots'>
+        {banners.map((item, index) => (
+          <li key={item.imageUrl}>
+            <span className={classNames('item', { active: index === currentIndex })}></span>
+          </li>
+        ))}
+      </ul>
+    </BannerLeftWrapper>
+    
+    <BannerRightWrapper>
+      <p>PC 安卓 iPhone WP iPad Mac 六大客户端</p>
+    </BannerRightWrapper>
+    
+    <BannerControlWrapper>
+      <button className='btn left' onClick={onPrevClick}></button>
+      <button className='btn right' onClick={onNextClick}></button>
+    </BannerControlWrapper>
+    
+  </div>
+</TopBannersWrapper>
+```
 
-使用 useRef，获取 Carousel 组件对象。使用 `ElementRef<typeof Carousel>` 获取类型。
+在 `TopHeader.tsx` 中，点击箭头，轮播图切换。
 
-调用组件的 prev, next 方法。
+使用 `useRef`，获取 `<Carousel>` 组件对象。使用 `ElementRef<typeof Carousel>` 获取它的类型。
 
----
+调用组件的 `prev`, `next` 方法。
 
-轮播图切换的淡入，淡出效果编写。
+src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
-给 Carousel 传入 effect 属性进行控制。
+```typescript
+//...
+const carouselRef = useRef<ElementRef<typeof Carousel>>(null)
+//...
+const onPrevClick = () => {
+  carouselRef.current?.prev()
+}
+const onNextClick = () => {
+  carouselRef.current?.next()
+}
+```
 
----
+给整个 `<TopBannerWrapper>` 设置背景。使用轮播图模糊后的背景。
 
-给整个 BannerWrapper 设置背景。使用轮播图模糊后的背景。
+`background-size` 设置为 `6000px`.模糊：`40 * 20`
 
-background-size 设置为 6000px.模糊：40 * 20
+src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
-使用 carsoule 的 afterChange 事件，获取当前轮播图的索引。设置背景，两种方案：
+```tsx
+const TopBanners: FC<IProps> = memo(() => {
+	//...
+	let bgImgUrl = ''
+	if (currentIndex >= 0 && banners.length > 0) {
+		bgImgUrl = banners[currentIndex].imageUrl + '?imageView&blur=40x20'
+	}
+	return (
+		<TopBannersWrapper style={{ background: `url('${bgImgUrl}') center center / 6000px` }}>
+      {/*...*/}
+		</TopBannersWrapper>
+	)
+})
+```
 
-- BannerWrapper 的行内样式。
+> 网易云音乐服务器图片资源管理很好：在 url 后跟上参数，可改变图片的尺寸和高斯模糊。
+
+使用 `<Carsoule>` 的 `beforeChange` 事件，获取当前轮播图的索引。
+
+使用该索引，设置背景，两种方案：
+
+- BannerWrapper 的行内样式（项目中采用）。
 - 给 bannerWrapper 传入属性。
 
----
+src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
+
+```tsx
+const onCarouselBeforechange = (current: number) => {
+  let index = current + 1
+  if (index === banners.length) index = 0
+  setCurrentIndex(index)
+}
+//...
+let bgImgUrl = ''
+if (currentIndex >= 0 && banners.length > 0) {
+  bgImgUrl = banners[currentIndex].imageUrl + '?imageView&blur=40x20'
+}
+
+//...
+<TopBannersWrapper style={{ background: `url('${bgImgUrl}') center center / 6000px` }}>
+  <div className='banner wrap_v2'>
+    <Carousel
+      autoplay
+      dots={false}
+      autoplaySpeed={3000}
+      effect='fade'
+      ref={carouselRef}
+      beforeChange={onCarouselBeforechange}
+    >
+      {banners.map(item => (
+        <div className='banner-item' key={item.imageUrl}>
+          <img className='image' src={item.imageUrl} alt={item.typeTitle} />
+        </div>
+      ))}
+    </Carousel>
+    {/*...*/}
+  </div>
+</TopBannersWrapper>
+```
 
 自定义轮播图指示器。
 
-使用 classnames 库，为指示器动态添加 class。
+使用 *classnames* 库，为指示器动态添加 class。
 
-安装 classnames 库
+src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
+
+```tsx
+<BannerLeftWrapper>
+  {/* 轮播图 */}
+  <Carousel
+    autoplay
+    dots={false}
+    autoplaySpeed={3000}
+    effect='fade'
+    ref={carouselRef}
+    beforeChange={onCarouselBeforechange}
+  >
+    {banners.map(item => (
+      <div className='banner-item' key={item.imageUrl}>
+        <img className='image' src={item.imageUrl} alt={item.typeTitle} />
+      </div>
+    ))}
+  </Carousel>
+  {/* 轮播图指示器 */}
+  <ul className='dots'>
+    {banners.map((item, index) => (
+      <li key={item.imageUrl}>
+        <span className={classNames('item', { active: index === currentIndex })}></span>
+      </li>
+    ))}
+  </ul>
+</BannerLeftWrapper>
+```
+
+src\views\discover\views\recommend\cpns\top-banners\style.ts
+
+```less
+export const BannerLeftWrapper = styled.div`
+	position: relative;
+	width: 730px;
+	height: 100%;
+
+	.banner-item {
+		overflow: hidden;
+		height: 285px;
+		.image {
+			height: 285px;
+			width: 100%;
+		}
+	}
+
+	.dots {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: 0 auto;
+		display: flex;
+		justify-content: center;
+
+		> li {
+			margin: 0 2px;
+
+			.item {
+				display: inline-block;
+				width: 20px;
+				height: 20px;
+				background: url(${require('@/assets/img/banner_sprite.png')}) 3px -343px;
+				cursor: pointer;
+
+				&:hover,
+				&.active {
+					background-position: -14px -343px;
+				}
+			}
+		}
+	}
+```
+

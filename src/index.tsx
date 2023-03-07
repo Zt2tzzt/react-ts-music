@@ -12,13 +12,13 @@ import theme from './assets/theme'
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 root.render(
-	<React.StrictMode>
-		<Provider store={store}>
-			<ThemeProvider theme={theme}>
-				<HashRouter>
-					<App />
-				</HashRouter>
-			</ThemeProvider>
-		</Provider>
-	</React.StrictMode>
+	// <React.StrictMode>
+	<Provider store={store}>
+		<ThemeProvider theme={theme}>
+			<HashRouter>
+				<App />
+			</HashRouter>
+		</ThemeProvider>
+	</Provider>
+	// {/* </React.StrictMode> */}
 )
