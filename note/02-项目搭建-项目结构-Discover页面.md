@@ -255,7 +255,9 @@ export class Demo extends PureComponent<IProps, IState> {
 export default Demo
 ```
 
-3.1.将 `state` 写在类组件的成员变量中，进行初始化，代码更加简洁（不用写 `constructor`）。
+3.1.将 `state` 写在类组件的成员变量中，进行初始化，
+
+这样代码更加简洁（不用写 `constructor`）。
 
 ```tsx
 import React, { PureComponent } from 'react'
@@ -295,7 +297,7 @@ export default Demo
 
 它的返回值，用于 `componentDidUpdate` 生命周期的第三个参数。
 
-此时，需要使用 propsTypes 对 Demo 组件做 prop 类型验证。除非关闭 eslint 警告。
+此时，需要使用 `propsTypes` 对 Demo 组件的 prop 做类型验证。除非关闭 eslint 警告。
 
 ```tsx
 import React, { PureComponent } from 'react'
@@ -590,7 +592,7 @@ const AppHeader: FC<IProps> = memo(() => {
 因为在为选中的 title 加上选中效果时，有两种方案：
 
 - 方案一：使用 `useState` 记录选中 title 的 index
-  - **错误的方案**，页面刷新后，无法根据当前 url，去匹配 title 对应的 link；
+  - **错误的方案**，页面刷新后，无法根据当前 url，去匹配 title 对应的 link，除非封装工具函数进行匹配，这样做太麻烦；
 
 - 方案二：使用 `<NavLink>`（项目中采用）。
 
@@ -737,7 +739,9 @@ export const HeaderRightWrapper = styled.div`
 
 在 `Discover.tsx` 页面中，分为两部分内容，header 和 content。
 
-### 1.header 区域
+### 1.header 区域（NavBar）
+
+在 `Discover.tsx` 中，创建 `NavBar.tsx`，用来表示 header 区域
 
 同样将 header 中的 titles 放到 json 文件中。
 
@@ -883,7 +887,9 @@ export const { changeBannersAction } = recommendSlice.actions
 export default recommendSlice.reducer
 ```
 
-> 【回顾】：两种处理异步 action 的方案。使用第二种发难。
+> 【回顾】：两种处理异步 action 的方案。项目中使用第二种方案。
+
+在 `Recommend.tsx` 中发送网络请求，请求 `banners` 数据，保存到 store 中。
 
 src\views\discover\views\recommend\Recommend.tsx
 
@@ -972,10 +978,12 @@ src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
       </ul>
     </BannerLeftWrapper>
     
+    {/*下载客户端*/}
     <BannerRightWrapper>
       <p>PC 安卓 iPhone WP iPad Mac 六大客户端</p>
     </BannerRightWrapper>
     
+    {/*箭头控制器*/}
     <BannerControlWrapper>
       <button className='btn left' onClick={onPrevClick}></button>
       <button className='btn right' onClick={onNextClick}></button>

@@ -22,7 +22,4 @@ switch (process.env.NODE_ENV) {
 		break
 }
 
-// console.log('VITE_NAME:', import.meta.env.VITE_NAME)
-// console.log('VITE_URL:', import.meta.env.VITE_URL)
-
 export { BASE_URL, TIME_OUT }

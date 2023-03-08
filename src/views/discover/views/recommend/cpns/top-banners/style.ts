@@ -77,6 +77,7 @@ export const BannerControlWrapper = styled.div`
 	left: 0;
 	right: 0;
 	top: 50%;
+	height: 63px;
 	transform: translateY(-50%);
 
 	.btn {

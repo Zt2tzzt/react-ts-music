@@ -1,4 +1,4 @@
-import React, { type ElementRef, memo, useRef, useState } from 'react'
+import React, { type ElementRef, memo, useRef, useState, useCallback } from 'react'
 import type { FC, ReactNode } from 'react'
 import { TopBannersWrapper, BannerControlWrapper, BannerLeftWrapper, BannerRightWrapper } from './style'
 import { useAppSelector } from '@/store'
@@ -21,16 +21,20 @@ const TopBanners: FC<IProps> = memo(() => {
 
 	const carouselRef = useRef<ElementRef<typeof Carousel>>(null)
 
-	const onCarouselBeforechange = (current: number) => {
-		let index = current + 1
-		if (index === banners.length) index = 0
+	// 走马灯，切换前，事件
+	const onCarouselBeforechange = useCallback(
+		(from: number, to: number) => {
+			setCurrentIndex(to)
+		},
+		[currentIndex]
+	)
 
-		console.log('before change current:', current)
-		console.log('before change index:', index)
-
-		setCurrentIndex(index)
+	// 指示器
+	const onDotClick = (index: number) => {
+		carouselRef.current?.goTo(index)
 	}
 
+	// 箭头，控制器
 	const onPrevClick = () => {
 		carouselRef.current?.prev()
 	}
@@ -65,7 +69,10 @@ const TopBanners: FC<IProps> = memo(() => {
 					<ul className='dots'>
 						{banners.map((item, index) => (
 							<li key={item.imageUrl}>
-								<span className={classNames('item', { active: index === currentIndex })}></span>
+								<span
+									className={classNames('item', { active: index === currentIndex })}
+									onClick={() => onDotClick(index)}
+								></span>
 							</li>
 						))}
 					</ul>
