@@ -6,6 +6,7 @@ const NavBarWrapper = styled.nav`
 
 	.nav {
 		display: flex;
+		box-sizing: border-box;
 		padding-left: 360px;
 		position: relative;
 		top: -4px;
@@ -15,6 +16,7 @@ const NavBarWrapper = styled.nav`
 				display: inline-block;
 				height: 20px;
 				line-height: 20px;
+				box-sizing: border-box;
 				padding: 0 13px;
 				margin: 7px 17px 0;
 				color: #fff;

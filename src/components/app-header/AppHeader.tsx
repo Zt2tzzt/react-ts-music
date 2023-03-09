@@ -29,7 +29,10 @@ const AppHeader: FC<IProps> = memo(() => {
 							<div className='item' key={item.title}>
 								{/* {showItem(item)} */}
 								{item.type === 'path' ? (
-									<NavLink to={item.link} className={({ isActive }) => (isActive ? 'active' : undefined)}>
+									<NavLink
+										to={item.link}
+										className={({ isActive }) => (isActive ? 'active' : undefined)}
+									>
 										{item.title}
 										<i className='icon sprite_01'></i>
 									</NavLink>

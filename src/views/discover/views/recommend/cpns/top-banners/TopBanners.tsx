@@ -1,6 +1,11 @@
 import React, { type ElementRef, memo, useRef, useState, useCallback } from 'react'
 import type { FC, ReactNode } from 'react'
-import { TopBannersWrapper, BannerControlWrapper, BannerLeftWrapper, BannerRightWrapper } from './style'
+import {
+	TopBannersWrapper,
+	BannerControlWrapper,
+	BannerLeftWrapper,
+	BannerRightWrapper
+} from './style'
 import { useAppSelector } from '@/store'
 import { shallowEqual } from 'react-redux'
 import { Carousel } from 'antd'

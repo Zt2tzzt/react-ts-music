@@ -23,3 +23,15 @@ body, textarea, input, button {
 .sprite_01 {
 	background: url(../img/sprite_01.png) no-repeat 0 9999px;
 }
+
+.sprite_02 {
+	background: url(../img/sprite_02.png) no-repeat 0 9999px;
+}
+
+.sprite_cover {
+  background: url(../img/sprite_cover.png) no-repeat 0 9999px;
+}
+
+.sprite_icon {
+  background: url(../img/sprite_icon.png) no-repeat 0 9999px;
+}

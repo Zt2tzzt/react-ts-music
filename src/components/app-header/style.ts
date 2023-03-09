@@ -37,6 +37,7 @@ export const HeaderLeftWrapper = styled.div`
 
 			a {
 				display: block;
+				box-sizing: border-box;
 				padding: 0 20px;
 				color: #ccc;
 			}
