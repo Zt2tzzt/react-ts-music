@@ -22,6 +22,9 @@ src\views\discover\views\recommend\Recommend.tsx
 </RecommendWrapper>
 ```
 
+> 【注意】：调整样式时，有 `padding` 或 `border` 与 `width` 或 `height` 同时存在时，一定要设置 `box-sizing: border-box` 属性。
+>
+
 src\views\discover\views\recommend\style.ts
 
 ```less
@@ -34,6 +37,7 @@ const RecommendWrapper = styled.section`
 		> .left {
 			padding: 20px;
 			width: 729px;
+      box-sizing: border-box;
 		}
 
 		> .right {
@@ -56,8 +60,8 @@ const RecommendWrapper = styled.section`
 
 1.在 `AreaHeaderV1.tsx` 中，隐藏 titles 上最后一个 divider。两种方案：
 
-- 使用 css 隐藏（项目总采用）。
-- 在 tsx 中隐藏。
+- 方案一：使用 css 隐藏（项目总采用）。
+- 方案二：在 tsx 代码中隐藏。
 
 src\components\area-header-v1\style.ts
 
@@ -93,22 +97,6 @@ const AreaHeaderV1: FC<IProps> = memo(props => {
 }
 ```
 
-已用 TS 进行了类型检测，不再用 `PropTypes` 进行类型检测。
-
-所以关闭 eslint 类型检测报错
-
-.eslintrc.js
-
-```javascript
-module.exports = {
-  //...
-	rules: {
-    //...
-		'react/prop-types': 'off'
-	}
-}
-```
-
 3.在 `HotRecommend.tsx` 中，使用 `<AppHeader>`，并传入这些属性。
 
 src\views\discover\views\recommend\cpns\hot-recommend\HotRecommend.tsx
@@ -124,13 +112,29 @@ src\views\discover\views\recommend\cpns\hot-recommend\HotRecommend.tsx
 </RootWrapper>
 ```
 
+> 【注意】：已用 TS 进行了类型检测，所以不再用 `PropTypes` 进行类型检测。
+>
+> - 关闭 eslint 相关类型检测规则。
+
+.eslintrc.js
+
+```javascript
+module.exports = {
+  //...
+	rules: {
+    //...
+		'react/prop-types': 'off'
+	}
+}
+```
+
 ### 2.内容区域（SongMenuItem）
 
 1.在 `HotRecommend.tsx` 中，发送网络请求，请求“热门推荐”歌单列表数据。
 
 - 封装异步 action，并进行派发。
 - 将获取到的 `hotRecommend` 数据，保存到 store。
-- 并在 `HotRecommend.tsx` 中展示。
+- 并在 `HotRecommend.tsx` 中，创建 `<SongMenuItem>` 组件，进行展示。
 
 src\views\discover\views\recommend\cpns\hot-recommend\HotRecommend.tsx
 
@@ -270,22 +274,18 @@ src\components\song-menu-item\style.ts
 
 编写 header 区域，引用 `<AreaHeaderV1>` 组件。
 
-> 调整样式时，一定要【注意】：
->
-> - 有 `padding` 或 `border` 与 `width` 或 `height` 同时存在时，一定要设置 `box-sizing` 属性。
-
 ### 2.内容区域（轮播图）
 
 编写 content 区域。
 
-1.使用轮播图组件来做滚动效果。
+1.使用 AntDesign 提供的轮播图组件 `<Carousel>` 来做滚动效果。
 
 先搭建轮播图的箭头控制器，使用精灵图。调整样式。
 
 src\views\discover\views\recommend\cpns\new-albums\NewAlbums.tsx
 
 ```tsx
-{/* speed 调整轮播图滚动的速度。*/}
+{/* speed 属性，用来调整轮播图滚动的速度。*/}
 <Carousel ref={bannerRef} dots={false} speed={1500}>
   {Array.from({ length: 2 }).map((_, index) => (
     index
@@ -295,15 +295,15 @@ src\views\discover\views\recommend\cpns\new-albums\NewAlbums.tsx
 
 2.再搭建轮播图中的内容。
 
-在 `Recommend.tsx` 中，发送网络请求，在 `NewAlbums.tsx` 中获取新碟上架列表，并保存到 store 中。
+在 `Recommend.tsx` 中，发送网络请求，获取新碟上架列表，并保存到 store 中。
 
-将新碟上架列表展示出来。
+在 `NewAlbums.tsx` 中，将新碟上架列表展示出来。
 
 理解在轮播图中分页的算法：
 
 - 已知 pageSize 为 5；
 - 已知 totalPage 为 2；
-- page 从 0 开始，那么每页展示的列表数据为：`page * 5` 到 `(page + 1) * 5`
+- page 从 0 开始，那么 page 页展示的列表数据为：`page * 5` 到 `(page + 1) * 5`
 
 封装一个组件 `<AlbumItem>` 用来展示”新碟“
 
@@ -360,17 +360,19 @@ const NewAlbums: FC<IProps> = memo(() => {
 })
 ```
 
-传入 `<Carousel>` 的子组件，被 *AntDesign* 设值了行内样式，`display: inline-block; width: 100%`，不好覆盖。
+> 【注意】：传入 `<Carousel>` 的子组件，被 *AntDesign* 设值了行内样式，`display: inline-block; width: 100%`，不好覆盖。
+>
+> 需要再嵌套一层展示。
 
-需要再嵌套一层展示。
-
-调整样式。下方阴影，自行添加。
+调整样式。
 
 src\views\discover\views\recommend\cpns\new-albums\style.ts
 
 ### 3.重构异步 Action
 
-在 `Recommend.tsx` 页面中，对发送请求的方式进行重构，只执行一次派发操作。
+在 `Recommend.tsx` 页面中，对发送请求的方式进行重构，
+
+在一次派发 action 操作中，发送多个网络请求。
 
 src\views\discover\views\recommend\Recommend.tsx
 
@@ -407,17 +409,143 @@ export const fetchRecommendDataAction = createAsyncThunk(
 
 在 `Recommend.tsx` 页面中，创建组件 `<PopularRanking>`，用来编写榜单区域。
 
+### 1.样式调整
+
 在其中设置背景图片。
 
-封装网络请求，和 action，并派发。将三个榜单的数据，保存到 store 中。
+src\views\discover\views\recommend\cpns\popular-ranking\PopularRanking.tsx
 
-榜单数据的组织，有两种方案：
+```tsx
+<RootWrapper>
+  <AreaHeaderV1 titleText='榜单' moreLink='/discover/ranking'></AreaHeaderV1>
+  <div className='content'>
+    {rankings.map(item => (
+      <RankingItem key={item.id} itemData={item}></RankingItem>
+    ))}
+  </div>
+</RootWrapper>
+```
 
-- 拿到三个榜单的数据后，一起渲染到页面，只需渲染一次，性能高（项目中采用）。
-  - 榜单在页面下方，数据晚点过来影响不大。
-- 先拿到的榜单数据，先渲染，可能会渲染多次，性能低。
+src\views\discover\views\recommend\cpns\popular-ranking\style.ts
 
-使用 Promise.all 方法，理解 Promise 与泛型的结合使用。
+```less
+export default styled.section`
+	.content {
+		display: flex;
+		height: 472px;
+		margin-top: 20px;
+		background: url(${require('@/assets/img/recommend-top-bg.png')});
+	}
+`
+```
 
-编写头部和列表区域，调整样式。
+### 2.数据渲染模式
+
+封装网络请求，和 action，并在 `Recommend.tsx` 中派发。将三个榜单的数据，保存到 store 中。
+
+src\views\discover\views\recommend\Recommend.tsx
+
+```typescript
+const dispatch = useAppDispatch()
+useEffect(() => {
+  dispatch(fetchRecommendDataAction())
+}, [])
+```
+
+> 【注意】：三个榜单分别要发送三次网络请求，榜单数据的组织，有两种方案：
+>
+> 方案一：渲染一次（项目中采用）
+>
+> - 三个网络请求都有结果后，再一次性渲染到页面。性能高。但是等待三次网络请求会有延时。
+> - 榜单在页面下方，数据延时影响不大。
+>
+> 方案二：渲染多次。
+>
+> - 三个网络请求，一旦有一个拿到数据，就渲染到页面。会渲染多次，性能低。
+
+使用 `Promise.all` 方法，
+
+src\store\features\discover\recommend.ts
+
+```typescript
+export const fetchRecommendDataAction = createAsyncThunk(
+	'recommendDdata',
+	(param, { dispatch }) => {
+		//...
+
+		// 榜单
+		const rankingIds = [19723756, 3779629, 2884035] // 榜单的 id 列表，用于发送网络请求。
+		Promise.all(rankingIds.map(id => getPopularRankingList(id))).then(ress => {
+			const res = ress.map(res => res.playlist)
+			console.log('popular ranking res:', res)
+			dispatch(changePopularRankingsAction(res))
+		})
+	}
+)
+```
+
+> 【补充】：理解 `Promise<T>` 中泛型的使用。
+>
+> `T` 表示传入 `resolve` 的数据类型。
+
+```typescript
+new Promise<number>((resolve, reject) => {
+	resolve(666)
+})
+```
+
+### 3.RankingItem 组件
+
+在 `PopularRanking.tsx` 中，创建 `<RankingItem>` 组件。用于编写三个榜单。
+
+并传入榜单数据 `itemData`。
+
+src\views\discover\views\recommend\cpns\popular-ranking\cpns\ranking-item\RankingItem.tsx
+
+```tsx
+const RankingItem: FC<IProps> = memo(props => {
+	const { itemData } = props
+	const { tracks = [] } = itemData
+
+	return (
+		<RootWrapper>
+			<div className='header'>
+				<div className='image'>
+					<img src={getImageSize(itemData.coverImgUrl, 80)} alt='' />
+					<a className='sprite_cover' href=''></a>
+				</div>
+				<div className='info'>
+					<div className='name'>{itemData.name}</div>
+					<div>
+						<button className='sprite_02 btn play'></button>
+						<button className='sprite_02 btn favor'></button>
+					</div>
+				</div>
+			</div>
+			<div className='list'>
+				{tracks.slice(0, 10).map((item, index) => (
+					<div className='item' key={item.id}>
+						<div className='index'>{index + 1}</div>
+						<div className='info'>
+							<div className='name'>{item.name}</div>
+							<div className='operator'>
+								<button className='btn sprite_02 play'></button>
+								<button className='btn sprite_icon2 add'></button>
+								<button className='btn sprite_02 favor'></button>
+							</div>
+						</div>
+					</div>
+				))}
+			</div>
+			<div className='footer'>
+				<a href='#/discover/ranking'>查看全部 &gt;</a>
+			</div>
+		</RootWrapper>
+	)
+})
+```
+
+调整样式。
+
+src\views\discover\views\recommend\cpns\popular-ranking\cpns\ranking-item\style.ts
 

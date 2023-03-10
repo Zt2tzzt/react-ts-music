@@ -8,7 +8,7 @@ interface IProps {
 	children?: ReactNode
 	itemData: IAlbum
 }
-const NewAlbumItem: FC<IProps> = memo(props => {
+const AlbumItem: FC<IProps> = memo(props => {
 	const { itemData } = props
 
 	return (
@@ -26,6 +26,6 @@ const NewAlbumItem: FC<IProps> = memo(props => {
 	)
 })
 
-NewAlbumItem.displayName = 'NewAlbumItem'
+AlbumItem.displayName = 'AlbumItem'
 
-export default NewAlbumItem
+export default AlbumItem

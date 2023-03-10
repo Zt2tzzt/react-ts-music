@@ -35,3 +35,7 @@ body, textarea, input, button {
 .sprite_icon {
   background: url(../img/sprite_icon.png) no-repeat 0 9999px;
 }
+
+.sprite_icon2 {
+  background: url(../img/sprite_icon2.png) no-repeat 0 9999px;
+}

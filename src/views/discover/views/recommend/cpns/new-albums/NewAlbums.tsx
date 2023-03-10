@@ -4,7 +4,7 @@ import RootWrapper from './style'
 import AreaHeaderV1 from '@/components/area-header-v1/AreaHeaderV1'
 import { Carousel } from 'antd'
 import { useAppSelector } from '@/store'
-import NewAlbumItem from '@/components/new-album-item/NewAlbumItem'
+import AlbumItem from '@/components/album-item/AlbumItem'
 import { shallowEqual } from 'react-redux'
 
 interface IProps {
@@ -42,7 +42,7 @@ const NewAlbums: FC<IProps> = memo(() => {
 							<div key={index}>
 								<div className='album-list'>
 									{newAlbums.slice(index * 5, (index + 1) * 5).map(album => (
-										<NewAlbumItem key={album.id} itemData={album}></NewAlbumItem>
+										<AlbumItem key={album.id} itemData={album}></AlbumItem>
 									))}
 								</div>
 							</div>
