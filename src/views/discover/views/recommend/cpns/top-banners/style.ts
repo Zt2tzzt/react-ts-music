@@ -12,6 +12,7 @@ export const TopBannersWrapper = styled.div`
 
 export const BannerLeftWrapper = styled.div`
 	position: relative;
+	z-index: 9;
 	width: 730px;
 	height: 100%;
 
@@ -60,6 +61,7 @@ export const BannerRightWrapper = styled.a.attrs({
 	width: 254px;
 	height: 100%;
 	background: url(${require('@/assets/img/download.png')});
+	z-index: 9;
 
 	p {
 		font-size: 12px;

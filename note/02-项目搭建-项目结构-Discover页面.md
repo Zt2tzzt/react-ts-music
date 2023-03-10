@@ -14,7 +14,7 @@ npm i axios
 
 ## 2.区分环境（webpack）
 
-webpack 中如何区分环境？有三种方式：
+*webpack* 中如何区分环境？有三种方式：
 
 ### 1.手动切换
 
@@ -24,14 +24,14 @@ src\service\request\config.ts
 
 ```typescript
 // export const BASE_URL = 'http://codercba.dev:8000'
- export const BASE_URL = 'http://codercba.prod:8000'
+export const BASE_URL = 'http://codercba.prod:8000'
 ```
 
 ### 2.环境变量
 
 项目中使用该方案。
 
-1.通过 webpack 的环境变量 `process.env.NODE_ENV` 进行区分，
+1.通过 *webpack* 的环境变量 `process.env.NODE_ENV` 进行区分，
 
 它的类型为：`'development' | 'production' | 'test'`（联合类型）。
 
@@ -60,13 +60,13 @@ switch (process.env.NODE_ENV) {
 
 2.进行测试：
 
-将项目打包 允许如下命令：
+将项目打包 执行如下命令：
 
 ```shell
 npm run build
 ```
 
-发现终端给出提示，需要执行如下命令，去创建一个本地服务。
+发现终端给出提示，需要创建一个本地服务，执行如下命令：
 
 ```shell
 npm install -g server
@@ -90,7 +90,7 @@ REACT_APP_BASE_URL = HAHA
 REACT_APP_BASE_URL = 'HEHE'
 ```
 
-index.ts
+index.tsx
 
 ```typescript
 // 加载
@@ -132,7 +132,7 @@ declare namespace NodeJS {
 
 在 `Recommend.tsx` 中发送网络请求，进行 *axios* 的测试。
 
-给 `useState` 传入类型。使用 `useState<T>`
+【注意】：给 `useState` 传入类型。使用 `useState<T>`
 
 src\views\discover\recommend\Recommend.tsx
 
@@ -170,7 +170,7 @@ const Recommend: FC<IProps> = memo(() => {
 })
 ```
 
-## 5.补充（类组件类型）
+## 5.类组件类型【补充】
 
 类组件中，TS 要怎么写？
 
@@ -452,7 +452,7 @@ npm install styled-components -D
 
 2.*style-component* 在 ts 中使用，需要声明模块。
 
-它的库本身没有类型声明，需要引入第三方类型声明。
+它的库本身没有类型声明，需要安装第三方类型声明。
 
 ```shell
 npm i --save-dev @types/styled-components
@@ -510,7 +510,7 @@ const theme = {
 export default theme
 ```
 
-5.在 `index.tsx` 中，使用 `<ThemeProvider>`
+5.在 `index.tsx` 中，使用 `<ThemeProvider>`，提供 `theme`。
 
 src\index.tsx
 
@@ -544,9 +544,9 @@ root.render(
 
 在 `AppHeader.tsx` 中引入 json 文件。
 
-> react 脚手架创建的 ts 项目，默认有 json 文件的模块声明。
+> 【注意】：react 脚手架创建的 ts 项目，默认有 json 文件的模块声明。
 
-遍历 json 文件导出的列表，判断是使用 `<NavLink>` 还是 `<a>` 元素。
+遍历 json 文件导出的列表，根据 `type`，判断是使用 `<NavLink>` 还是 `<a>` 元素。
 
 src\components\app-header\AppHeader.tsx
 
@@ -591,10 +591,11 @@ const AppHeader: FC<IProps> = memo(() => {
 
 因为在为选中的 title 加上选中效果时，有两种方案：
 
-- 方案一：使用 `useState` 记录选中 title 的 index
-  - **错误的方案**，页面刷新后，无法根据当前 url，去匹配 title 对应的 link，除非封装工具函数进行匹配，这样做太麻烦；
+方案一：使用 `useState` 记录选中 title 的 index
 
-- 方案二：使用 `<NavLink>`（项目中采用）。
+- 缺点：页面刷新后，无法根据当前 url，匹配到激活的 link，除非封装工具函数进行匹配，这样做太麻烦；
+
+方案二：使用 `<NavLink>`（项目中采用）。
 
 src\components\app-header\style.ts
 
@@ -660,7 +661,7 @@ export const HeaderLeftWrapper = styled.div`
 
 ### 2.HeaderRight 区域
 
-在 `<HeaderRightWrapper>` 中，编写搜索框。使用 AntDesign 中的组件。
+在 `<HeaderRightWrapper>` 中，编写搜索框。使用 *AntDesign* 中的组件。
 
 1.安装 *AntDesign* 库。
 
@@ -668,7 +669,9 @@ export const HeaderLeftWrapper = styled.div`
 npm install antd
 ```
 
-> AntDesign 采用 tree shaking 模式，无需做按需引入的配哦。
+> 【注意】：*AntDesign* 和 *Material UI* 都采用“tree shaking”模式，
+>
+> 使用 ESModule 直接引入即可，无需做按需引入的配置。
 
 2.安装 *Antdesign* 的图标库。
 
@@ -676,7 +679,9 @@ npm install antd
 npm install --save @ant-design/icons
 ```
 
-3.使用 *Antdesign* 的 `<Input>` 组件，编写搜索框，并在前面加上图标。
+3.使用 *Antdesign* 的 `<Input>` 组件，编写搜索框，
+
+在 `<Input>` 组件前面加上图标，使用 `prefix` 属性。
 
 src\components\app-header\AppHeader.tsx
 
@@ -741,7 +746,7 @@ export const HeaderRightWrapper = styled.div`
 
 ### 1.header 区域（NavBar）
 
-在 `Discover.tsx` 中，创建 `NavBar.tsx`，用来表示 header 区域
+在 `Discover.tsx` 中，创建 `NavBar.tsx`，用来表示 header 区域。
 
 同样将 header 中的 titles 放到 json 文件中。
 
@@ -835,7 +840,10 @@ export default NavBarWrapper
 
 发送网络请求，采用分层架构，但目录按照业务来划分。
 
-可在 recommend 目录下创建 service 、store 文件夹（但项目中未采用这种分层架构）。
+【注意】：另一种分层架构模式。
+
+- 在组件目录（如 recommend 目录）下创建 service 、store 目录，对该组件相关的网络请求，状态管理做分层架构。
+- 项目中未采用这种分层架构。
 
 ```shell
 discover
@@ -943,7 +951,7 @@ const { banners } = useAppSelector(
 
 在 BannerRight 中，使用编写下载客户端的背景图片。
 
-在 BannerControl 中，编写箭头，并做绝对定位。
+在 BannerControl 中，编写箭头，作为轮播图的控制器，并做绝对定位。
 
 src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
@@ -1034,7 +1042,7 @@ const TopBanners: FC<IProps> = memo(() => {
 })
 ```
 
-> 网易云音乐服务器图片资源管理很好：在 url 后跟上参数，可改变图片的尺寸和高斯模糊。
+> 【注意】：网易云音乐服务器图片资源管理很好：在图片 url 后跟上参数，可改变图片的尺寸和高斯模糊。
 
 使用 `<Carsoule>` 的 `beforeChange` 事件，获取当前轮播图的索引。
 
@@ -1046,12 +1054,16 @@ const TopBanners: FC<IProps> = memo(() => {
 src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
 ```tsx
-const onCarouselBeforechange = (current: number) => {
-  let index = current + 1
-  if (index === banners.length) index = 0
-  setCurrentIndex(index)
-}
+// 走马灯，切换前，事件
+const onCarouselBeforechange = useCallback(
+  (from: number, to: number) => {
+    setCurrentIndex(to)
+  },
+  [currentIndex]
+)
+
 //...
+
 let bgImgUrl = ''
 if (currentIndex >= 0 && banners.length > 0) {
   bgImgUrl = banners[currentIndex].imageUrl + '?imageView&blur=40x20'
@@ -1081,7 +1093,15 @@ if (currentIndex >= 0 && banners.length > 0) {
 
 自定义轮播图指示器。
 
-使用 *classnames* 库，为指示器动态添加 class。
+在 `<Carousel>` 组件上，设置 `dots={false}`，关闭自带的指示器。
+
+使用 *classnames* 库：
+
+```shell
+npm i classnames
+```
+
+为指示器动态添加 `active` class。
 
 src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
