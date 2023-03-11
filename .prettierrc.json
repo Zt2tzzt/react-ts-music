@@ -6,6 +6,7 @@
 	"trailingComma": "none",
 	"semi": false,
 	"arrowParens": "avoid",
+	"endOfLine": "lf",
 	"jsxSingleQuote": true,
 	"jsxBracketSameLine": false
 }

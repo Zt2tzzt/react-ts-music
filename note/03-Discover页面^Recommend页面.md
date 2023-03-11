@@ -20,7 +20,9 @@ src\views\discover\views\recommend\Recommend.tsx
 </RecommendWrapper>
 ```
 
-> 【注意】：调整样式时，有 `padding` 或 `border` 与 `width` 或 `height` 同时存在时，一定要设置 `box-sizing: border-box` 属性。
+> 【注意】：调整样式时，有 `padding` / `border` 和 `width` / `height` 同时存在时，
+>
+> 一定要设置 `box-sizing: border-box` 属性。
 
 src\views\discover\views\recommend\style.ts
 
@@ -55,9 +57,9 @@ const RecommendWrapper = styled.section`
 
 创建组件 `AreaHeaderV1.tsx`
 
-1.在 `AreaHeaderV1.tsx` 中，隐藏 titles 上最后一个 divider。两种方案：
+1.在 `AreaHeaderV1.tsx` 中，隐藏 titles 的 keywords 上最后一个 divider。两种方案：
 
-- 方案一：使用 css 隐藏（项目总采用）。
+- 方案一：使用 css 隐藏（项目中采用）。
 - 方案二：在 tsx 代码中隐藏。
 
 src\components\area-header-v1\style.ts
@@ -109,9 +111,9 @@ src\views\discover\views\recommend\cpns\hot-recommend\HotRecommend.tsx
 </RootWrapper>
 ```
 
-> 【注意】：已用 TS 进行了类型检测，所以不再用 `PropTypes` 进行类型检测。
+> 【注意】：已用 TS 进行了类型检测，所以不再用 react 提供的 `PropTypes` 进行类型检测。
 >
-> - 关闭 eslint 相关类型检测规则。
+> 关闭 eslint 相关类型检测规则。否则 eslint 会报警告。
 
 .eslintrc.js
 
@@ -131,7 +133,7 @@ module.exports = {
 
 - 封装异步 action，并进行派发。
 - 将获取到的 `hotRecommend` 数据，保存到 store。
-- 并在 `HotRecommend.tsx` 中，创建 `<SongMenuItem>` 组件，进行展示。
+- （并在 `HotRecommend.tsx` 中，创建 `<SongMenuItem>` 组件，进行歌单展示）。
 
 src\views\discover\views\recommend\cpns\hot-recommend\HotRecommend.tsx
 
@@ -235,6 +237,8 @@ const SongMenuItem: FC<IProps> = memo(props => {
 })
 ```
 
+> 【回顾】：网易云音乐的 API 管理的非常好，在图片 url 后方跟上对应的参数，可以请求不同格式的图片。
+
 加载图片时，为节省性能，在图片后方拼接参数，控制加载图片的大小。
 
 将上述逻辑，封装成工具函数 `getImageSize`。
@@ -263,8 +267,6 @@ src\components\song-menu-item\style.ts
 # 三、NewAlbums 组件
 
 在 `Recommend.tsx` 中，编写“新碟上架”区域，创建 `<NewAlbums>` 组件。
-
-在 `NewAlbums.tsx` 中：
 
 ### 1.头部区域（引用公共组件）
 
@@ -299,11 +301,11 @@ src\views\discover\views\recommend\cpns\new-albums\NewAlbums.tsx
 
 - 已知 pageSize 为 5；
 - 已知 totalPage 为 2；
-- page 从 0 开始，那么 page 页展示的列表数据为：`page * 5` 到 `(page + 1) * 5`
+- page 从 0 开始，那么第 page 页展示的列表数据为：`page * 5` 到 `(page + 1) * 5`
 
 封装一个组件 `<AlbumItem>` 用来展示”新碟“
 
-在 `NewAlbums.tsx` 中，引用封装好的 `<AlbumItem>`，放入轮播图 `<Carousel>` 中
+在 `NewAlbums.tsx` 中，引用封装好的 `<AlbumItem>` 组件，放入轮播图 `<Carousel>` 中
 
 src\views\discover\views\recommend\cpns\new-albums\NewAlbums.tsx
 
@@ -356,9 +358,9 @@ const NewAlbums: FC<IProps> = memo(() => {
 })
 ```
 
-> 【注意】：传入 `<Carousel>` 的子组件，被 _AntDesign_ 设值了行内样式，`display: inline-block; width: 100%`，不好覆盖。
+> 【注意】：传入 `<Carousel>` 的直接子元素，被默认设值了行内样式，`display: inline-block; width: 100%`；
 >
-> 需要再嵌套一层展示。
+> 该样式不好覆盖。需要再嵌套一层展示。
 
 调整样式。
 
@@ -437,7 +439,7 @@ export default styled.section`
 
 ### 2.数据渲染模式
 
-封装网络请求，和 action，并在 `Recommend.tsx` 中派发。将三个榜单的数据，保存到 store 中。
+并在 `Recommend.tsx` 中，派发 action，封装网络请求，将三个榜单的数据，保存到 store 中。
 
 src\views\discover\views\recommend\Recommend.tsx
 
@@ -452,12 +454,13 @@ useEffect(() => {
 >
 > 方案一：渲染一次（项目中采用）
 >
-> - 三个网络请求都有结果后，再一次性渲染到页面。性能高。但是等待三次网络请求会有延时。
-> - 榜单在页面下方，数据延时影响不大。
+> - 三个网络请求都有结果后，再一次性渲染到页面。性能高。
+> - 虽然等待三次网络请求全部完成比较耗时，但是考虑到榜单在页面下方，并不会被用户立即看到，所以影响不大。
 >
 > 方案二：渲染多次。
 >
-> - 三个网络请求，一旦有一个拿到数据，就渲染到页面。会渲染多次，性能低。
+> - 三个网络请求，一旦有一个返回数据，就进行一次渲染。
+> - 会渲染多次，性能低。
 
 使用 `Promise.all` 方法，
 
@@ -492,7 +495,7 @@ new Promise<number>((resolve, reject) => {
 
 ### 3.RankingItem 组件
 
-在 `PopularRanking.tsx` 中，创建 `<RankingItem>` 组件。用于编写三个榜单。
+在 `PopularRanking.tsx` 中，创建 `<RankingItem>` 组件。用于编写榜单列表。
 
 并传入榜单数据 `itemData`。
 
