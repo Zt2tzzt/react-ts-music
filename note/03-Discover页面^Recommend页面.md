@@ -12,18 +12,15 @@ src\views\discover\views\recommend\Recommend.tsx
 
 ```tsx
 <RecommendWrapper>
-  <TopBanners></TopBanners>
-  <div className='content wrap_v2'>
-    <div className='left'>
-      {/*...*/}
-    </div>
-    <div className='right'>Right</div>
-  </div>
+	<TopBanners></TopBanners>
+	<div className='content wrap_v2'>
+		<div className='left'>{/*...*/}</div>
+		<div className='right'>Right</div>
+	</div>
 </RecommendWrapper>
 ```
 
 > 【注意】：调整样式时，有 `padding` 或 `border` 与 `width` 或 `height` 同时存在时，一定要设置 `box-sizing: border-box` 属性。
->
 
 src\views\discover\views\recommend\style.ts
 
@@ -103,12 +100,12 @@ src\views\discover\views\recommend\cpns\hot-recommend\HotRecommend.tsx
 
 ```tsx
 <RootWrapper>
-  <AreaHeaderV1
-    titleText='热门推荐'
-    keywords={['华语', '流行', '摇滚', '民谣', '电子']}
-    moreLink='/discover/songs'
-  ></AreaHeaderV1>
-  //...
+	<AreaHeaderV1
+		titleText='热门推荐'
+		keywords={['华语', '流行', '摇滚', '民谣', '电子']}
+		moreLink='/discover/songs'
+	></AreaHeaderV1>
+	//...
 </RootWrapper>
 ```
 
@@ -120,9 +117,9 @@ src\views\discover\views\recommend\cpns\hot-recommend\HotRecommend.tsx
 
 ```javascript
 module.exports = {
-  //...
+	//...
 	rules: {
-    //...
+		//...
 		'react/prop-types': 'off'
 	}
 }
@@ -247,7 +244,6 @@ src\utils\format.ts
 ```typescript
 export const getImageSize = (iamgeUrl: string, width: number, height: number = width) =>
 	iamgeUrl + `?param=${width}*${height}`
-
 ```
 
 将播放量进行格式化，并展示。
@@ -285,11 +281,11 @@ src\components\song-menu-item\style.ts
 src\views\discover\views\recommend\cpns\new-albums\NewAlbums.tsx
 
 ```tsx
-{/* speed 属性，用来调整轮播图滚动的速度。*/}
-<Carousel ref={bannerRef} dots={false} speed={1500}>
-  {Array.from({ length: 2 }).map((_, index) => (
-    index
-  ))}
+{
+	/* speed 属性，用来调整轮播图滚动的速度。*/
+}
+;<Carousel ref={bannerRef} dots={false} speed={1500}>
+	{Array.from({ length: 2 }).map((_, index) => index)}
 </Carousel>
 ```
 
@@ -360,7 +356,7 @@ const NewAlbums: FC<IProps> = memo(() => {
 })
 ```
 
-> 【注意】：传入 `<Carousel>` 的子组件，被 *AntDesign* 设值了行内样式，`display: inline-block; width: 100%`，不好覆盖。
+> 【注意】：传入 `<Carousel>` 的子组件，被 _AntDesign_ 设值了行内样式，`display: inline-block; width: 100%`，不好覆盖。
 >
 > 需要再嵌套一层展示。
 
@@ -379,7 +375,7 @@ src\views\discover\views\recommend\Recommend.tsx
 ```typescript
 const dispatch = useAppDispatch()
 useEffect(() => {
-  dispatch(fetchRecommendDataAction())
+	dispatch(fetchRecommendDataAction())
 }, [])
 ```
 
@@ -417,12 +413,12 @@ src\views\discover\views\recommend\cpns\popular-ranking\PopularRanking.tsx
 
 ```tsx
 <RootWrapper>
-  <AreaHeaderV1 titleText='榜单' moreLink='/discover/ranking'></AreaHeaderV1>
-  <div className='content'>
-    {rankings.map(item => (
-      <RankingItem key={item.id} itemData={item}></RankingItem>
-    ))}
-  </div>
+	<AreaHeaderV1 titleText='榜单' moreLink='/discover/ranking'></AreaHeaderV1>
+	<div className='content'>
+		{rankings.map(item => (
+			<RankingItem key={item.id} itemData={item}></RankingItem>
+		))}
+	</div>
 </RootWrapper>
 ```
 
@@ -448,7 +444,7 @@ src\views\discover\views\recommend\Recommend.tsx
 ```typescript
 const dispatch = useAppDispatch()
 useEffect(() => {
-  dispatch(fetchRecommendDataAction())
+	dispatch(fetchRecommendDataAction())
 }, [])
 ```
 
@@ -548,4 +544,3 @@ const RankingItem: FC<IProps> = memo(props => {
 调整样式。
 
 src\views\discover\views\recommend\cpns\popular-ranking\cpns\ranking-item\style.ts
-

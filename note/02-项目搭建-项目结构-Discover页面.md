@@ -2,19 +2,19 @@
 
 ## 1.axios 配置
 
-1.安装 *axios*
+1.安装 _axios_
 
 ```shell
 npm i axios
 ```
 
-2.将基于 *axios* 封装好的网络请求代码放入项目中。
+2.将基于 _axios_ 封装好的网络请求代码放入项目中。
 
 3.将第三层封装中，interceptor 携带 token 的代码，暂时注释掉。
 
 ## 2.区分环境（webpack）
 
-*webpack* 中如何区分环境？有三种方式：
+_webpack_ 中如何区分环境？有三种方式：
 
 ### 1.手动切换
 
@@ -31,7 +31,7 @@ export const BASE_URL = 'http://codercba.prod:8000'
 
 项目中使用该方案。
 
-1.通过 *webpack* 的环境变量 `process.env.NODE_ENV` 进行区分，
+1.通过 _webpack_ 的环境变量 `process.env.NODE_ENV` 进行区分，
 
 它的类型为：`'development' | 'production' | 'test'`（联合类型）。
 
@@ -76,7 +76,7 @@ serve -s build # 启动本地服务，并指定 build 目录下的文件，作�
 
 ### 3.配置文件
 
-在根目录编写以下文件，其中定义的变量，必须以 “`REACT_APP_`” 前缀开头，才能被 *webpack* 读取。
+在根目录编写以下文件，其中定义的变量，必须以 “`REACT_APP_`” 前缀开头，才能被 _webpack_ 读取。
 
 .env.development
 
@@ -130,7 +130,7 @@ declare namespace NodeJS {
 
 ## 4.网络请求测试
 
-在 `Recommend.tsx` 中发送网络请求，进行 *axios* 的测试。
+在 `Recommend.tsx` 中发送网络请求，进行 _axios_ 的测试。
 
 【注意】：给 `useState` 传入类型。使用 `useState<T>`
 
@@ -157,7 +157,9 @@ const Recommend: FC<IProps> = memo(() => {
 	const [banners, setBanners] = useState<IBannerData[]>([])
 
 	useEffect(() => {
-		ztRequest.get<{ banners: IBannerData[]; code: number }>({ url: '/banner' }).then(res => setBanners(res.banners))
+		ztRequest
+			.get<{ banners: IBannerData[]; code: number }>({ url: '/banner' })
+			.then(res => setBanners(res.banners))
 	})
 
 	return (
@@ -442,15 +444,15 @@ function App() {
 
 ## 1.AppHeader 组件
 
-在 `AppHeader.tsx` 中调整样式。使用 *styled-components*
+在 `AppHeader.tsx` 中调整样式。使用 _styled-components_
 
-1.安装 *style-component*
+1.安装 _style-component_
 
 ```shell
 npm install styled-components -D
 ```
 
-2.*style-component* 在 ts 中使用，需要声明模块。
+2._style-component_ 在 ts 中使用，需要声明模块。
 
 它的库本身没有类型声明，需要安装第三方类型声明。
 
@@ -480,11 +482,7 @@ src\components\app-header\AppHeader.tsx
 import AppHeaderWrapper from './app-header-style'
 //...
 const AppHeader: FC<IProps> = memo(() => {
-	return (
-		<AppHeaderWrapper>
-      {/*...*/}
-		</AppHeaderWrapper>
-	)
+	return <AppHeaderWrapper>{/*...*/}</AppHeaderWrapper>
 })
 ```
 
@@ -552,21 +550,23 @@ src\components\app-header\AppHeader.tsx
 
 ```tsx
 const AppHeader: FC<IProps> = memo(() => {
-
 	return (
 		<AppHeaderWrapper>
 			<div className='content wrap_v1'>
 				<HeaderLeftWrapper>
-          {/* logo */}
+					{/* logo */}
 					<a className='logo sprite_01' href='/'>
 						网易云音乐
 					</a>
-          {/* 一级路由 */}
+					{/* 一级路由 */}
 					<div className='title-list'>
 						{headerTitles.map(item => (
 							<div className='item' key={item.title}>
 								{item.type === 'path' ? (
-									<NavLink to={item.link} className={({ isActive }) => (isActive ? 'active' : undefined)}>
+									<NavLink
+										to={item.link}
+										className={({ isActive }) => (isActive ? 'active' : undefined)}
+									>
 										{item.title}
 										<i className='icon sprite_01'></i>
 									</NavLink>
@@ -661,25 +661,25 @@ export const HeaderLeftWrapper = styled.div`
 
 ### 2.HeaderRight 区域
 
-在 `<HeaderRightWrapper>` 中，编写搜索框。使用 *AntDesign* 中的组件。
+在 `<HeaderRightWrapper>` 中，编写搜索框。使用 _AntDesign_ 中的组件。
 
-1.安装 *AntDesign* 库。
+1.安装 _AntDesign_ 库。
 
 ```shell
 npm install antd
 ```
 
-> 【注意】：*AntDesign* 和 *Material UI* 都采用“tree shaking”模式，
+> 【注意】：_AntDesign_ 和 _Material UI_ 都采用“tree shaking”模式，
 >
 > 使用 ESModule 直接引入即可，无需做按需引入的配置。
 
-2.安装 *Antdesign* 的图标库。
+2.安装 _Antdesign_ 的图标库。
 
 ```shell
 npm install --save @ant-design/icons
 ```
 
-3.使用 *Antdesign* 的 `<Input>` 组件，编写搜索框，
+3.使用 _Antdesign_ 的 `<Input>` 组件，编写搜索框，
 
 在 `<Input>` 组件前面加上图标，使用 `prefix` 属性。
 
@@ -688,14 +688,14 @@ src\components\app-header\AppHeader.tsx
 ```tsx
 //...
 <HeaderRightWrapper>
-  <Input
-    // onFocus={onFoucs}
-    className='search'
-    placeholder='音乐/视频/电台/用户'
-    prefix={<SearchOutlined></SearchOutlined>}
-  ></Input>
-  <span className='center'>创作者中心</span>
-  <span className='sign-in'>登录</span>
+	<Input
+		// onFocus={onFoucs}
+		className='search'
+		placeholder='音乐/视频/电台/用户'
+		prefix={<SearchOutlined></SearchOutlined>}
+	></Input>
+	<span className='center'>创作者中心</span>
+	<span className='sign-in'>登录</span>
 </HeaderRightWrapper>
 //...
 ```
@@ -912,7 +912,7 @@ interface IProps {
 	children?: ReactNode
 }
 const Recommend: FC<IProps> = memo(() => {
-  // 发送请求
+	// 发送请求
 	const dispatch = useAppDispatch()
 	useEffect(() => {
 		dispatch(fetchBannerDataAction())
@@ -938,10 +938,10 @@ src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
 ```typescript
 const { banners } = useAppSelector(
-  state => ({
-    banners: state.recommend.banners
-  }),
-  shallowEqual
+	state => ({
+		banners: state.recommend.banners
+	}),
+	shallowEqual
 )
 ```
 
@@ -957,47 +957,45 @@ src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
 ```tsx
 <TopBannersWrapper style={{ background: `url('${bgImgUrl}') center center / 6000px` }}>
-  <div className='banner wrap_v2'>
-    
-    <BannerLeftWrapper>
-      {/* 轮播图 */}
-      {/* 轮播图切换的淡入，淡出效果编写。传入 effect 属性进行控制。*/}
-      <Carousel
-        autoplay
-        dots={false}
-        autoplaySpeed={3000}
-        effect='fade'
-        ref={carouselRef}
-        beforeChange={onCarouselBeforechange}
-      >
-        {banners.map(item => (
-          <div className='banner-item' key={item.imageUrl}>
-            <img className='image' src={item.imageUrl} alt={item.typeTitle} />
-          </div>
-        ))}
-      </Carousel>
-      {/* 轮播图指示器 */}
-      <ul className='dots'>
-        {banners.map((item, index) => (
-          <li key={item.imageUrl}>
-            <span className={classNames('item', { active: index === currentIndex })}></span>
-          </li>
-        ))}
-      </ul>
-    </BannerLeftWrapper>
-    
-    {/*下载客户端*/}
-    <BannerRightWrapper>
-      <p>PC 安卓 iPhone WP iPad Mac 六大客户端</p>
-    </BannerRightWrapper>
-    
-    {/*箭头控制器*/}
-    <BannerControlWrapper>
-      <button className='btn left' onClick={onPrevClick}></button>
-      <button className='btn right' onClick={onNextClick}></button>
-    </BannerControlWrapper>
-    
-  </div>
+	<div className='banner wrap_v2'>
+		<BannerLeftWrapper>
+			{/* 轮播图 */}
+			{/* 轮播图切换的淡入，淡出效果编写。传入 effect 属性进行控制。*/}
+			<Carousel
+				autoplay
+				dots={false}
+				autoplaySpeed={3000}
+				effect='fade'
+				ref={carouselRef}
+				beforeChange={onCarouselBeforechange}
+			>
+				{banners.map(item => (
+					<div className='banner-item' key={item.imageUrl}>
+						<img className='image' src={item.imageUrl} alt={item.typeTitle} />
+					</div>
+				))}
+			</Carousel>
+			{/* 轮播图指示器 */}
+			<ul className='dots'>
+				{banners.map((item, index) => (
+					<li key={item.imageUrl}>
+						<span className={classNames('item', { active: index === currentIndex })}></span>
+					</li>
+				))}
+			</ul>
+		</BannerLeftWrapper>
+
+		{/*下载客户端*/}
+		<BannerRightWrapper>
+			<p>PC 安卓 iPhone WP iPad Mac 六大客户端</p>
+		</BannerRightWrapper>
+
+		{/*箭头控制器*/}
+		<BannerControlWrapper>
+			<button className='btn left' onClick={onPrevClick}></button>
+			<button className='btn right' onClick={onNextClick}></button>
+		</BannerControlWrapper>
+	</div>
 </TopBannersWrapper>
 ```
 
@@ -1014,10 +1012,10 @@ src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 const carouselRef = useRef<ElementRef<typeof Carousel>>(null)
 //...
 const onPrevClick = () => {
-  carouselRef.current?.prev()
+	carouselRef.current?.prev()
 }
 const onNextClick = () => {
-  carouselRef.current?.next()
+	carouselRef.current?.next()
 }
 ```
 
@@ -1036,7 +1034,7 @@ const TopBanners: FC<IProps> = memo(() => {
 	}
 	return (
 		<TopBannersWrapper style={{ background: `url('${bgImgUrl}') center center / 6000px` }}>
-      {/*...*/}
+			{/*...*/}
 		</TopBannersWrapper>
 	)
 })
@@ -1056,38 +1054,38 @@ src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 ```tsx
 // 走马灯，切换前，事件
 const onCarouselBeforechange = useCallback(
-  (from: number, to: number) => {
-    setCurrentIndex(to)
-  },
-  [currentIndex]
+	(from: number, to: number) => {
+		setCurrentIndex(to)
+	},
+	[currentIndex]
 )
 
 //...
 
 let bgImgUrl = ''
 if (currentIndex >= 0 && banners.length > 0) {
-  bgImgUrl = banners[currentIndex].imageUrl + '?imageView&blur=40x20'
+	bgImgUrl = banners[currentIndex].imageUrl + '?imageView&blur=40x20'
 }
 
 //...
-<TopBannersWrapper style={{ background: `url('${bgImgUrl}') center center / 6000px` }}>
-  <div className='banner wrap_v2'>
-    <Carousel
-      autoplay
-      dots={false}
-      autoplaySpeed={3000}
-      effect='fade'
-      ref={carouselRef}
-      beforeChange={onCarouselBeforechange}
-    >
-      {banners.map(item => (
-        <div className='banner-item' key={item.imageUrl}>
-          <img className='image' src={item.imageUrl} alt={item.typeTitle} />
-        </div>
-      ))}
-    </Carousel>
-    {/*...*/}
-  </div>
+;<TopBannersWrapper style={{ background: `url('${bgImgUrl}') center center / 6000px` }}>
+	<div className='banner wrap_v2'>
+		<Carousel
+			autoplay
+			dots={false}
+			autoplaySpeed={3000}
+			effect='fade'
+			ref={carouselRef}
+			beforeChange={onCarouselBeforechange}
+		>
+			{banners.map(item => (
+				<div className='banner-item' key={item.imageUrl}>
+					<img className='image' src={item.imageUrl} alt={item.typeTitle} />
+				</div>
+			))}
+		</Carousel>
+		{/*...*/}
+	</div>
 </TopBannersWrapper>
 ```
 
@@ -1095,7 +1093,7 @@ if (currentIndex >= 0 && banners.length > 0) {
 
 在 `<Carousel>` 组件上，设置 `dots={false}`，关闭自带的指示器。
 
-使用 *classnames* 库：
+使用 _classnames_ 库：
 
 ```shell
 npm i classnames
@@ -1107,29 +1105,29 @@ src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
 ```tsx
 <BannerLeftWrapper>
-  {/* 轮播图 */}
-  <Carousel
-    autoplay
-    dots={false}
-    autoplaySpeed={3000}
-    effect='fade'
-    ref={carouselRef}
-    beforeChange={onCarouselBeforechange}
-  >
-    {banners.map(item => (
-      <div className='banner-item' key={item.imageUrl}>
-        <img className='image' src={item.imageUrl} alt={item.typeTitle} />
-      </div>
-    ))}
-  </Carousel>
-  {/* 轮播图指示器 */}
-  <ul className='dots'>
-    {banners.map((item, index) => (
-      <li key={item.imageUrl}>
-        <span className={classNames('item', { active: index === currentIndex })}></span>
-      </li>
-    ))}
-  </ul>
+	{/* 轮播图 */}
+	<Carousel
+		autoplay
+		dots={false}
+		autoplaySpeed={3000}
+		effect='fade'
+		ref={carouselRef}
+		beforeChange={onCarouselBeforechange}
+	>
+		{banners.map(item => (
+			<div className='banner-item' key={item.imageUrl}>
+				<img className='image' src={item.imageUrl} alt={item.typeTitle} />
+			</div>
+		))}
+	</Carousel>
+	{/* 轮播图指示器 */}
+	<ul className='dots'>
+		{banners.map((item, index) => (
+			<li key={item.imageUrl}>
+				<span className={classNames('item', { active: index === currentIndex })}></span>
+			</li>
+		))}
+	</ul>
 </BannerLeftWrapper>
 ```
 
@@ -1177,4 +1175,3 @@ export const BannerLeftWrapper = styled.div`
 		}
 	}
 ```
-

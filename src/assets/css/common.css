@@ -3,7 +3,10 @@
 	--textColorSecondary: #222;
 }
 
-body, textarea, input, button {
+body,
+textarea,
+input,
+button {
 	font-size: 12px;
 	color: #333;
 	font-family: Arial, Helvetica, sans-serif;
@@ -29,13 +32,13 @@ body, textarea, input, button {
 }
 
 .sprite_cover {
-  background: url(../img/sprite_cover.png) no-repeat 0 9999px;
+	background: url(../img/sprite_cover.png) no-repeat 0 9999px;
 }
 
 .sprite_icon {
-  background: url(../img/sprite_icon.png) no-repeat 0 9999px;
+	background: url(../img/sprite_icon.png) no-repeat 0 9999px;
 }
 
 .sprite_icon2 {
-  background: url(../img/sprite_icon2.png) no-repeat 0 9999px;
+	background: url(../img/sprite_icon2.png) no-repeat 0 9999px;
 }
