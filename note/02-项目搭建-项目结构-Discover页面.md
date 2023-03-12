@@ -538,7 +538,7 @@ root.render(
 - 编写 logo，拷贝以前的样式。
 - 编写导航元素，使用 `<NavLink>` 或 `<a>`。
 
-将导航对应的路径，放入到一个 `assetes/data/header-titles.son` 文件中。
+将导航对应的路径，放入到一个 `assetes/data/header-titles.json` 文件中。
 
 在 `AppHeader.tsx` 中引入 json 文件。
 
@@ -737,6 +737,14 @@ export const HeaderRightWrapper = styled.div`
 			border-color: #fff;
 		}
 	}
+
+  .sign-in {
+		&:hover {
+			text-decoration: underline;
+			color: #fff;
+			cursor: pointer;
+		}
+	}
 `
 ```
 
@@ -840,10 +848,12 @@ export default NavBarWrapper
 
 发送网络请求，采用分层架构，但目录按照业务来划分。
 
-【注意】：另一种分层架构模式。
-
-- 在组件目录（如 recommend 目录）下创建 service 、store 目录，对该组件相关的网络请求，状态管理做分层架构。
-- 项目中未采用这种分层架构。
+> 【注意】：另一种分层架构模式。
+>
+> - 在组件目录（如 recommend 目录）下，创建 service 、store 等等目录；
+> - 分别对该组件相关的网络请求，状态管理做分层架构。
+>
+> 项目中未采用这种分层架构。
 
 ```shell
 discover
@@ -885,17 +895,20 @@ const recommendSlice = createSlice({
 	}
 })
 
+export const { changeBannersAction } = recommendSlice.actions
+export default recommendSlice.reducer
+
 export const fetchBannerDataAction = createAsyncThunk('banners', (param, { dispatch }) => {
 	getBanners().then(res => {
 		dispatch(changeBannersAction(res.banners))
 	})
 })
-
-export const { changeBannersAction } = recommendSlice.actions
-export default recommendSlice.reducer
 ```
 
 > 【回顾】：两种处理异步 action 的方案。项目中使用第二种方案。
+>
+> - 方案一：在 `extraReducers` 选项中处理。
+> - 方案二：直接在 thunk 中处理。
 
 在 `Recommend.tsx` 中发送网络请求，请求 `banners` 数据，保存到 store 中。
 

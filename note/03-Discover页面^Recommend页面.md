@@ -22,7 +22,7 @@ src\views\discover\views\recommend\Recommend.tsx
 
 > 【注意】：调整样式时，有 `padding` / `border` 和 `width` / `height` 同时存在时，
 >
-> 一定要设置 `box-sizing: border-box` 属性。
+> 一定要设置 `box-sizing: border-box;` 属性。
 
 src\views\discover\views\recommend\style.ts
 
@@ -454,7 +454,7 @@ useEffect(() => {
 >
 > 方案一：渲染一次（项目中采用）
 >
-> - 三个网络请求都有结果后，再一次性渲染到页面。性能高。
+> - 等到三个网络请求都有结果后，再一次性渲染到页面。从页面渲染的角度来看，性能高。
 > - 虽然等待三次网络请求全部完成比较耗时，但是考虑到榜单在页面下方，并不会被用户立即看到，所以影响不大。
 >
 > 方案二：渲染多次。

@@ -27,12 +27,9 @@ const TopBanners: FC<IProps> = memo(() => {
 	const carouselRef = useRef<ElementRef<typeof Carousel>>(null)
 
 	// 走马灯，切换前，事件
-	const onCarouselBeforechange = useCallback(
-		(from: number, to: number) => {
-			setCurrentIndex(to)
-		},
-		[currentIndex]
-	)
+	const onCarouselBeforechange = useCallback((from: number, to: number) => {
+		setCurrentIndex(to)
+	}, [])
 
 	// 指示器
 	const onDotClick = (index: number) => {
