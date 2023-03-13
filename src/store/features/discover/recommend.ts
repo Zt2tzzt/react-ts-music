@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import type { IBanner, IPersonalized, IAlbum, IPlaylist } from '@/types'
+import type { IBanner, IPersonalized, IAlbum, IPlaylist, IArtist } from '@/types'
 import {
+	getArtistList,
 	getBanners,
 	getHotRecommend,
 	getNewAlbum,
@@ -12,11 +13,13 @@ const initialState: {
 	hotRecommends: IPersonalized[]
 	newAlbum: IAlbum[]
 	popularRankings: IPlaylist[]
+	settleSingers: IArtist[]
 } = {
 	banners: [],
 	hotRecommends: [],
 	newAlbum: [],
-	popularRankings: []
+	popularRankings: [],
+	settleSingers: []
 }
 
 const recommendSlice = createSlice({
@@ -34,6 +37,9 @@ const recommendSlice = createSlice({
 		},
 		changePopularRankingsAction(state, { payload }: PayloadAction<IPlaylist[]>) {
 			state.popularRankings = payload
+		},
+		changeSettleSingersAction(state, { payload }: PayloadAction<IArtist[]>) {
+			state.settleSingers = payload
 		}
 	}
 })
@@ -42,7 +48,8 @@ export const {
 	changeBannersAction,
 	changeHotRecommendsAction,
 	changeNewAlbumsAction,
-	changePopularRankingsAction
+	changePopularRankingsAction,
+	changeSettleSingersAction
 } = recommendSlice.actions
 export default recommendSlice.reducer
 
@@ -68,6 +75,11 @@ export const fetchRecommendDataAction = createAsyncThunk(
 			const res = ress.map(res => res.playlist)
 			console.log('popular ranking res:', res)
 			dispatch(changePopularRankingsAction(res))
+		})
+
+		getArtistList(5).then(res => {
+			console.log('artist res:', res)
+			dispatch(changeSettleSingersAction(res.artists))
 		})
 	}
 )

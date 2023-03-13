@@ -2,7 +2,8 @@ import type {
 	IBannersResult,
 	IPersonalizedResult,
 	iAlbumRsesult,
-	IPopularRankingResult
+	IPopularRankingResult,
+	IArtistResult
 } from '@/types'
 import ztRequest from '../..'
 
@@ -29,5 +30,13 @@ export const getPopularRankingList = (id: number) =>
 		url: 'playlist/detail',
 		params: {
 			id
+		}
+	})
+
+export const getArtistList = (limit = 30) =>
+	ztRequest.get<IArtistResult>({
+		url: '/artist/list',
+		params: {
+			limit
 		}
 	})
