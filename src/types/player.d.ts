@@ -127,12 +127,6 @@ export interface ISongDetailResult {
 	code: number
 }
 
-export enum PLAY_MODE {
-	ORDER,
-	RANDOM,
-	circulation
-}
-
 export interface ILyricResult {
 	sgc: boolean
 	sfy: boolean

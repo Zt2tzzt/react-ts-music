@@ -1,9 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { ISong, ILyricParse } from '@/types'
-import { PLAY_MODE } from '@/types'
 import type { StateType } from '../../index'
 import { getSongDetail, getSongLyric } from '@/service/features/play/play'
 import { parseLyric } from '@/utils/format'
+
+export enum PLAY_MODE {
+	ORDER,
+	RANDOM,
+	circulation
+}
 
 const initialState: {
 	currentSong: ISong | object

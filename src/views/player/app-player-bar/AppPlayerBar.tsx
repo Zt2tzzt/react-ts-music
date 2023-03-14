@@ -3,7 +3,7 @@ import type { FC, ReactNode } from 'react'
 import RootWrapper, { BarControl, BarPlayerInfo, BarOperator } from './style'
 import { Link } from 'react-router-dom'
 import { Slider } from 'antd'
-import { getSongPlayUrl } from '@/utils/format'
+import { getImageSize, getSongPlayUrl } from '@/utils/format'
 import { useAppSelector } from '@/store'
 import { shallowEqual, useDispatch } from 'react-redux'
 
@@ -31,8 +31,11 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 
 	const dispatch = useDispatch()
 	useEffect(() => {
+		console.log('haha')
+
 		if (!audioRef.current) return
 		if (!('id' in currentSong && currentSong.id)) return
+		console.log('hehe')
 
 		// 播放音乐
 		audioRef.current.src = getSongPlayUrl(currentSong.id)
@@ -51,26 +54,55 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 		setDuration(currentSong.dt)
 	}, [currentSong])
 
+	// 上一首，播放/暂停，下一首
+	const onPreClick = () => {}
+
+	const onNextClick = () => {}
+
+	const onPlayPauseClick = () => {}
+
+	// Slider
+	const onSliderChanging = () => {}
+
+	const onSliderChanged = () => {}
+
 	return (
 		<RootWrapper className='sprite_playbar'>
 			<div className='content wrap_v2'>
 				<BarControl isPlaying={isPlaying}>
-					<button className='btn sprite_playbar prev'></button>
-					<button className='btn sprite_playbar play'></button>
-					<button className='btn sprite_playbar next'></button>
+					<button className='btn sprite_playbar prev' onClick={() => onPreClick()}></button>
+					<button className='btn sprite_playbar play' onClick={() => onPlayPauseClick()}></button>
+					<button className='btn sprite_playbar next' onClick={() => onNextClick()}></button>
 				</BarControl>
 				<BarPlayerInfo>
 					<Link to='/player'>
-						<img className='image' src='' alt='' />
+						<img
+							className='image'
+							src={getImageSize(
+								'al' in currentSong
+									? currentSong.al.picUrl
+									: 'http://s4.music.126.net/style/web2/img/default/default_album.jpg',
+								50
+							)}
+							alt=''
+						/>
 					</Link>
 					<div className='info'>
 						<div className='song'>
-							<span className='song-name'>哈哈哈</span>
-							<span className='singer-name'>呵呵呵</span>
+							<span className='song-name'>{'name' in currentSong ? currentSong.name : ''}</span>
+							<span className='singer-name'>
+								{'ar' in currentSong ? currentSong.ar[0].name : ''}
+							</span>
 						</div>
 						<div className='progress'>
 							{/* Slider 组件 */}
-							<Slider step={0.5} value={20} tooltip={{ formatter: null }}></Slider>
+							<Slider
+								step={0.5}
+								value={progressm}
+								tooltip={{ formatter: null }}
+								onChange={onSliderChanging}
+								onAfterChange={onSliderChanged}
+							></Slider>
 							<div className='time'>
 								<span className='current'>66:66</span>
 								<span className='divider'>/</span>
