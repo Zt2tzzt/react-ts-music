@@ -42,3 +42,7 @@ button {
 .sprite_icon2 {
 	background: url(../img/sprite_icon2.png) no-repeat 0 9999px;
 }
+
+.sprite_playbar {
+  background: url(../img/playbar_sprite.png) no-repeat 0 9999px;
+}

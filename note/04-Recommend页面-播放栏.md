@@ -175,21 +175,56 @@ const HotAnchor: FC<IProps> = memo(() => {
 })
 ```
 
----
+# 二、底部播放栏
 
-编写底部播放栏区域，创建 AppPlayerBar 组件。
+## 1.布局搭建
 
-考虑到其中维护的业务逻辑和状态过多，比较重，将它放入到 view 目录下的 player 目录，而非 component 目录。
+编写底部播放栏区域，创建 `<AppPlayerBar>` 组件。
 
-player 页面与播放栏中的逻辑息息相关，所以放在一起。
+考虑到其中维护的业务逻辑和状态过多，比较“重”，将它放入到 `/src/view/player` 目录，而非 `/src/component` 目录。
 
-播放栏不依赖其他页面，单独存在，所以放在 App.jsx 中。
+- 考虑到将来会开发的 player 页面与播放栏中的逻辑息息相关，所以放在一起。
 
-在其中分为三块区域，BarControl，BarPlayerInfo，BarOperator。
+`AppPlayerBar` 播放栏组件不依赖其他页面，单独存在，所以放在 App.jsx 中。
+
+src\App.tsx
+
+```tsx
+function App() {
+	return (
+		<div className='App'>
+      {/*...*/}
+
+			{/* 播放器，工具栏 */}
+			<AppPlayerBar></AppPlayerBar>
+		</div>
+	)
+}
+```
+
+在其中分为三块区域，`BarControl`，`BarPlayerInfo`，`BarOperator`。
+
+src\views\player\app-player-bar\AppPlayerBar.tsx
+
+```tsx
+const AppPlayerBar: FC<IProps> = memo(() => {
+	return (
+		<RootWrapper className='sprite_playbar'>
+			<div className='content wrap_v2'>
+				<BarControl></BarControl>
+				<BarPlayerInfo></BarPlayerInfo>
+				<BarOperator></BarOperator>
+			</div>
+		</RootWrapper>
+	)
+})
+```
 
 搭建其中的布局。调整样式。
 
----
+src\views\player\app-player-bar\style.ts
+
+## 2.store 创建
 
 创建一个 store，用于管理 player 页面和 player 播放栏中的状态。
 
@@ -197,25 +232,23 @@ player 页面与播放栏中的逻辑息息相关，所以放在一起。
 
 暂时将歌曲的数据写死在 store 中。
 
----
+## 3.audio 组件
 
-在 AppPlayerBar 中，编写 audio 组件。用于音频播放。
+在 `AppPlayerBar.tsx` 中，编写 `<audio>` 组件。用于音频播放。
 
-使用 ref 拿到 audio 对象。
+使用 `ref` 拿到 `<audio>` 对象。
 
 > 【注意】：`useRef<T>` 要求返回类型是 `T | null` 联合类型。
 
----
-
-在 AppPlayerBar 中，封装一个工具函数 getSongPlayUrl 用于获取歌曲播放 url。
+在 `AppPlayerBar.tsx` 中，封装一个工具函数 `getSongPlayUrl` 用于获取歌曲播放 url。
 
 使用 play API，进行音乐播放。
 
-> 【补充】：Chrome 浏览器从 60+ 版本开始，不运行进入标签页时，自动播放音乐。
+> 【补充】：Chrome 浏览器从 60.0.0+ 版本开始，不允许进入标签页时，自动播放音乐。
 
----
+## 4.“播放/暂停”功能
 
-在 AppPlayerBar 中，编写“播放/暂停”按钮功能。
+在 `<AppPlayerBar>` 中，编写“播放/暂停”按钮功能。
 
 将播放/暂停状态，传递给 styled-components 组件，TS 中要有类型限制。使用泛型。
 
