@@ -50,7 +50,7 @@ const AreaHeaderV2: FC<IProps> = memo(props => {
 
 > 【注意】：上方案例中，`moreText` 属性的展示方式，体现了 react 完全利用 ts 的编程能力。
 >
-> `<a>` 标签中，`href` 属性 `#/xxx`，相当于 `<Link>` 中 `to` 属性 `/xxx`
+> 路由使用 Hash 模式的情况下：`<a>` 标签中，`href` 属性 `#/xxx`，相当于 `<Link>` 中 `to` 属性 `/xxx`
 
 封装获取歌手列表的网络请求，在 `fetchRecommendDataAction` 中发送。
 
@@ -83,7 +83,7 @@ export const fetchRecommendDataAction = createAsyncThunk(
 )
 ```
 
-> 【注意】：之前封装的 `getImageSize` 工具函数中，使用”`y`“拼接尺寸参数
+> 【注意】：之前封装的 `getImageSize` 工具函数中，应该使用”`y`“拼接尺寸参数
 >
 > 编程时，前后端多沟通。
 
@@ -95,7 +95,7 @@ export const getImageSize = (iamgeUrl: string, width: number, height: number = w
 
 ```
 
-在 `SettleSings.tsx` 中，编写歌手列表区域，以及下方的”申请称为网易音乐人“按钮。
+在 `SettleSings.tsx` 中，编写歌手列表区域，以及下方的”申请成为网易音乐人“按钮。
 
 src\views\discover\views\recommend\cpns\settle-singer\SettleSinger.tsx
 
@@ -183,9 +183,9 @@ const HotAnchor: FC<IProps> = memo(() => {
 
 考虑到其中维护的业务逻辑和状态过多，比较“重”，将它放入到 `/src/view/player` 目录，而非 `/src/component` 目录。
 
-- 考虑到将来会开发的 player 页面与播放栏中的逻辑息息相关，所以放在一起。
+考虑到将来会开发的 player 页面与播放栏中的逻辑息息相关，所以放在一起。
 
-`AppPlayerBar` 播放栏组件不依赖其他页面，单独存在，所以放在 App.jsx 中。
+`<AppPlayerBar>` 播放栏组件不依赖其他页面，单独存在，所以放在 `App.jsx` 中。
 
 src\App.tsx
 
@@ -202,7 +202,7 @@ function App() {
 }
 ```
 
-在其中分为三块区域，`BarControl`，`BarPlayerInfo`，`BarOperator`。
+`<AppPlayerBar>` 中分为三块区域，`BarControl`，`BarPlayerInfo`，`BarOperator`。
 
 src\views\player\app-player-bar\AppPlayerBar.tsx
 
@@ -226,9 +226,9 @@ src\views\player\app-player-bar\style.ts
 
 ## 2.store 创建
 
-创建一个 store，用于管理 player 页面和 player 播放栏中的状态。
+创建一个 store，用于管理 player 页面和 `AppPlayerBar.tsx` 中的状态。
 
-采用分层架构的方式，来管理 player 的状态。
+采用分层架构的方式，来管理。
 
 暂时将歌曲的数据写死在 store 中。
 
@@ -238,13 +238,38 @@ src\views\player\app-player-bar\style.ts
 
 使用 `ref` 拿到 `<audio>` 对象。
 
-> 【注意】：`useRef<T>` 要求返回类型是 `T | null` 联合类型。
+> 【注意】：`useRef<T>` 要求返回类型是 `T | null` 联合类型，在使用返回值时，需要进行类型缩小。
 
 在 `AppPlayerBar.tsx` 中，封装一个工具函数 `getSongPlayUrl` 用于获取歌曲播放 url。
 
-使用 play API，进行音乐播放。
+使用 `<audio>` 的 `play` API，进行音乐播放。
 
 > 【补充】：Chrome 浏览器从 60.0.0+ 版本开始，不允许进入标签页时，自动播放音乐。
+
+src\views\player\app-player-bar\AppPlayerBar.tsx
+
+```typescript
+useEffect(() => {
+  if (!audioRef.current) return
+  if (!('id' in currentSong && currentSong.id)) return
+
+  // 播放音乐
+  audioRef.current.src = getSongPlayUrl(currentSong.id)
+  audioRef.current
+    .play()
+    .then(() => {
+      setIsPlaying(true)
+      console.log('歌曲播放成功')
+    })
+    .catch(err => {
+      setIsPlaying(false)
+      console.log('歌曲播放失败:', err)
+    })
+
+  // 设置音乐总时长
+  setDuration(currentSong.dt)
+}, [currentSong])
+```
 
 ## 4.“播放/暂停”功能
 
@@ -254,7 +279,7 @@ src\views\player\app-player-bar\style.ts
 
 点击按钮，改变状态。
 
-> 【注意】： setState 操作是**异步的**，要放在最后执行。
+> 【注意】：setState 操作是**异步的**，要放在最后执行。
 
 src\views\player\app-player-bar\AppPlayerBar.tsx
 
@@ -282,7 +307,7 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 }
 ```
 
-TS 中要有类型限制。使用泛型。
+styled-components 组件在 TS 中要有类型限制。使用泛型。
 
 src\views\player\app-player-bar\style.ts
 
@@ -314,6 +339,13 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 ```tsx
 const AppPlayerBar: FC<IProps> = memo(() => {
   //...
+  
+  const { currentSong } = useAppSelector(
+		state => ({
+			currentSong: state.player.currentSong,
+		}),
+		shallowEqual
+	)
   
   useEffect(() => {
 		// 设置音乐总时长
@@ -373,8 +405,8 @@ src\utils\format.ts
 export const formatMillisecond = (millisecond: number) => {
 	const totalSecond = millisecond / 1000 // 秒钟总数
 
-	const minute = Math.floor(totalSecond / 60) // 时分
-	const second = Math.floor(totalSecond) % 60 // 秒分
+	const minute = Math.floor(totalSecond / 60) // 分钟
+	const second = Math.floor(totalSecond) % 60 // 秒钟
 
 	const formatMinute = String(minute).padStart(2, '0')
 	const formatSecond = String(second).padStart(2, '0')
@@ -429,9 +461,9 @@ const onSliderChanged = useCallback(
 
 监听 `<Slider>` 的拖拽事件 `onChange`，创建一个是否拖拽的状态 `isSliding`。
 
-根据该状态，在 `onTimeUpdate` 中判断是否要设值。
+根据该状态，在 `<audio>` 的 `onTimeUpdate` 中判断是否要设值。
 
-在 `onAfterChange` 中将该状态改为 `false`。
+在 `<Slider>` 的 `onAfterChange` 中将该状态改为 `false`。
 
 在拖拽时，改变当前时间，并展示。
 
@@ -571,7 +603,7 @@ export const fetchCurrentSongAction = createAsyncThunk(
 }
 ```
 
-在 `AppPlayerBar.tsx` 中1的 `<audio>` 组件的 `onTimeUpdate` 事件中匹配歌词
+在 `AppPlayerBar.tsx` 中的 `<audio>` 组件的 `onTimeUpdate` 事件中匹配歌词
 
 - 理解匹配歌词的算法。匹配到第 `i` 个歌词，展示的是第 `i - 1` 个歌词。
 - 特殊情况：最后一句歌词，无法匹配到，进行处理。
@@ -744,7 +776,7 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 // ModeChange
 const onModeChangeClick = () => {
   let newPlayMode = playMode + 1
-  if (newPlayMode > PLAY_MODE.CIRCULATION) newPlayMode = PLAY_MODE.ORDER
+  if (newPlayMode > PLAY_MODE.CIRCULATION) newPlayMode = PLAY_MODE.ORDER // 边界判断
   dispatch(changePlayModeAction(newPlayMode))
 }
 ```
@@ -756,19 +788,13 @@ const onModeChangeClick = () => {
 src\views\player\app-player-bar\AppPlayerBar.tsx
 
 ```typescript
+const musicChange = (isNext = true) => {
+  dispatch(changeMusicAction(isNext))
+}
+
 // 上一首，播放/暂停，下一首
 const onPreClick = () => {
   musicChange(false)
-}
-
-const onPlayPauseClick = () => {
-  isPlaying
-    ? audioRef.current?.pause()
-    : audioRef.current?.play().catch(err => {
-        console.log('播放出错 err:', err)
-        setIsPlaying(false)
-      })
-  setIsPlaying(!isPlaying)
 }
 
 const onNextClick = () => {
@@ -792,7 +818,7 @@ export const changeMusicAction = createAsyncThunk<void, boolean, IThunkState>(
 		// 根据播放模式，切换歌曲
 		let newIndex = playSongIndex
 		switch (playMode) {
-			case PLAY_MODE.RANDOM: // 单曲循环
+			case PLAY_MODE.RANDOM: // 随机播放
 				newIndex = Math.floor(Math.random()) * playSongList.length
 				break
 			default:

@@ -105,11 +105,17 @@ export const changeMusicAction = createAsyncThunk<void, boolean, IThunkState>(
 		// 获取 state 中的数据
 		const { playMode, playSongIndex, playSongList } = getState().player
 
+		const _getDiffRandomNumber = (): number => {
+			const length = playSongList.length
+			const random = Math.floor(Math.random()) * length
+			return random === playSongIndex && length > 1 ? _getDiffRandomNumber() : random
+		}
+
 		// 根据播放模式，切换歌曲
 		let newIndex = playSongIndex
 		switch (playMode) {
-			case PLAY_MODE.RANDOM: // 单曲循环
-				newIndex = Math.floor(Math.random()) * playSongList.length
+			case PLAY_MODE.RANDOM: // 随机播放
+				newIndex = _getDiffRandomNumber()
 				break
 			default:
 				newIndex = isNext ? playSongIndex + 1 : playSongIndex - 1
