@@ -7,7 +7,7 @@ import { parseLyric } from '@/utils/format'
 export enum PLAY_MODE {
 	ORDER,
 	RANDOM,
-	circulation
+	CIRCULATION
 }
 
 const initialState: {
@@ -62,7 +62,11 @@ export const {
 
 export default playerSlice.reducer
 
-export const fetchCurrentSongAction = createAsyncThunk<void, number, { state: StateType }>(
+interface IThunkState {
+	state: StateType
+}
+
+export const fetchCurrentSongAction = createAsyncThunk<void, number, IThunkState>(
 	'currentSong',
 	(id, { dispatch, getState }) => {
 		// 播放歌曲，分两种情况
@@ -86,9 +90,44 @@ export const fetchCurrentSongAction = createAsyncThunk<void, number, { state: St
 			dispatch(changePlaySongListAction(index))
 		}
 
+		// 歌词获取
 		getSongLyric(id).then(res => {
 			const lyricString = res.lrc.lyric
 			const lyrics = parseLyric(lyricString) // 歌词解析
+			dispatch(changeLyricsAction(lyrics))
+		})
+	}
+)
+
+export const changeMusicAction = createAsyncThunk<void, boolean, IThunkState>(
+	'changeMusic',
+	(isNext: boolean, { dispatch, getState }) => {
+		// 获取 state 中的数据
+		const { playMode, playSongIndex, playSongList } = getState().player
+
+		// 根据播放模式，切换歌曲
+		let newIndex = playSongIndex
+		switch (playMode) {
+			case PLAY_MODE.RANDOM: // 单曲循环
+				newIndex = Math.floor(Math.random()) * playSongList.length
+				break
+			default:
+				newIndex = isNext ? playSongIndex + 1 : playSongIndex - 1
+				// 边界判断
+				if (newIndex > playSongList.length - 1) newIndex = 0
+				if (newIndex < 0) newIndex = playSongList.length - 1
+				break
+		}
+
+		// 歌曲变更
+		const song = playSongList[newIndex]
+		dispatch(changeCurrentSongAction(song))
+		dispatch(changePlaySongIndexAction(newIndex))
+
+		// 请求新的歌词
+		getSongLyric(song.id).then(res => {
+			const lyricStr = res.lrc.lyric
+			const lyrics = parseLyric(lyricStr)
 			dispatch(changeLyricsAction(lyrics))
 		})
 	}

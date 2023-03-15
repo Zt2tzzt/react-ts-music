@@ -40,3 +40,15 @@ export const parseLyric = (lyricString: string): ILyricParse[] => {
 
 	return lyrics
 }
+
+export const formatMillisecond = (millisecond: number) => {
+	const totalSecond = millisecond / 1000 // 秒钟数
+
+	const minute = Math.floor(totalSecond / 60)
+	const second = Math.floor(totalSecond) % 60
+
+	const formatMinute = String(minute).padStart(2, '0')
+	const formatSecond = String(second).padStart(2, '0')
+
+	return `${formatMinute}:${formatSecond}`
+}

@@ -9,9 +9,10 @@ import { fetchCurrentSongAction } from './store/features/player/player'
 
 function App() {
 	const dispatch = useAppDispatch()
+
 	useEffect(() => {
-		dispatch(fetchCurrentSongAction(2026224214))
-	})
+		dispatch(fetchCurrentSongAction(2003496926))
+	}, [])
 
 	return (
 		<div className='App'>

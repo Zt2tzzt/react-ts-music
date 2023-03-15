@@ -1,11 +1,17 @@
-import React, { memo, useEffect, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 import type { FC, ReactNode } from 'react'
 import RootWrapper, { BarControl, BarPlayerInfo, BarOperator } from './style'
 import { Link } from 'react-router-dom'
-import { Slider } from 'antd'
-import { getImageSize, getSongPlayUrl } from '@/utils/format'
-import { useAppSelector } from '@/store'
-import { shallowEqual, useDispatch } from 'react-redux'
+import { message, Slider } from 'antd'
+import { getImageSize, getSongPlayUrl, formatMillisecond } from '@/utils/format'
+import { useAppDispatch, useAppSelector } from '@/store'
+import { shallowEqual } from 'react-redux'
+import {
+	changeLyricIndexongAction,
+	changeMusicAction,
+	changePlayModeAction
+} from '@/store/features/player/player'
+import { PLAY_MODE } from '@/store/features/player/player'
 
 interface IProps {
 	children?: ReactNode
@@ -29,13 +35,9 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 		shallowEqual
 	)
 
-	const dispatch = useDispatch()
 	useEffect(() => {
-		console.log('haha')
-
 		if (!audioRef.current) return
 		if (!('id' in currentSong && currentSong.id)) return
-		console.log('hehe')
 
 		// 播放音乐
 		audioRef.current.src = getSongPlayUrl(currentSong.id)
@@ -54,25 +56,105 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 		setDuration(currentSong.dt)
 	}, [currentSong])
 
+	const dispatch = useAppDispatch()
+
+	const musicChange = (isNext = true) => {
+		dispatch(changeMusicAction(isNext))
+	}
+
 	// 上一首，播放/暂停，下一首
-	const onPreClick = () => {}
+	const onPreClick = () => {
+		musicChange(false)
+	}
 
-	const onNextClick = () => {}
+	const onPlayPauseClick = () => {
+		isPlaying
+			? audioRef.current?.pause()
+			: audioRef.current?.play().catch(err => {
+					console.log('播放出错 err:', err)
+					setIsPlaying(false)
+			  })
+		setIsPlaying(!isPlaying)
+	}
 
-	const onPlayPauseClick = () => {}
+	const onNextClick = () => {
+		musicChange(true)
+	}
 
 	// Slider
-	const onSliderChanging = () => {}
+	const onSliderChanging = useCallback(
+		(value: number) => {
+			setIsSliding(true)
+			setProgress(value)
+			setCurrentTime((value / 100) * duration)
+		},
+		[duration]
+	)
 
-	const onSliderChanged = () => {}
+	const onSliderChanged = useCallback(
+		(value: number) => {
+			const currentTime = (value / 100) * duration
+			if (audioRef.current) audioRef.current.currentTime = currentTime / 1000
+
+			setProgress(value)
+			setCurrentTime(currentTime)
+			setIsSliding(false)
+		},
+		[duration]
+	)
+
+	// ModeChange
+	const onModeChangeClick = () => {
+		let newPlayMode = playMode + 1
+		if (newPlayMode > PLAY_MODE.CIRCULATION) newPlayMode = PLAY_MODE.ORDER
+		dispatch(changePlayModeAction(newPlayMode))
+	}
+
+	// Audio
+	const onAudioTimeUpdate = () => {
+		// 获取当歌曲播放前时间
+		if (!audioRef.current) return
+		const currentTime = audioRef.current.currentTime * 1000
+
+		// 计算当前歌曲播放进度
+		if (!isSliding) {
+			const progress = (currentTime / duration) * 100
+			setProgress(progress)
+			setCurrentTime(currentTime)
+		}
+
+		// 匹配歌词
+		const findIndex = lyrics.findIndex(item => item.time > currentTime)
+		const index = findIndex === -1 ? lyrics.length - 1 : findIndex
+		if (lyricIndex === index) return
+		dispatch(changeLyricIndexongAction(index))
+
+		// 展示歌词
+		message.open({
+			content: lyrics[index].text,
+			key: 'lyric',
+			duration: 0
+		})
+	}
+
+	const onAudioEnded = () => {
+		switch (playMode) {
+			case PLAY_MODE.CIRCULATION:
+				if (audioRef.current) audioRef.current.currentTime = 0
+				break
+			default:
+				musicChange(true)
+				break
+		}
+	}
 
 	return (
 		<RootWrapper className='sprite_playbar'>
 			<div className='content wrap_v2'>
 				<BarControl isPlaying={isPlaying}>
-					<button className='btn sprite_playbar prev' onClick={() => onPreClick()}></button>
-					<button className='btn sprite_playbar play' onClick={() => onPlayPauseClick()}></button>
-					<button className='btn sprite_playbar next' onClick={() => onNextClick()}></button>
+					<button className='btn sprite_playbar prev' onClick={onPreClick}></button>
+					<button className='btn sprite_playbar play' onClick={onPlayPauseClick}></button>
+					<button className='btn sprite_playbar next' onClick={onNextClick}></button>
 				</BarControl>
 				<BarPlayerInfo>
 					<Link to='/player'>
@@ -104,9 +186,9 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 								onAfterChange={onSliderChanged}
 							></Slider>
 							<div className='time'>
-								<span className='current'>66:66</span>
+								<span className='current'>{formatMillisecond(currentTime)}</span>
 								<span className='divider'>/</span>
-								<span className='duration'>55:44</span>
+								<span className='duration'>{formatMillisecond(duration)}</span>
 							</div>
 						</div>
 					</div>
@@ -119,12 +201,12 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 					</div>
 					<div className='right sprite_playbar'>
 						<button className='btn sprite_playbar volume'></button>
-						<button className='btn sprite_playbar loop'></button>
+						<button className='btn sprite_playbar loop' onClick={onModeChangeClick}></button>
 						<button className='btn sprite_playbar playlist'></button>
 					</div>
 				</BarOperator>
 			</div>
-			<audio ref={audioRef}></audio>
+			<audio ref={audioRef} onTimeUpdate={onAudioTimeUpdate} onEnded={onAudioEnded}></audio>
 		</RootWrapper>
 	)
 })

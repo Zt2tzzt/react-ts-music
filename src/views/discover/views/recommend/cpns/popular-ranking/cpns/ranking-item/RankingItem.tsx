@@ -3,6 +3,8 @@ import type { FC, ReactNode } from 'react'
 import RootWrapper from './style'
 import type { IPlaylist } from '@/types'
 import { getImageSize } from '@/utils/format'
+import { useAppDispatch } from '@/store'
+import { fetchCurrentSongAction } from '@/store/features/player/player'
 
 interface IProps {
 	children?: ReactNode
@@ -11,6 +13,12 @@ interface IProps {
 const RankingItem: FC<IProps> = memo(props => {
 	const { itemData } = props
 	const { tracks = [] } = itemData
+
+	const dispatch = useAppDispatch()
+
+	const onPlayClick = (id: number) => {
+		dispatch(fetchCurrentSongAction(id))
+	}
 
 	return (
 		<RootWrapper>
@@ -34,7 +42,10 @@ const RankingItem: FC<IProps> = memo(props => {
 						<div className='info'>
 							<div className='name'>{item.name}</div>
 							<div className='operator'>
-								<button className='btn sprite_02 play'></button>
+								<button
+									className='btn sprite_02 play'
+									onClick={() => onPlayClick(item.id)}
+								></button>
 								<button className='btn sprite_icon2 add'></button>
 								<button className='btn sprite_02 favor'></button>
 							</div>
