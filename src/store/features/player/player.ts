@@ -112,7 +112,7 @@ export const changeMusicAction = createAsyncThunk<void, boolean, IThunkState>(
 		}
 
 		// 根据播放模式，切换歌曲
-		let newIndex = playSongIndex
+		let newIndex: number
 		switch (playMode) {
 			case PLAY_MODE.RANDOM: // 随机播放
 				newIndex = _getDiffRandomNumber()

@@ -45,7 +45,6 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 			.play()
 			.then(() => {
 				setIsPlaying(true)
-				console.log('歌曲播放成功')
 			})
 			.catch(err => {
 				setIsPlaying(false)
@@ -71,8 +70,8 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 		isPlaying
 			? audioRef.current?.pause()
 			: audioRef.current?.play().catch(err => {
-					console.log('播放出错 err:', err)
 					setIsPlaying(false)
+					console.log('播放出错 err:', err)
 			  })
 		setIsPlaying(!isPlaying)
 	}
