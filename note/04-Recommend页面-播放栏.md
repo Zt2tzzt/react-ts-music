@@ -251,6 +251,8 @@ src\views\player\app-player-bar\style.ts
 src\views\player\app-player-bar\AppPlayerBar.tsx
 
 ```typescript
+const audioRef = useRef<HTMLAudioElement>(null)
+
 useEffect(() => {
   if (!audioRef.current) return
   if (!('id' in currentSong && currentSong.id)) return
@@ -658,7 +660,7 @@ const onAudioTimeUpdate = () => {
 
 在 `fetchCurrentSongAction` 中重构代码，判断歌曲 id 是否在列表中。
 
-> 【注意】：为 `createAsyncThunk` 传入泛型，指定 返回值、参数、`getState` 返回的类型。
+> 【注意】：为 `createAsyncThunk` 传入泛型，分别指定“返回值”、“参数”、“`getState` 返回值”的类型。
 
 src\store\features\player\player.ts
 
