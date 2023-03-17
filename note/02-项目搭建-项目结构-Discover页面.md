@@ -132,7 +132,7 @@ declare namespace NodeJS {
 
 在 `Recommend.tsx` 中发送网络请求，进行 _axios_ 的测试。
 
-【注意】：给 `useState` 传入类型。使用 `useState<T>`
+> 【注意】：给 `useState` 传入类型。使用 `useState<T>`
 
 src\views\discover\recommend\Recommend.tsx
 
@@ -297,7 +297,7 @@ export default Demo
 
 用于定义生命周期 `getSnapshotBeforeUpdate` 的返回值类型。
 
-它的返回值，用于 `componentDidUpdate` 生命周期的第三个参数。
+即用于 `componentDidUpdate` 生命周期的第三个参数。
 
 此时，需要使用 `propsTypes` 对 Demo 组件的 prop 做类型验证。除非关闭 eslint 警告。
 
@@ -462,7 +462,7 @@ npm i --save-dev @types/styled-components
 
 3.创建 `AppHeaderWrapper`，为 `AppHeader.tsx` 设置样式，将内容居中，使用混入。
 
-src\components\app-header\app-header-style.ts
+src\components\app-header\style.ts
 
 ```less
 import styled from 'styled-components'
@@ -472,6 +472,7 @@ const AppHeaderWrapper = styled.header`
 	background-color: #242424;
 	font-size: 14px;
 	color: #fff;
+  //...
 `
 export default AppHeaderWrapper
 ```
@@ -754,7 +755,7 @@ export const HeaderRightWrapper = styled.div`
 
 ### 1.header 区域（NavBar）
 
-在 `Discover.tsx` 中，创建 `NavBar.tsx`，用来表示 header 区域。
+在 `Discover.tsx` 中，创建 `<NavBar>`，用来表示 header 区域。
 
 同样将 header 中的 titles 放到 json 文件中。
 
@@ -1012,7 +1013,7 @@ src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 </TopBannersWrapper>
 ```
 
-在 `TopHeader.tsx` 中，点击箭头，轮播图切换。
+在 BannerControl 中，点击箭头，轮播图切换。
 
 使用 `useRef`，获取 `<Carousel>` 组件对象。使用 `ElementRef<typeof Carousel>` 获取它的类型。
 
@@ -1155,6 +1156,7 @@ export const BannerLeftWrapper = styled.div`
 	.banner-item {
 		overflow: hidden;
 		height: 285px;
+    
 		.image {
 			height: 285px;
 			width: 100%;

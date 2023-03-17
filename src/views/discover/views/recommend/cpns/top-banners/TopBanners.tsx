@@ -44,10 +44,11 @@ const TopBanners: FC<IProps> = memo(() => {
 		carouselRef.current?.next()
 	}
 
-	let bgImgUrl = ''
-	if (currentIndex >= 0 && banners.length > 0) {
-		bgImgUrl = banners[currentIndex].imageUrl + '?imageView&blur=40x20'
-	}
+	const bgImgUrl =
+		currentIndex >= 0 && banners.length > 0
+			? banners[currentIndex].imageUrl + '?imageView&blur=40x20'
+			: ''
+
 	return (
 		<TopBannersWrapper style={{ background: `url('${bgImgUrl}') center center / 6000px` }}>
 			<div className='banner wrap_v2'>

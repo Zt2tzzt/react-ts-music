@@ -358,7 +358,7 @@ const NewAlbums: FC<IProps> = memo(() => {
 })
 ```
 
-> 【注意】：传入 `<Carousel>` 的直接子元素，被默认设值了行内样式，`display: inline-block; width: 100%`；
+> 【注意】：传入 `<Carousel>` 的直接子元素，被默认设值了行内样式，`display: inline-block; width: 100%`；优先级很高
 >
 > 该样式不好覆盖。需要再嵌套一层展示。
 
