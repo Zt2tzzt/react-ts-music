@@ -81,7 +81,7 @@ serve -s build # 启动本地服务，并指定 build 目录下的文件，作�
 .env.development
 
 ```
-REACT_APP_BASE_URL = HAHA
+REACT_APP_BASE_URL = 'HAHA'
 ```
 
 .env.production
@@ -176,7 +176,7 @@ const Recommend: FC<IProps> = memo(() => {
 
 类组件中，TS 要怎么写？
 
-1.普通写法：对 `render` 函数返回值，进行类型约束，使用 `React.ReactNode`
+1.普通写法：对 `render` 函数返回值，进行类型约束，使用 `React.ReactNode`。
 
 src\views\demo\Demo.tsx
 
@@ -368,7 +368,7 @@ export default Demo
 
 如果手动指定类型，那么类型更加明确
 
-- 比如推导出 string，手动指定可以是联合类型。
+- 比如推导出 `string` 类型，手动指定可以是更明确的联合类型。
 
 ```typescript
 type DirectionType = 'left' | 'right' | 'down' | 'up'
@@ -670,7 +670,7 @@ export const HeaderLeftWrapper = styled.div`
 npm install antd
 ```
 
-> 【注意】：_AntDesign_ 和 _Material UI_ 都采用“tree shaking”模式，
+> 【注意】：_AntDesign_ 和 _Material UI_ 都采用 “tree shaking” 模式，
 >
 > 使用 ESModule 直接引入即可，无需做按需引入的配置。
 
