@@ -96,7 +96,7 @@ const AreaHeaderV1: FC<IProps> = memo(props => {
 }
 ```
 
-3.在 `HotRecommend.tsx` 中，使用 `<AppHeader>`，并传入这些属性。
+3.在 `HotRecommend.tsx` 中，使用 `<AreaHeaderV1>`，并传入这些属性。
 
 src\views\discover\views\recommend\cpns\hot-recommend\HotRecommend.tsx
 
@@ -129,11 +129,12 @@ module.exports = {
 
 ### 2.内容区域（SongMenuItem）
 
-1.在 `HotRecommend.tsx` 中，发送网络请求，请求“热门推荐”歌单列表数据。
+1.在 `Recommend.tsx` 中，发送网络请求，请求“热门推荐”歌单列表数据。
 
 - 封装异步 action，并进行派发。
-- 将获取到的 `hotRecommend` 数据，保存到 store。
-- （并在 `HotRecommend.tsx` 中，创建 `<SongMenuItem>` 组件，进行歌单展示）。
+- 将获取到的 hotRecommend 数据，保存到 store。
+
+在 `HotRecommend.tsx` 中，创建 `<SongMenuItem>` 组件，进行歌单展示。
 
 src\views\discover\views\recommend\cpns\hot-recommend\HotRecommend.tsx
 
@@ -247,7 +248,7 @@ src\utils\format.ts
 
 ```typescript
 export const getImageSize = (iamgeUrl: string, width: number, height: number = width) =>
-	iamgeUrl + `?param=${width}*${height}`
+	iamgeUrl + `?param=${width}y${height}`
 ```
 
 将播放量进行格式化，并展示。
@@ -276,19 +277,20 @@ src\components\song-menu-item\style.ts
 
 编写 content 区域。
 
-1.使用 AntDesign 提供的轮播图组件 `<Carousel>` 来做滚动效果。
+使用 AntDesign 提供的轮播图组件 `<Carousel>` 来做滚动效果。
 
-先搭建轮播图的箭头控制器，使用精灵图。调整样式。
+1.先搭建轮播图的箭头控制器，使用精灵图。调整样式。
 
 src\views\discover\views\recommend\cpns\new-albums\NewAlbums.tsx
 
 ```tsx
-{
-	/* speed 属性，用来调整轮播图滚动的速度。*/
-}
+{	/* speed 属性，用来调整轮播图滚动的速度。*/ }
 ;<Carousel ref={bannerRef} dots={false} speed={1500}>
 	{Array.from({ length: 2 }).map((_, index) => index)}
 </Carousel>
+
+{/* 控制器2 */}
+<button className='sprite_02 arrow arrow-right' onClick={onNextClick}></button>
 ```
 
 2.再搭建轮播图中的内容。
