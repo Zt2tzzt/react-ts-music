@@ -72,9 +72,8 @@ src\store\features\discover\recommend.ts
 export const fetchRecommendDataAction = createAsyncThunk(
 	'recommendDdata',
 	(param, { dispatch }) => {
-    
 		//...
-    
+
 		getArtistList(5).then(res => {
 			console.log('artist res:', res)
 			dispatch(changeSettleSingersAction(res.artists))
@@ -92,7 +91,6 @@ src\utils\format.ts
 ```typescript
 export const getImageSize = (iamgeUrl: string, width: number, height: number = width) =>
 	iamgeUrl + `?param=${width}y${height}`
-
 ```
 
 在 `SettleSings.tsx` 中，编写歌手列表区域，以及下方的”申请成为网易音乐人“按钮。
@@ -193,7 +191,7 @@ src\App.tsx
 function App() {
 	return (
 		<div className='App'>
-      {/*...*/}
+			{/*...*/}
 
 			{/* 播放器，工具栏 */}
 			<AppPlayerBar></AppPlayerBar>
@@ -254,24 +252,24 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 const audioRef = useRef<HTMLAudioElement>(null)
 
 useEffect(() => {
-  if (!audioRef.current) return
-  if (!('id' in currentSong && currentSong.id)) return
+	if (!audioRef.current) return
+	if (!('id' in currentSong && currentSong.id)) return
 
-  // 播放音乐
-  audioRef.current.src = getSongPlayUrl(currentSong.id)
-  audioRef.current
-    .play()
-    .then(() => {
-      setIsPlaying(true)
-      console.log('歌曲播放成功')
-    })
-    .catch(err => {
-      setIsPlaying(false)
-      console.log('歌曲播放失败:', err)
-    })
+	// 播放音乐
+	audioRef.current.src = getSongPlayUrl(currentSong.id)
+	audioRef.current
+		.play()
+		.then(() => {
+			setIsPlaying(true)
+			console.log('歌曲播放成功')
+		})
+		.catch(err => {
+			setIsPlaying(false)
+			console.log('歌曲播放失败:', err)
+		})
 
-  // 设置音乐总时长
-  setDuration(currentSong.dt)
+	// 设置音乐总时长
+	setDuration(currentSong.dt)
 }, [currentSong])
 ```
 
@@ -303,11 +301,12 @@ const AppPlayerBar: FC<IProps> = memo(() => {
   }
 	//...
   return (
-  <BarControl sPlaying={isPlaying}>
-    <button className='btn sprite_playbar prev' onClick={onPreClick}></button>
-    <button className='btn sprite_playbar play' onClick={onPlayPauseClick}></button>
-    <button className='btn sprite_playbar next' onClick={onNextClick}></button>
-  </BarControl>)
+    <BarControl sPlaying={isPlaying}>
+      <button className='btn sprite_playbar prev' onClick={onPreClick}></button>
+      <button className='btn sprite_playbar play' onClick={onPlayPauseClick}></button>
+      <button className='btn sprite_playbar next' onClick={onNextClick}></button>
+    </BarControl>
+  )
 }
 ```
 
@@ -320,7 +319,7 @@ interface IBarControl {
 	isPlaying: boolean
 }
 export const BarControl = styled.div<IBarControl>`
-//...
+	//...
 `
 ```
 
@@ -343,21 +342,21 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 ```tsx
 const AppPlayerBar: FC<IProps> = memo(() => {
   //...
-  
+
   const { currentSong } = useAppSelector(
 		state => ({
 			currentSong: state.player.currentSong,
 		}),
 		shallowEqual
 	)
-  
+
   useEffect(() => {
 		// 设置音乐总时长
 		setDuration(currentSong.dt)
 	}, [currentSong])
-  
+
   //...
-  
+
   // Audio
 	const onAudioTimeUpdate = () => {
 		// 获取当歌曲播放前时间
@@ -384,7 +383,7 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 			duration: 0
 		})
 	}
-  
+
   return{
     {/*...*/}
     <Slider
@@ -392,7 +391,7 @@ const AppPlayerBar: FC<IProps> = memo(() => {
       value={progressm}
       tooltip={{ formatter: null }}
     ></Slider>
-  
+
   	{/*...*/}
     <audio ref={audioRef} onTimeUpdate={onAudioTimeUpdate}></audio>
   }
@@ -425,7 +424,7 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 
 ```tsx
 const AppPlayerBar: FC<IProps> = memo(() => {
-  
+
   return (
     {/*...*/}
     <div className='time'>
@@ -449,15 +448,15 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 
 ```typescript
 const onSliderChanged = useCallback(
-  (value: number) => {
-    const currentTime = (value / 100) * duration
-    if (audioRef.current) audioRef.current.currentTime = currentTime / 1000
+	(value: number) => {
+		const currentTime = (value / 100) * duration
+		if (audioRef.current) audioRef.current.currentTime = currentTime / 1000
 
-    setProgress(value) // 步骤一
-    setCurrentTime(currentTime) // 步骤二
-    setIsSliding(false) // 步骤三
-  },
-  [duration]
+		setProgress(value) // 步骤一
+		setCurrentTime(currentTime) // 步骤二
+		setIsSliding(false) // 步骤三
+	},
+	[duration]
 )
 ```
 
@@ -465,7 +464,7 @@ const onSliderChanged = useCallback(
 
 监听 `<Slider>` 的拖拽事件 `onChange`，创建一个是否拖拽的状态 `isSliding`。
 
-根据该状态，在 `<audio>` 的 `onTimeUpdate` 中判断是否要设值。
+根据该状态，在 `<audio>` 的 `onTimeUpdate` 事件中判断是否要设值。
 
 在 `<Slider>` 的 `onAfterChange` 中将该状态改为 `false`。
 
@@ -486,7 +485,7 @@ const AppPlayerBar: FC<IProps> = memo(() => {
     },
     [duration]
   )
-  
+
   const onSliderChanging = useCallback(
 		(value: number) => {
 			setIsSliding(true)
@@ -495,18 +494,18 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 		},
 		[duration]
 	)
-  
+
   // Audio
 	const onAudioTimeUpdate = () => {
     //...
-    
+
 		// 计算当前歌曲播放进度
 		if (!isSliding) {
 			const progress = (currentTime / duration) * 100
 			setProgress(progress)
 			setCurrentTime(currentTime)
 		}
-    
+
     //...
 	}
 }
@@ -514,31 +513,27 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 
 ## 8.歌词详情 & 歌词获取
 
-封装获取歌曲详情的网络请求，并在异步 action `fetchCurrentSongAction` 中发送。
+封装获取歌曲详情的网络请求，并在异步 action `playTheMusicAction` 中发送。
 
 同一个异步 action，在获取歌曲详情的下方，发送获取歌词的网络请求。
 
 src\store\features\player\player.ts
 
 ```typescript
-export const fetchCurrentSongAction = createAsyncThunk(
-	'currentSong',
-	(id, { dispatch, getState }) => {
+export const playTheMusicAction = createAsyncThunk('currentSong', (id, { dispatch, getState }) => {
+	getSongDetail(id).then(res => {
+		if (!res.songs.length) return
+		const song = res.songs[0]
+		dispatch(changeCurrentSongAction(song))
+	})
 
-    getSongDetail(id).then(res => {
-      if (!res.songs.length) return
-      const song = res.songs[0]
-      dispatch(changeCurrentSongAction(song))
-    })
-
-    // 歌词获取
-		getSongLyric(id).then(res => {
-			const lyricString = res.lrc.lyric
-			const lyrics = parseLyric(lyricString) // 歌词解析
-			dispatch(changeLyricsAction(lyrics))
-		})
-	}
-)
+	// 歌词获取
+	getSongLyric(id).then(res => {
+		const lyricString = res.lrc.lyric
+		const lyrics = parseLyric(lyricString) // 歌词解析
+		dispatch(changeLyricsAction(lyrics))
+	})
+})
 ```
 
 先在 `App.tsx` 中派发该 action，获取一首歌曲详情。
@@ -550,12 +545,12 @@ function App() {
 	const dispatch = useAppDispatch()
 
 	useEffect(() => {
-		dispatch(fetchCurrentSongAction(2003496926))
+		dispatch(playTheMusicAction(2003496926))
 	}, [])
 
-	return (
-    {/*...*/}
-	)
+	return {
+		/*...*/
+	}
 }
 ```
 
@@ -595,9 +590,9 @@ export const parseLyric = (lyricString: string): ILyricParse[] => {
 src\store\features\player\player.ts
 
 ```typescript
-export const fetchCurrentSongAction = createAsyncThunk(
+export const playTheMusicAction = createAsyncThunk(
   //...
-  
+
   // 歌词获取
   getSongLyric(id).then(res => {
     const lyricString = res.lrc.lyric
@@ -614,7 +609,7 @@ export const fetchCurrentSongAction = createAsyncThunk(
 
 将匹配到的歌词索引，在 store 中进行记录。同一句歌词，只设置一次。
 
-使用 *AntDesign* 的 `message.open` API 展示歌词，
+使用 _AntDesign_ 的 `message.open` API 展示歌词，
 
 - 将 `duration` 设置为 0.
 - 设置 `key`，避免同时展示多个 message。
@@ -625,29 +620,29 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 ```typescript
 // Audio
 const onAudioTimeUpdate = () => {
-  // 获取当歌曲播放前时间
-  if (!audioRef.current) return
-  const currentTime = audioRef.current.currentTime * 1000
+	// 获取当歌曲播放前时间
+	if (!audioRef.current) return
+	const currentTime = audioRef.current.currentTime * 1000
 
-  // 计算当前歌曲播放进度
-  if (!isSliding) {
-    const progress = (currentTime / duration) * 100
-    setProgress(progress)
-    setCurrentTime(currentTime)
-  }
+	// 计算当前歌曲播放进度
+	if (!isSliding) {
+		const progress = (currentTime / duration) * 100
+		setProgress(progress)
+		setCurrentTime(currentTime)
+	}
 
-  // 匹配歌词
-  const findIndex = lyrics.findIndex(item => item.time > currentTime)
-  const index = findIndex === -1 ? lyrics.length - 1 : findIndex
-  if (lyricIndex === index) return
-  dispatch(changeLyricIndexongAction(index))
+	// 匹配歌词
+	const findIndex = lyrics.findIndex(item => item.time > currentTime)
+	const index = findIndex === -1 ? lyrics.length - 1 : findIndex
+	if (lyricIndex === index) return
+	dispatch(changeLyricIndexongAction(index))
 
-  // 展示歌词
-  message.open({
-    content: lyrics[index].text,
-    key: 'lyric',
-    duration: 0
-  })
+	// 展示歌词
+	message.open({
+		content: lyrics[index].text,
+		key: 'lyric',
+		duration: 0
+	})
 }
 ```
 
@@ -658,14 +653,14 @@ const onAudioTimeUpdate = () => {
 - 情况一：播放的歌曲，不在播放列表中，将歌曲加入列表，并播放。
 - 情况二：播放的歌曲，已经在列表中，取到该歌曲，并播放。
 
-在 `fetchCurrentSongAction` 中重构代码，判断歌曲 id 是否在列表中。
+在 `playTheMusicAction` 中重构代码，判断歌曲 id 是否在列表中。
 
 > 【注意】：为 `createAsyncThunk` 传入泛型，分别指定“返回值”、“参数”、“`getState` 返回值”的类型。
 
 src\store\features\player\player.ts
 
 ```typescript
-export const fetchCurrentSongAction = createAsyncThunk<void, number, IThunkState>(
+export const playTheMusicAction = createAsyncThunk<void, number, IThunkState>(
 	'currentSong',
 	(id, { dispatch, getState }) => {
 		// 播放歌曲，分两种情况
@@ -712,10 +707,10 @@ export enum PLAY_MODE {
 	CIRCULATION
 }
 const initialState: {
-  //...
+	//...
 	playMode: PLAY_MODE
 } = {
-  //...
+	//...
 	playMode: PLAY_MODE.ORDER
 }
 
@@ -723,7 +718,7 @@ const playerSlice = createSlice({
 	name: 'player',
 	initialState,
 	reducers: {
-    //...
+		//...
 		changePlayModeAction(state, { payload }) {
 			state.playMode = payload
 		}
@@ -737,16 +732,16 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 
 ```tsx
 <BarOperator playMode={playMode}>
-  <div className='left'>
-    <button className='btn pip'></button>
-    <button className='btn sprite_playbar favor'></button>
-    <button className='btn sprite_playbar share'></button>
-  </div>
-  <div className='right sprite_playbar'>
-    <button className='btn sprite_playbar volume'></button>
-    <button className='btn sprite_playbar loop' onClick={onModeChangeClick}></button>
-    <button className='btn sprite_playbar playlist'></button>
-  </div>
+	<div className='left'>
+		<button className='btn pip'></button>
+		<button className='btn sprite_playbar favor'></button>
+		<button className='btn sprite_playbar share'></button>
+	</div>
+	<div className='right sprite_playbar'>
+		<button className='btn sprite_playbar volume'></button>
+		<button className='btn sprite_playbar loop' onClick={onModeChangeClick}></button>
+		<button className='btn sprite_playbar playlist'></button>
+	</div>
 </BarOperator>
 ```
 
@@ -757,18 +752,18 @@ interface IBarOperator {
 	playMode: number
 }
 export const BarOperator = styled.div<IBarOperator>`
-  .loop {
-    background-position: ${props => {
-      switch (props.playMode) {
-        case 1:
-          return '-66px -248px'
-        case 2:
-          return '-66px -344px'
-        default:
-          return '-3px -344px'
-      }
-    }};
-  }
+	.loop {
+		background-position: ${props => {
+			switch (props.playMode) {
+				case 1:
+					return '-66px -248px'
+				case 2:
+					return '-66px -344px'
+				default:
+					return '-3px -344px'
+			}
+		}};
+	}
 `
 ```
 
@@ -779,9 +774,9 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 ```typescript
 // ModeChange
 const onModeChangeClick = () => {
-  let newPlayMode = playMode + 1
-  if (newPlayMode > PLAY_MODE.CIRCULATION) newPlayMode = PLAY_MODE.ORDER // 边界判断
-  dispatch(changePlayModeAction(newPlayMode))
+	let newPlayMode = playMode + 1
+	if (newPlayMode > PLAY_MODE.CIRCULATION) newPlayMode = PLAY_MODE.ORDER // 边界判断
+	dispatch(changePlayModeAction(newPlayMode))
 }
 ```
 
@@ -793,16 +788,16 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 
 ```typescript
 const musicChange = (isNext = true) => {
-  dispatch(changeMusicAction(isNext))
+	dispatch(changeMusicAction(isNext))
 }
 
 // 上一首，播放/暂停，下一首
 const onPreClick = () => {
-  musicChange(false)
+	musicChange(false)
 }
 
 const onNextClick = () => {
-  musicChange(true)
+	musicChange(true)
 }
 ```
 
@@ -856,14 +851,14 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 
 ```typescript
 const onAudioEnded = () => {
-  switch (playMode) {
-    case PLAY_MODE.CIRCULATION:
-      if (audioRef.current) audioRef.current.currentTime = 0
-      break
-    default:
-      musicChange(true)
-      break
-  }
+	switch (playMode) {
+		case PLAY_MODE.CIRCULATION:
+			if (audioRef.current) audioRef.current.currentTime = 0
+			break
+		default:
+			musicChange(true)
+			break
+	}
 }
 ```
 
@@ -875,7 +870,7 @@ src\views\discover\views\recommend\cpns\popular-ranking\cpns\ranking-item\Rankin
 
 ```typescript
 const onPlayClick = (id: number) => {
-  dispatch(fetchCurrentSongAction(id))
+	dispatch(playTheMusicAction(id))
 }
 ```
 

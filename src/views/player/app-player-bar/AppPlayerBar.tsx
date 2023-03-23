@@ -205,6 +205,7 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 					</div>
 				</BarOperator>
 			</div>
+			{/* 音频播放器 audio */}
 			<audio ref={audioRef} onTimeUpdate={onAudioTimeUpdate} onEnded={onAudioEnded}></audio>
 		</RootWrapper>
 	)

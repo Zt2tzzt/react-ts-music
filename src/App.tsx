@@ -5,13 +5,13 @@ import AppHeader from './components/app-header/AppHeader'
 import AppFooter from './components/app-footer/AppFooter'
 import AppPlayerBar from './views/player/app-player-bar/AppPlayerBar'
 import { useAppDispatch } from './store'
-import { fetchCurrentSongAction } from './store/features/player/player'
+import { playTheMusicAction } from './store/features/player/player'
 
 function App() {
 	const dispatch = useAppDispatch()
 
 	useEffect(() => {
-		dispatch(fetchCurrentSongAction(2003496926))
+		dispatch(playTheMusicAction(2003496926))
 	}, [])
 
 	return (

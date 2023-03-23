@@ -62,12 +62,23 @@ export const {
 
 export default playerSlice.reducer
 
+const FetchSongLyricAction = createAsyncThunk<void, number>(
+	'FetchSongLyricAction',
+	(id, { dispatch }) => {
+		getSongLyric(id).then(res => {
+			const lyricString = res.lrc.lyric
+			const lyrics = parseLyric(lyricString) // 歌词解析
+			dispatch(changeLyricsAction(lyrics))
+		})
+	}
+)
+
 interface IThunkState {
 	state: StateType
 }
 
-export const fetchCurrentSongAction = createAsyncThunk<void, number, IThunkState>(
-	'currentSong',
+export const playTheMusicAction = createAsyncThunk<void, number, IThunkState>(
+	'playTheMusicAction',
 	(id, { dispatch, getState }) => {
 		// 播放歌曲，分两种情况
 		const playSongList = getState().player.playSongList
@@ -91,11 +102,7 @@ export const fetchCurrentSongAction = createAsyncThunk<void, number, IThunkState
 		}
 
 		// 歌词获取
-		getSongLyric(id).then(res => {
-			const lyricString = res.lrc.lyric
-			const lyrics = parseLyric(lyricString) // 歌词解析
-			dispatch(changeLyricsAction(lyrics))
-		})
+		dispatch(FetchSongLyricAction(id))
 	}
 )
 
@@ -131,10 +138,6 @@ export const changeMusicAction = createAsyncThunk<void, boolean, IThunkState>(
 		dispatch(changePlaySongIndexAction(newIndex))
 
 		// 请求新的歌词
-		getSongLyric(song.id).then(res => {
-			const lyricStr = res.lrc.lyric
-			const lyrics = parseLyric(lyricStr)
-			dispatch(changeLyricsAction(lyrics))
-		})
+		dispatch(FetchSongLyricAction(song.id))
 	}
 )

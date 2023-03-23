@@ -4,7 +4,7 @@ import RootWrapper from './style'
 import type { IPlaylist } from '@/types'
 import { getImageSize } from '@/utils/format'
 import { useAppDispatch } from '@/store'
-import { fetchCurrentSongAction } from '@/store/features/player/player'
+import { playTheMusicAction } from '@/store/features/player/player'
 
 interface IProps {
 	children?: ReactNode
@@ -17,7 +17,7 @@ const RankingItem: FC<IProps> = memo(props => {
 	const dispatch = useAppDispatch()
 
 	const onPlayClick = (id: number) => {
-		dispatch(fetchCurrentSongAction(id))
+		dispatch(playTheMusicAction(id))
 	}
 
 	return (
