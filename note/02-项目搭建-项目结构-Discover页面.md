@@ -116,6 +116,8 @@ declare namespace NodeJS {
 
 但这样做不好，不要去修改源码。而是在 `src\react-app-env.d.ts` 中进行重复声明。
 
+src\react-app-env.d.ts
+
 ```typescript
 declare namespace NodeJS {
 	interface ProcessEnv {
@@ -153,12 +155,17 @@ export interface IBannerData {
 	bannerBizType: string
 }
 
+interface IResult {
+  banners: IBannerData[]
+  code: number
+}
+
 const Recommend: FC<IProps> = memo(() => {
 	const [banners, setBanners] = useState<IBannerData[]>([])
 
 	useEffect(() => {
 		ztRequest
-			.get<{ banners: IBannerData[]; code: number }>({ url: '/banner' })
+			.get<IResult>({ url: '/banner' })
 			.then(res => setBanners(res.banners))
 	})
 
@@ -176,7 +183,7 @@ const Recommend: FC<IProps> = memo(() => {
 
 类组件中，TS 要怎么写？
 
-1.普通写法：对 `render` 函数返回值，进行类型约束，使用 `React.ReactNode`。
+1.普通写法：为 `render` 函数返回值，添加类型注解，使用 `React.ReactNode`。
 
 src\views\demo\Demo.tsx
 
@@ -366,7 +373,7 @@ export default Demo
 
 1.` createSlice` 中 `initialState` 一般不需要指定类型，可以自动推导。
 
-如果手动指定类型，那么类型更加明确
+如果手动指定类型，那么类型更加明确：
 
 - 比如推导出 `string` 类型，手动指定可以是更明确的联合类型。
 
@@ -460,7 +467,7 @@ npm install styled-components -D
 npm i --save-dev @types/styled-components
 ```
 
-3.创建 `AppHeaderWrapper`，为 `AppHeader.tsx` 设置样式，将内容居中，使用混入。
+3.创建 `AppHeaderWrapper`，为 `AppHeader.tsx` 设置样式，将内容居中。
 
 src\components\app-header\style.ts
 
@@ -537,7 +544,7 @@ root.render(
 在 `<HeaderLeftWrapper>` 中：
 
 - 编写 logo，拷贝以前的样式。
-- 编写导航元素，使用 `<NavLink>` 或 `<a>`。
+- 编写导航元素（一级路由），使用 `<NavLink>` 或 `<a>`。
 
 将导航对应的路径，放入到一个 `assetes/data/header-titles.json` 文件中。
 
@@ -908,8 +915,8 @@ export const fetchBannerDataAction = createAsyncThunk('banners', (param, { dispa
 
 > 【回顾】：两种处理异步 action 的方案。项目中使用第二种方案。
 >
-> - 方案一：在 `extraReducers` 选项中处理。
-> - 方案二：直接在 thunk 中处理。
+> - 方案一：在 `createAsyncThunk` 中返回结果，再在 `extraReducers` 选项中处理。
+> - 方案二：直接在 `createAsyncThunk` 处理。
 
 在 `Recommend.tsx` 中发送网络请求，请求 `banners` 数据，保存到 store 中。
 
