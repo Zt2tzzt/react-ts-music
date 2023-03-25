@@ -19,11 +19,13 @@ const SettleSinger: FC<IProps> = memo(() => {
 
 	return (
 		<RootWrapper>
+			{/* 头部标题 */}
 			<AreaHeaderV2
 				title='入住歌手'
 				moreText='查看全部'
 				moreLink='#/discover/artist'
 			></AreaHeaderV2>
+			{/* 歌手列表 */}
 			<div className='artists'>
 				{settleSingers.map(item => (
 					<a href='#/discover/artist' className='item' key={item.id}>
@@ -35,6 +37,7 @@ const SettleSinger: FC<IProps> = memo(() => {
 					</a>
 				))}
 			</div>
+			{/* 申请成为网易音乐人 */}
 			<div className='apply-for'>
 				<a href='#/'>申请成为网易音乐人</a>
 			</div>

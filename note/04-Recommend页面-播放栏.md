@@ -108,11 +108,13 @@ const SettleSinger: FC<IProps> = memo(() => {
 
 	return (
 		<RootWrapper>
+      {/* 头部标题 */}
 			<AreaHeaderV2
 				title='入住歌手'
 				moreText='查看全部'
 				moreLink='#/discover/artist'
 			></AreaHeaderV2>
+      {/* 歌手列表 */}
 			<div className='artists'>
 				{settleSingers.map(item => (
 					<a href='#/discover/artist' className='item' key={item.id}>
@@ -124,6 +126,7 @@ const SettleSinger: FC<IProps> = memo(() => {
 					</a>
 				))}
 			</div>
+      {/* 申请成为网易音乐人 */}
 			<div className='apply-for'>
 				<a href='#/'>申请成为网易音乐人</a>
 			</div>
@@ -154,7 +157,9 @@ interface IProps {
 const HotAnchor: FC<IProps> = memo(() => {
 	return (
 		<RootWrapper>
+      {/* 头部标题 */}
 			<AreaHeaderV2 title='热门主播'></AreaHeaderV2>
+      {/* 歌手列表 */}
 			<div className='anchors'>
 				{hotAnchors.map(item => (
 					<div className='item' key={item.picUrl}>
@@ -183,7 +188,7 @@ const HotAnchor: FC<IProps> = memo(() => {
 
 考虑到将来会开发的 player 页面与播放栏中的逻辑息息相关，所以将它们放在一起。
 
-`<AppPlayerBar>` 播放栏组件不依赖其他页面，单独存在，所以在 `App.jsx` 中引用。
+`<AppPlayerBar>` 播放栏组件不依赖其他页面，单独存在，所以在 `App.jsx` 中使用。
 
 src\App.tsx
 
@@ -246,6 +251,14 @@ src\views\player\app-player-bar\style.ts
 
 > 【补充】：Chrome 浏览器从 60.0.0+ 版本开始，不允许进入标签页时，自动播放音乐。
 
+src\utils\format.ts
+
+
+```typescript
+export const getSongPlayUrl = (id: number) =>
+	`https://music.163.com/song/media/outer/url?id=${id}.mp3`
+```
+
 src\views\player\app-player-bar\AppPlayerBar.tsx
 
 ```typescript
@@ -290,6 +303,8 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 	//...
   const [isPlaying, setIsPlaying] = useState(false)
 	//...
+  
+  // 播放 / 暂停
   const onPlayPauseClick = () => {
     isPlaying
       ? audioRef.current?.pause()
@@ -331,7 +346,7 @@ export const BarControl = styled.div<IBarControl>`
 
 - 传入 `value` 属性，用于控制进度条进度。
 - 使用 `step` 属性，设置精确度
-- 将 `tooltip` 属性改为 `{formatter: none}`，不展示提示框。
+- 将 `tooltip` 属性改为 `{formatter: none}`，表示不展示提示框。
 
 在 `<audio>` 组件上，使用 `onTimeUpdate` 事件，并获取到歌曲播放的时间 `audioRef.current.currentTime`，计算进度的百分比。
 
@@ -521,11 +536,13 @@ src\store\features\player\player.ts
 
 ```typescript
 export const playTheMusicAction = createAsyncThunk('currentSong', (id, { dispatch, getState }) => {
-	getSongDetail(id).then(res => {
+	//...
+  getSongDetail(id).then(res => {
 		if (!res.songs.length) return
 		const song = res.songs[0]
 		dispatch(changeCurrentSongAction(song))
 	})
+  //...
 
 	// 歌词获取
 	getSongLyric(id).then(res => {
@@ -605,7 +622,12 @@ export const playTheMusicAction = createAsyncThunk(
 在 `AppPlayerBar.tsx` 中的 `<audio>` 组件的 `onTimeUpdate` 事件中匹配歌词
 
 - 理解匹配歌词的算法。匹配到第 `i` 个歌词，展示的是第 `i - 1` 个歌词。
+
 - 特殊情况：最后一句歌词，无法匹配到，进行处理。
+
+  ```typescript
+  const index = findIndex === -1 ? lyrics.length - 1 : findIndex
+  ```
 
 将匹配到的歌词索引，在 store 中进行记录。同一句歌词，只设置一次。
 
@@ -678,7 +700,7 @@ export const playTheMusicAction = createAsyncThunk<void, number, IThunkState>(
 				dispatch(changePlaySongIndexAction(newPlaySongList.length - 1))
 			})
 		} else {
-			// 歌曲已在播放列表中，从列表中取出该歌曲。
+			// 歌曲已在播放列表中
 			const song = playSongList[index]
 			dispatch(changeCurrentSongAction(song))
 			dispatch(changePlaySongListAction(index))
@@ -775,7 +797,7 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 // ModeChange
 const onModeChangeClick = () => {
 	let newPlayMode = playMode + 1
-	if (newPlayMode > PLAY_MODE.CIRCULATION) newPlayMode = PLAY_MODE.ORDER // 边界判断
+	if (newPlayMode > 2) newPlayMode = 1 // 边界判断
 	dispatch(changePlayModeAction(newPlayMode))
 }
 ```
@@ -814,11 +836,17 @@ export const changeMusicAction = createAsyncThunk<void, boolean, IThunkState>(
 		// 获取 state 中的数据
 		const { playMode, playSongIndex, playSongList } = getState().player
 
+		const _getDiffRandomNumber = (): number => {
+			const length = playSongList.length
+			const random = Math.floor(Math.random()) * length
+			return random === playSongIndex && length > 1 ? _getDiffRandomNumber() : random
+		}
+
 		// 根据播放模式，切换歌曲
 		let newIndex = playSongIndex
 		switch (playMode) {
 			case PLAY_MODE.RANDOM: // 随机播放
-				newIndex = Math.floor(Math.random()) * playSongList.length
+				newIndex = _getDiffRandomNumber() // 递归，直到找到与原值不同的一个随机数。
 				break
 			default:
 				newIndex = isNext ? playSongIndex + 1 : playSongIndex - 1

@@ -10,7 +10,9 @@ interface IProps {
 const HotAnchor: FC<IProps> = memo(() => {
 	return (
 		<RootWrapper>
+			{/* 头部标题 */}
 			<AreaHeaderV2 title='热门主播'></AreaHeaderV2>
+			{/* 歌手列表 */}
 			<div className='anchors'>
 				{hotAnchors.map(item => (
 					<div className='item' key={item.picUrl}>

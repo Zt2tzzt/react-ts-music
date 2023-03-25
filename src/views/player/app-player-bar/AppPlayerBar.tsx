@@ -105,7 +105,7 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 	// ModeChange
 	const onModeChangeClick = () => {
 		let newPlayMode = playMode + 1
-		if (newPlayMode > PLAY_MODE.CIRCULATION) newPlayMode = PLAY_MODE.ORDER
+		if (newPlayMode > 2) newPlayMode = 1
 		dispatch(changePlayModeAction(newPlayMode))
 	}
 
