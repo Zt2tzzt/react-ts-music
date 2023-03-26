@@ -22,6 +22,7 @@ const RankingItem: FC<IProps> = memo(props => {
 
 	return (
 		<RootWrapper>
+			{/* header */}
 			<div className='header'>
 				<div className='image'>
 					<img src={getImageSize(itemData.coverImgUrl, 80)} alt='' />
@@ -35,6 +36,7 @@ const RankingItem: FC<IProps> = memo(props => {
 					</div>
 				</div>
 			</div>
+			{/* list */}
 			<div className='list'>
 				{tracks.slice(0, 10).map((item, index) => (
 					<div className='item' key={item.id}>

@@ -1,4 +1,4 @@
-Discover 页面下的 Recommend 页面编写
+`Discover.tsx` 页面中的 `Recommend.tsx` 页面编写
 
 # 一、Recommend 页面
 
@@ -57,7 +57,7 @@ const RecommendWrapper = styled.section`
 
 创建组件 `AreaHeaderV1.tsx`
 
-1.在 `AreaHeaderV1.tsx` 中，隐藏 titles 的 keywords 上最后一个 divider。两种方案：
+1.在 `AreaHeaderV1.tsx` 中，隐藏 `div.title` 中的 `div.keywords` 中的最后一个 `span.divider`。两种方案：
 
 - 方案一：使用 css 隐藏（项目中采用）。
 - 方案二：在 tsx 代码中隐藏。
@@ -240,7 +240,7 @@ const SongMenuItem: FC<IProps> = memo(props => {
 
 > 【回顾】：网易云音乐的 API 管理的非常好，在图片 url 后方跟上对应的参数，可以请求不同格式的图片。
 
-加载图片时，为节省性能，在图片后方拼接参数，控制加载图片的大小。
+加载图片时，为节省性能，控制加载图片的大小，在图片后方拼接参数。
 
 将上述逻辑，封装成工具函数 `getImageSize`。
 
@@ -257,7 +257,11 @@ src\utils\format.ts
 
 ```typescript
 export const formatCount = (count: number) => {
-	return count > 10000 ? Math.floor(count / 10000) + '万' : count
+	return count > 10000
+		? count < 100000000
+			? Math.floor(count / 10000) + '万'
+			: Math.floor(count / 100000000) + '亿'
+		: count
 }
 ```
 
@@ -301,11 +305,11 @@ src\views\discover\views\recommend\cpns\new-albums\NewAlbums.tsx
 
 理解在轮播图中分页的算法：
 
-- 已知 pageSize 为 5；
-- 已知 totalPage 为 2；
-- page 从 0 开始，那么第 page 页展示的列表数据为：`page * 5` 到 `(page + 1) * 5`
+- 已知"pageSize"为 5；
+- 已知"totalPage"为 2；
+- "page"从 0 开始，那么第"page"页展示的列表数据为：`page * 5` 到 `(page + 1) * 5`
 
-封装一个组件 `<AlbumItem>` 用来展示”新碟“
+封装一个组件 `<AlbumItem>` 用来展示”新碟“：
 
 在 `NewAlbums.tsx` 中，引用封装好的 `<AlbumItem>` 组件，放入轮播图 `<Carousel>` 中
 
@@ -510,6 +514,7 @@ const RankingItem: FC<IProps> = memo(props => {
 
 	return (
 		<RootWrapper>
+      {/* header */}
 			<div className='header'>
 				<div className='image'>
 					<img src={getImageSize(itemData.coverImgUrl, 80)} alt='' />
@@ -523,6 +528,7 @@ const RankingItem: FC<IProps> = memo(props => {
 					</div>
 				</div>
 			</div>
+      {/* list */}
 			<div className='list'>
 				{tracks.slice(0, 10).map((item, index) => (
 					<div className='item' key={item.id}>
