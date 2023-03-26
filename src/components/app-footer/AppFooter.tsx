@@ -5,7 +5,7 @@ interface IProps {
 	children?: ReactNode
 }
 const AppFooter: FC<IProps> = memo(() => {
-	return <div>AppFooter</div>
+	return <div style={{ marginBottom: '62px' }}>AppFooter</div>
 })
 
 AppFooter.displayName = 'AppFooter'
