@@ -108,13 +108,13 @@ const SettleSinger: FC<IProps> = memo(() => {
 
 	return (
 		<RootWrapper>
-      {/* 头部标题 */}
+			{/* 头部标题 */}
 			<AreaHeaderV2
 				title='入住歌手'
 				moreText='查看全部'
 				moreLink='#/discover/artist'
 			></AreaHeaderV2>
-      {/* 歌手列表 */}
+			{/* 歌手列表 */}
 			<div className='artists'>
 				{settleSingers.map(item => (
 					<a href='#/discover/artist' className='item' key={item.id}>
@@ -126,7 +126,7 @@ const SettleSinger: FC<IProps> = memo(() => {
 					</a>
 				))}
 			</div>
-      {/* 申请成为网易音乐人 */}
+			{/* 申请成为网易音乐人 */}
 			<div className='apply-for'>
 				<a href='#/'>申请成为网易音乐人</a>
 			</div>
@@ -157,9 +157,9 @@ interface IProps {
 const HotAnchor: FC<IProps> = memo(() => {
 	return (
 		<RootWrapper>
-      {/* 头部标题 */}
+			{/* 头部标题 */}
 			<AreaHeaderV2 title='热门主播'></AreaHeaderV2>
-      {/* 歌手列表 */}
+			{/* 歌手列表 */}
 			<div className='anchors'>
 				{hotAnchors.map(item => (
 					<div className='item' key={item.picUrl}>
@@ -253,7 +253,6 @@ src\views\player\app-player-bar\style.ts
 
 src\utils\format.ts
 
-
 ```typescript
 export const getSongPlayUrl = (id: number) =>
 	`https://music.163.com/song/media/outer/url?id=${id}.mp3`
@@ -303,7 +302,7 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 	//...
   const [isPlaying, setIsPlaying] = useState(false)
 	//...
-  
+
   // 播放 / 暂停
   const onPlayPauseClick = () => {
     isPlaying
@@ -344,11 +343,11 @@ export const BarControl = styled.div<IBarControl>`
 
 给 `<Slider>` 组件：
 
-- 传入 `value` 属性，用于控制进度条进度。
-- 使用 `step` 属性，设置精确度
+- 传入 `value` 属性，用于控制进度条进度；
+- 使用 `step` 属性，设置精确度；
 - 将 `tooltip` 属性改为 `{formatter: none}`，表示不展示提示框。
 
-在 `<audio>` 组件上，使用 `onTimeUpdate` 事件，并获取到歌曲播放的时间 `audioRef.current.currentTime`，计算进度的百分比。
+在 `<audio>` 组件上，处理 `onTimeUpdate` 事件，并获取到歌曲播放的时间 `audioRef.current.currentTime`，计算进度的百分比。
 
 在 `useEffect` 中，获取音乐的总时长，并设置到组件上。
 
@@ -366,6 +365,8 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 	)
 
   useEffect(() => {
+    //...
+
 		// 设置音乐总时长
 		setDuration(currentSong.dt)
 	}, [currentSong])
@@ -479,7 +480,7 @@ const onSliderChanged = useCallback(
 
 监听 `<Slider>` 的拖拽事件 `onChange`，创建一个是否拖拽的状态 `isSliding`。
 
-根据该状态，在 `<audio>` 的 `onTimeUpdate` 事件中判断是否要设值。
+根据该状态，在 `<audio>` 的 `onTimeUpdate` 事件中，判断是否要设值。
 
 在 `<Slider>` 的 `onAfterChange` 中将该状态改为 `false`。
 
@@ -537,12 +538,12 @@ src\store\features\player\player.ts
 ```typescript
 export const playTheMusicAction = createAsyncThunk('currentSong', (id, { dispatch, getState }) => {
 	//...
-  getSongDetail(id).then(res => {
+	getSongDetail(id).then(res => {
 		if (!res.songs.length) return
 		const song = res.songs[0]
 		dispatch(changeCurrentSongAction(song))
 	})
-  //...
+	//...
 
 	// 歌词获取
 	getSongLyric(id).then(res => {
@@ -836,6 +837,7 @@ export const changeMusicAction = createAsyncThunk<void, boolean, IThunkState>(
 		// 获取 state 中的数据
 		const { playMode, playSongIndex, playSongList } = getState().player
 
+		// 递归函数，用于随机播放时，获取歌曲索引
 		const _getDiffRandomNumber = (): number => {
 			const length = playSongList.length
 			const random = Math.floor(Math.random()) * length

@@ -155,6 +155,7 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 					<button className='btn sprite_playbar play' onClick={onPlayPauseClick}></button>
 					<button className='btn sprite_playbar next' onClick={onNextClick}></button>
 				</BarControl>
+
 				<BarPlayerInfo>
 					<Link to='/player'>
 						<img
@@ -192,6 +193,7 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 						</div>
 					</div>
 				</BarPlayerInfo>
+
 				<BarOperator playMode={playMode}>
 					<div className='left'>
 						<button className='btn pip'></button>
@@ -205,6 +207,7 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 					</div>
 				</BarOperator>
 			</div>
+
 			{/* 音频播放器 audio */}
 			<audio ref={audioRef} onTimeUpdate={onAudioTimeUpdate} onEnded={onAudioEnded}></audio>
 		</RootWrapper>

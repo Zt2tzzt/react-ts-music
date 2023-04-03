@@ -112,6 +112,7 @@ export const changeMusicAction = createAsyncThunk<void, boolean, IThunkState>(
 		// 获取 state 中的数据
 		const { playMode, playSongIndex, playSongList } = getState().player
 
+		// 递归函数，用于随机播放时，获取歌曲索引
 		const _getDiffRandomNumber = (): number => {
 			const length = playSongList.length
 			const random = Math.floor(Math.random()) * length
