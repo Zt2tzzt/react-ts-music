@@ -2,7 +2,7 @@
 
 ## 1.axios 配置
 
-1.安装 _axios_
+1.安装 _axios_ 依赖；
 
 ```shell
 npm i axios
@@ -114,7 +114,7 @@ declare namespace NodeJS {
 
 可以在上述位置，声明自定义变量 `REACT_APP_BASE_URL` 的类型；
 
-但这样做不好，不要去修改源码。而是在 `src\react-app-env.d.ts` 中进行重复声明。
+但这样做不好，不要去修改源码。而是在 `src\react-app-env.d.ts` 中，进行重复声明。
 
 src\react-app-env.d.ts
 
@@ -156,17 +156,15 @@ export interface IBannerData {
 }
 
 interface IResult {
-  banners: IBannerData[]
-  code: number
+	banners: IBannerData[]
+	code: number
 }
 
 const Recommend: FC<IProps> = memo(() => {
 	const [banners, setBanners] = useState<IBannerData[]>([])
 
 	useEffect(() => {
-		ztRequest
-			.get<IResult>({ url: '/banner' })
-			.then(res => setBanners(res.banners))
+		ztRequest.get<IResult>({ url: '/banner' }).then(res => setBanners(res.banners))
 	})
 
 	return (
@@ -306,7 +304,7 @@ export default Demo
 
 即用于 `componentDidUpdate` 生命周期的第三个参数。
 
-此时，需要使用 `propsTypes` 对 Demo 组件的 prop 做类型验证。除非关闭 eslint 警告。
+此时，需要使用 `propsTypes` 对 `Demo` 组件的 `props` 做类型验证。除非关闭 eslint 警告。
 
 ```tsx
 import React, { PureComponent } from 'react'
@@ -453,13 +451,13 @@ function App() {
 
 在 `AppHeader.tsx` 中调整样式。使用 _styled-components_
 
-1.安装 _style-component_
+1.安装 _styled-components_
 
 ```shell
 npm install styled-components -D
 ```
 
-2._style-component_ 在 ts 中使用，需要声明模块。
+2._styled-components_ 在 ts 中使用，需要声明 module。
 
 它的库本身没有类型声明，需要安装第三方类型声明。
 
@@ -546,7 +544,7 @@ root.render(
 - 编写 logo，拷贝以前的样式。
 - 编写导航元素（一级路由），使用 `<NavLink>` 或 `<a>`。
 
-将导航对应的路径，放入到一个 `assetes/data/header-titles.json` 文件中。
+将导航对应的路径的静态资源，放入到一个 `assetes/data/header-titles.json` 文件中。
 
 在 `AppHeader.tsx` 中引入 json 文件。
 
@@ -595,9 +593,9 @@ const AppHeader: FC<IProps> = memo(() => {
 
 将样式拷贝过来，并做调整。
 
-为什么用 `<NavLink>` 而不是 `<Link>`
+为什么用 `<NavLink>` 而不是 `<Link>`？
 
-因为在为选中的 title 加上选中效果时，有两种方案：
+事实上，在为选中的 title 加上选中效果时，有两种方案：
 
 方案一：使用 `useState` 记录选中 title 的 index
 
@@ -913,12 +911,12 @@ export const fetchBannerDataAction = createAsyncThunk('banners', (param, { dispa
 })
 ```
 
-> 【回顾】：两种处理异步 action 的方案。项目中使用第二种方案。
+> 【回顾】：两种处理异步 action 的方案（项目中使用方案二）。
 >
 > - 方案一：在 `createAsyncThunk` 中返回结果，再在 `extraReducers` 选项中处理。
 > - 方案二：直接在 `createAsyncThunk` 处理。
 
-在 `Recommend.tsx` 中发送网络请求，请求 `banners` 数据，保存到 store 中。
+在 `Recommend.tsx` 中，派发 action，请求 `banners` 数据，保存到 store 中。
 
 src\views\discover\views\recommend\Recommend.tsx
 
@@ -966,13 +964,13 @@ const { banners } = useAppSelector(
 )
 ```
 
-`TopBanner.tsx` 中，分三个区域：BannerLeft，BannerRight，BannerControl。
+`TopBanner.tsx` 中，分三个区域：“BannerLeft”，“BannerRight”，“BannerControl”。
 
-在 BannerLeft 中，使用 AntDesign 的走马灯组件 `<Carousel>`。
+在 “BannerLeft” 中，使用 AntDesign 的走马灯组件 `<Carousel>`。
 
-在 BannerRight 中，使用编写下载客户端的背景图片。
+在 “BannerRight” 中，使用编写下载客户端的背景图片。
 
-在 BannerControl 中，编写箭头，作为轮播图的控制器，并做绝对定位。
+在 “BannerControl” 中，编写箭头，作为轮播图的控制器，并做绝对定位。
 
 src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
@@ -1020,11 +1018,11 @@ src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 </TopBannersWrapper>
 ```
 
-在 BannerControl 中，点击箭头，轮播图切换。
+在 “BannerControl” 中，点击箭头，轮播图切换。
 
 使用 `useRef`，获取 `<Carousel>` 组件对象。使用 `ElementRef<typeof Carousel>` 获取它的类型。
 
-调用组件的 `prev`, `next` 方法。
+调用 `Carousel` 组件实例的 `prev`, `next` 方法。
 
 src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
@@ -1067,8 +1065,8 @@ const TopBanners: FC<IProps> = memo(() => {
 
 使用该索引，设置背景，两种方案：
 
-- BannerWrapper 的行内样式（项目中采用）。
-- 给 bannerWrapper 传入属性。
+- `BannerWrapper` 的行内样式（项目中采用）。
+- 给 `bannerWrapper` 传入属性。
 
 src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
@@ -1163,7 +1161,7 @@ export const BannerLeftWrapper = styled.div`
 	.banner-item {
 		overflow: hidden;
 		height: 285px;
-    
+
 		.image {
 			height: 285px;
 			width: 100%;
