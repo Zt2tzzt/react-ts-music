@@ -82,7 +82,7 @@ export const fetchRecommendDataAction = createAsyncThunk(
 )
 ```
 
-> 【注意】：之前封装的 `getImageSize` 工具函数中，应该使用”`y`“拼接尺寸参数
+> 【注意】：之前封装的 `getImageSize` 工具函数中，应该使用”`y`“拼接尺寸参数。
 >
 > 编程时，前后端多沟通。
 
@@ -186,7 +186,7 @@ const HotAnchor: FC<IProps> = memo(() => {
 
 考虑到其中维护的业务逻辑和状态过多，比较“重”，将它放入到 `/src/view/player` 目录，而非 `/src/component` 目录。
 
-考虑到将来会开发的 player 页面与播放栏中的逻辑息息相关，所以将它们放在一起。
+考虑到将来会开发的 player 页面，与播放栏中的逻辑息息相关，所以将它们放在一起。
 
 `<AppPlayerBar>` 播放栏组件不依赖其他页面，单独存在，所以在 `App.jsx` 中使用。
 
@@ -211,6 +211,7 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 
 ```tsx
 const AppPlayerBar: FC<IProps> = memo(() => {
+  
 	return (
 		<RootWrapper className='sprite_playbar'>
 			<div className='content wrap_v2'>
@@ -239,15 +240,17 @@ src\views\player\app-player-bar\style.ts
 
 在 `AppPlayerBar.tsx` 中：
 
-- 编写 `<audio>` 组件。用于音频播放。
-- 使用 `ref` 拿到 `<audio>` 对象。
+编写 `<audio>` 组件。用于音频播放。
 
-> 【注意】：`useRef<T>` 要求返回类型是 `T | null` 联合类型，在使用返回值时，需要进行类型缩小。
+使用 `ref` 拿到 `<audio>` 对象。
+
+> 【注意】：`useRef<T>(null)` 要求返回类型是 `T | null` 联合类型，在使用返回值时，需要进行类型缩小。
 
 在 `AppPlayerBar.tsx` 中，在 `useEffect` 中：
 
-- 封装一个工具函数 `getSongPlayUrl` 用于获取歌曲播放 url。
-- 使用 `<audio>` 的 `play` API，进行音乐播放。
+封装一个工具函数 `getSongPlayUrl` 用于获取歌曲播放 url。
+
+使用 `<audio>` 的 `play` API，进行音乐播放。
 
 > 【补充】：Chrome 浏览器从 60.0.0+ 版本开始，不允许进入标签页时，自动播放音乐。
 
@@ -311,7 +314,7 @@ const AppPlayerBar: FC<IProps> = memo(() => {
           console.log('播放出错 err:', err)
           setIsPlaying(false)
         })
-    setIsPlaying(!isPlaying)
+    setIsPlaying(!isPlaying) // 放在最后执行执行该操作
   }
 	//...
   return (
@@ -345,9 +348,11 @@ export const BarControl = styled.div<IBarControl>`
 
 - 传入 `value` 属性，用于控制进度条进度；
 - 使用 `step` 属性，设置精确度；
-- 将 `tooltip` 属性改为 `{formatter: none}`，表示不展示提示框。
+- 将 `tooltip` 属性改为 `{formatter: null}`，表示不展示提示框。
 
-在 `<audio>` 组件上，处理 `onTimeUpdate` 事件，并获取到歌曲播放的时间 `audioRef.current.currentTime`，计算进度的百分比。
+在 `<audio>` 组件上，处理 `onTimeUpdate` 事件，
+
+- 获取到歌曲播放的时间 `audioRef.current.currentTime`，计算进度的百分比。
 
 在 `useEffect` 中，获取音乐的总时长，并设置到组件上。
 
@@ -478,11 +483,13 @@ const onSliderChanged = useCallback(
 
 ### 2.拖拽
 
-监听 `<Slider>` 的拖拽事件 `onChange`，创建一个是否拖拽的状态 `isSliding`。
+创建一个是否拖拽的状态 `isSliding`；
 
-根据该状态，在 `<audio>` 的 `onTimeUpdate` 事件中，判断是否要设值。
+监听 `<Slider>` 的拖拽事件 `onChange`；
 
-在 `<Slider>` 的 `onAfterChange` 中将该状态改为 `false`。
+根据是否拖拽的状态 `isSliding`，在 `<audio>` 的 `onTimeUpdate` 事件中，判断是否要设值。
+
+在 `<Slider>` 的 `onAfterChange` 中，将该状态改为 `false`。
 
 在拖拽时，改变当前时间，并展示。
 
@@ -626,11 +633,13 @@ export const playTheMusicAction = createAsyncThunk(
 
 - 特殊情况：最后一句歌词，无法匹配到，进行处理。
 
-  ```typescript
-  const index = findIndex === -1 ? lyrics.length - 1 : findIndex
-  ```
+```typescript
+const index = findIndex === -1 ? lyrics.length - 1 : findIndex
+```
 
-将匹配到的歌词索引，在 store 中进行记录。同一句歌词，只设置一次。
+将匹配到的歌词索引，在 store 中进行记录。
+
+在 `AppPlayerBar.tsx` 中，同一句歌词，只设置一次。
 
 使用 _AntDesign_ 的 `message.open` API 展示歌词，
 
@@ -676,9 +685,9 @@ const onAudioTimeUpdate = () => {
 - 情况一：播放的歌曲，不在播放列表中，将歌曲加入列表，并播放。
 - 情况二：播放的歌曲，已经在列表中，取到该歌曲，并播放。
 
-在 `playTheMusicAction` 中重构代码，判断歌曲 id 是否在列表中。
+在 `playTheMusicAction` 中重构代码，判断歌曲 id 是否在 `playSongList` 列表中。
 
-> 【注意】：为 `createAsyncThunk` 传入泛型，分别指定“返回值”、“参数”、“`getState` 返回值”的类型。
+> 【注意】：为 `createAsyncThunk` 传入泛型，分别指定：“返回值”、“参数”、“`getState` 返回值”的类型。
 
 src\store\features\player\player.ts
 
@@ -824,7 +833,7 @@ const onNextClick = () => {
 }
 ```
 
-创建一个异步 action `changeMusicAction`，在其中封装播放音乐的功能。
+创建一个异步 action `changeMusicAction`，用来封装播放音乐的功能。
 
 在其中，根据不同的播放模式，取到不同的歌曲，
 

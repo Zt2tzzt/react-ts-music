@@ -138,7 +138,7 @@ const AppPlayerBar: FC<IProps> = memo(() => {
 
 	const onAudioEnded = () => {
 		switch (playMode) {
-			case PLAY_MODE.CIRCULATION: // 单去循环
+			case PLAY_MODE.CIRCULATION: // 单曲循环
 				if (audioRef.current) audioRef.current.currentTime = 0
 				break
 			default:
