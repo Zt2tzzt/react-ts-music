@@ -5,11 +5,11 @@ import recommend from './features/discover/recommend'
 import player from './features/player/player'
 
 const store = configureStore({
-	reducer: {
-		counter: counter,
-		recommend: recommend,
-		player: player
-	}
+  reducer: {
+    counter: counter,
+    recommend: recommend,
+    player: player
+  }
 })
 
 export type StateType = ReturnType<typeof store.getState>

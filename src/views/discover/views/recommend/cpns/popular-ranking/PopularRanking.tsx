@@ -7,26 +7,26 @@ import { shallowEqual } from 'react-redux'
 import RankingItem from './cpns/ranking-item/RankingItem'
 
 interface IProps {
-	children?: ReactNode
+  children?: ReactNode
 }
 const PopularRanking: FC<IProps> = memo(() => {
-	const { rankings } = useAppSelector(
-		state => ({
-			rankings: state.recommend.popularRankings
-		}),
-		shallowEqual
-	)
+  const { rankings } = useAppSelector(
+    state => ({
+      rankings: state.recommend.popularRankings
+    }),
+    shallowEqual
+  )
 
-	return (
-		<RootWrapper>
-			<AreaHeaderV1 titleText='榜单' moreLink='/discover/ranking'></AreaHeaderV1>
-			<div className='content'>
-				{rankings.map(item => (
-					<RankingItem key={item.id} itemData={item}></RankingItem>
-				))}
-			</div>
-		</RootWrapper>
-	)
+  return (
+    <RootWrapper>
+      <AreaHeaderV1 titleText='榜单' moreLink='/discover/ranking'></AreaHeaderV1>
+      <div className='content'>
+        {rankings.map(item => (
+          <RankingItem key={item.id} itemData={item}></RankingItem>
+        ))}
+      </div>
+    </RootWrapper>
+  )
 })
 
 PopularRanking.displayName = 'PopularRanking'

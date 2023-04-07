@@ -7,30 +7,30 @@ import { useAppSelector } from '@/store'
 import { shallowEqual } from 'react-redux'
 
 interface IProps {
-	children?: ReactNode
+  children?: ReactNode
 }
 const HotRecommend: FC<IProps> = memo(() => {
-	const { hotRecommends } = useAppSelector(
-		state => ({
-			hotRecommends: state.recommend.hotRecommends
-		}),
-		shallowEqual
-	)
+  const { hotRecommends } = useAppSelector(
+    state => ({
+      hotRecommends: state.recommend.hotRecommends
+    }),
+    shallowEqual
+  )
 
-	return (
-		<RootWrapper>
-			<AreaHeaderV1
-				titleText='热门推荐'
-				keywords={['华语', '流行', '摇滚', '民谣', '电子']}
-				moreLink='/discover/songs'
-			></AreaHeaderV1>
-			<div className='recommend-list'>
-				{hotRecommends.map(item => (
-					<SongMenuItem key={item.id} itemData={item}></SongMenuItem>
-				))}
-			</div>
-		</RootWrapper>
-	)
+  return (
+    <RootWrapper>
+      <AreaHeaderV1
+        titleText='热门推荐'
+        keywords={['华语', '流行', '摇滚', '民谣', '电子']}
+        moreLink='/discover/songs'
+      ></AreaHeaderV1>
+      <div className='recommend-list'>
+        {hotRecommends.map(item => (
+          <SongMenuItem key={item.id} itemData={item}></SongMenuItem>
+        ))}
+      </div>
+    </RootWrapper>
+  )
 })
 
 HotRecommend.displayName = 'HotRecommend'

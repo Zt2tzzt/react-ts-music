@@ -2,10 +2,10 @@ import React, { memo } from 'react'
 import type { FC, ReactNode } from 'react'
 
 interface IProps {
-	children?: ReactNode
+  children?: ReactNode
 }
 const Songs: FC<IProps> = memo(props => {
-	return <div>Songs</div>
+  return <div>Songs</div>
 })
 
 Songs.displayName = 'Songs'

@@ -10,14 +10,14 @@ src\views\discover\views\recommend\cpns\user-login\UserLogin.tsx
 
 ```tsx
 const UserLogin: FC<IProps> = memo(() => {
-	return (
-		<RootWrapper className='sprite_02'>
-			<p className='desc'>登录网易云音乐，可以享受无限收藏的乐趣，并且无限同步到手机</p>
-			<a href='#/login' className='sprite_02'>
-				用户登陆
-			</a>
-		</RootWrapper>
-	)
+  return (
+    <RootWrapper className='sprite_02'>
+      <p className='desc'>登录网易云音乐，可以享受无限收藏的乐趣，并且无限同步到手机</p>
+      <a href='#/login' className='sprite_02'>
+        用户登陆
+      </a>
+    </RootWrapper>
+  )
 })
 ```
 
@@ -37,14 +37,14 @@ src\components\area-header-v2\AreaHeaderV2.tsx
 
 ```tsx
 const AreaHeaderV2: FC<IProps> = memo(props => {
-	const { title = '默认标题', moreText, moreLink } = props
+  const { title = '默认标题', moreText, moreLink } = props
 
-	return (
-		<RootWrapper>
-			<h3 className='title'>{title}</h3>
-			{moreText && moreLink && <a href={moreLink}>{moreText}</a>}
-		</RootWrapper>
-	)
+  return (
+    <RootWrapper>
+      <h3 className='title'>{title}</h3>
+      {moreText && moreLink && <a href={moreLink}>{moreText}</a>}
+    </RootWrapper>
+  )
 })
 ```
 
@@ -58,27 +58,27 @@ src\service\features\discover\recommend.ts
 
 ```typescript
 export const getArtistList = (limit = 30) =>
-	ztRequest.get<IArtistResult>({
-		url: '/artist/list',
-		params: {
-			limit
-		}
-	})
+  ztRequest.get<IArtistResult>({
+    url: '/artist/list',
+    params: {
+      limit
+    }
+  })
 ```
 
 src\store\features\discover\recommend.ts
 
 ```typescript
 export const fetchRecommendDataAction = createAsyncThunk(
-	'recommendDdata',
-	(param, { dispatch }) => {
-		//...
+  'recommendDdata',
+  (param, { dispatch }) => {
+    //...
 
-		getArtistList(5).then(res => {
-			console.log('artist res:', res)
-			dispatch(changeSettleSingersAction(res.artists))
-		})
-	}
+    getArtistList(5).then(res => {
+      console.log('artist res:', res)
+      dispatch(changeSettleSingersAction(res.artists))
+    })
+  }
 )
 ```
 
@@ -90,7 +90,7 @@ src\utils\format.ts
 
 ```typescript
 export const getImageSize = (iamgeUrl: string, width: number, height: number = width) =>
-	iamgeUrl + `?param=${width}y${height}`
+  iamgeUrl + `?param=${width}y${height}`
 ```
 
 在 `SettleSings.tsx` 中，编写歌手列表区域，以及下方的”申请成为网易音乐人“按钮。
@@ -99,39 +99,39 @@ src\views\discover\views\recommend\cpns\settle-singer\SettleSinger.tsx
 
 ```tsx
 const SettleSinger: FC<IProps> = memo(() => {
-	const { settleSingers } = useAppSelector(
-		state => ({
-			settleSingers: state.recommend.settleSingers
-		}),
-		shallowEqual
-	)
+  const { settleSingers } = useAppSelector(
+    state => ({
+      settleSingers: state.recommend.settleSingers
+    }),
+    shallowEqual
+  )
 
-	return (
-		<RootWrapper>
-			{/* 头部标题 */}
-			<AreaHeaderV2
-				title='入住歌手'
-				moreText='查看全部'
-				moreLink='#/discover/artist'
-			></AreaHeaderV2>
-			{/* 歌手列表 */}
-			<div className='artists'>
-				{settleSingers.map(item => (
-					<a href='#/discover/artist' className='item' key={item.id}>
-						<img src={getImageSize(item.picUrl, 80)} alt='' />
-						<div className='info'>
-							<div className='name'>{item.name}</div>
-							<div className='alias'>{item.alias.join(' ')}</div>
-						</div>
-					</a>
-				))}
-			</div>
-			{/* 申请成为网易音乐人 */}
-			<div className='apply-for'>
-				<a href='#/'>申请成为网易音乐人</a>
-			</div>
-		</RootWrapper>
-	)
+  return (
+    <RootWrapper>
+      {/* 头部标题 */}
+      <AreaHeaderV2
+        title='入住歌手'
+        moreText='查看全部'
+        moreLink='#/discover/artist'
+      ></AreaHeaderV2>
+      {/* 歌手列表 */}
+      <div className='artists'>
+        {settleSingers.map(item => (
+          <a href='#/discover/artist' className='item' key={item.id}>
+            <img src={getImageSize(item.picUrl, 80)} alt='' />
+            <div className='info'>
+              <div className='name'>{item.name}</div>
+              <div className='alias'>{item.alias.join(' ')}</div>
+            </div>
+          </a>
+        ))}
+      </div>
+      {/* 申请成为网易音乐人 */}
+      <div className='apply-for'>
+        <a href='#/'>申请成为网易音乐人</a>
+      </div>
+    </RootWrapper>
+  )
 })
 ```
 
@@ -152,29 +152,29 @@ src\views\discover\views\recommend\cpns\hot-anchor\HotAnchor.tsx
 import hotAnchors from '@/assets/data/hot-anchors.json'
 
 interface IProps {
-	children?: ReactNode
+  children?: ReactNode
 }
 const HotAnchor: FC<IProps> = memo(() => {
-	return (
-		<RootWrapper>
-			{/* 头部标题 */}
-			<AreaHeaderV2 title='热门主播'></AreaHeaderV2>
-			{/* 歌手列表 */}
-			<div className='anchors'>
-				{hotAnchors.map(item => (
-					<div className='item' key={item.picUrl}>
-						<a href='' className='image'>
-							<img src={item.picUrl} alt='' />
-						</a>
-						<div className='info'>
-							<div className='name'>{item.name}</div>
-							<div className='position'>{item.position}</div>
-						</div>
-					</div>
-				))}
-			</div>
-		</RootWrapper>
-	)
+  return (
+    <RootWrapper>
+      {/* 头部标题 */}
+      <AreaHeaderV2 title='热门主播'></AreaHeaderV2>
+      {/* 歌手列表 */}
+      <div className='anchors'>
+        {hotAnchors.map(item => (
+          <div className='item' key={item.picUrl}>
+            <a href='' className='image'>
+              <img src={item.picUrl} alt='' />
+            </a>
+            <div className='info'>
+              <div className='name'>{item.name}</div>
+              <div className='position'>{item.position}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </RootWrapper>
+  )
 })
 ```
 
@@ -194,14 +194,14 @@ src\App.tsx
 
 ```tsx
 function App() {
-	return (
-		<div className='App'>
-			{/*...*/}
+  return (
+    <div className='App'>
+      {/*...*/}
 
-			{/* 播放器，工具栏 */}
-			<AppPlayerBar></AppPlayerBar>
-		</div>
-	)
+      {/* 播放器，工具栏 */}
+      <AppPlayerBar></AppPlayerBar>
+    </div>
+  )
 }
 ```
 
@@ -211,16 +211,15 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 
 ```tsx
 const AppPlayerBar: FC<IProps> = memo(() => {
-  
-	return (
-		<RootWrapper className='sprite_playbar'>
-			<div className='content wrap_v2'>
-				<BarControl></BarControl>
-				<BarPlayerInfo></BarPlayerInfo>
-				<BarOperator></BarOperator>
-			</div>
-		</RootWrapper>
-	)
+  return (
+    <RootWrapper className='sprite_playbar'>
+      <div className='content wrap_v2'>
+        <BarControl></BarControl>
+        <BarPlayerInfo></BarPlayerInfo>
+        <BarOperator></BarOperator>
+      </div>
+    </RootWrapper>
+  )
 })
 ```
 
@@ -258,7 +257,7 @@ src\utils\format.ts
 
 ```typescript
 export const getSongPlayUrl = (id: number) =>
-	`https://music.163.com/song/media/outer/url?id=${id}.mp3`
+  `https://music.163.com/song/media/outer/url?id=${id}.mp3`
 ```
 
 src\views\player\app-player-bar\AppPlayerBar.tsx
@@ -267,24 +266,24 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 const audioRef = useRef<HTMLAudioElement>(null)
 
 useEffect(() => {
-	if (!audioRef.current) return
-	if (!('id' in currentSong && currentSong.id)) return
+  if (!audioRef.current) return
+  if (!('id' in currentSong && currentSong.id)) return
 
-	// 播放音乐
-	audioRef.current.src = getSongPlayUrl(currentSong.id)
-	audioRef.current
-		.play()
-		.then(() => {
-			setIsPlaying(true)
-			console.log('歌曲播放成功')
-		})
-		.catch(err => {
-			setIsPlaying(false)
-			console.log('歌曲播放失败:', err)
-		})
+  // 播放音乐
+  audioRef.current.src = getSongPlayUrl(currentSong.id)
+  audioRef.current
+    .play()
+    .then(() => {
+      setIsPlaying(true)
+      console.log('歌曲播放成功')
+    })
+    .catch(err => {
+      setIsPlaying(false)
+      console.log('歌曲播放失败:', err)
+    })
 
-	// 设置音乐总时长
-	setDuration(currentSong.dt)
+  // 设置音乐总时长
+  setDuration(currentSong.dt)
 }, [currentSong])
 ```
 
@@ -333,10 +332,10 @@ src\views\player\app-player-bar\style.ts
 
 ```typescript
 interface IBarControl {
-	isPlaying: boolean
+  isPlaying: boolean
 }
 export const BarControl = styled.div<IBarControl>`
-	//...
+  //...
 `
 ```
 
@@ -427,15 +426,15 @@ src\utils\format.ts
 
 ```typescript
 export const formatMillisecond = (millisecond: number) => {
-	const totalSecond = millisecond / 1000 // 秒钟总数
+  const totalSecond = millisecond / 1000 // 秒钟总数
 
-	const minute = Math.floor(totalSecond / 60) // 分钟
-	const second = Math.floor(totalSecond) % 60 // 秒钟
+  const minute = Math.floor(totalSecond / 60) // 分钟
+  const second = Math.floor(totalSecond) % 60 // 秒钟
 
-	const formatMinute = String(minute).padStart(2, '0')
-	const formatSecond = String(second).padStart(2, '0')
+  const formatMinute = String(minute).padStart(2, '0')
+  const formatSecond = String(second).padStart(2, '0')
 
-	return `${formatMinute}:${formatSecond}`
+  return `${formatMinute}:${formatSecond}`
 }
 ```
 
@@ -469,15 +468,15 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 
 ```typescript
 const onSliderChanged = useCallback(
-	(value: number) => {
-		const currentTime = (value / 100) * duration
-		if (audioRef.current) audioRef.current.currentTime = currentTime / 1000
+  (value: number) => {
+    const currentTime = (value / 100) * duration
+    if (audioRef.current) audioRef.current.currentTime = currentTime / 1000
 
-		setProgress(value) // 步骤一
-		setCurrentTime(currentTime) // 步骤二
-		setIsSliding(false) // 步骤三
-	},
-	[duration]
+    setProgress(value) // 步骤一
+    setCurrentTime(currentTime) // 步骤二
+    setIsSliding(false) // 步骤三
+  },
+  [duration]
 )
 ```
 
@@ -544,20 +543,20 @@ src\store\features\player\player.ts
 
 ```typescript
 export const playTheMusicAction = createAsyncThunk('currentSong', (id, { dispatch, getState }) => {
-	//...
-	getSongDetail(id).then(res => {
-		if (!res.songs.length) return
-		const song = res.songs[0]
-		dispatch(changeCurrentSongAction(song))
-	})
-	//...
+  //...
+  getSongDetail(id).then(res => {
+    if (!res.songs.length) return
+    const song = res.songs[0]
+    dispatch(changeCurrentSongAction(song))
+  })
+  //...
 
-	// 歌词获取
-	getSongLyric(id).then(res => {
-		const lyricString = res.lrc.lyric
-		const lyrics = parseLyric(lyricString) // 歌词解析
-		dispatch(changeLyricsAction(lyrics))
-	})
+  // 歌词获取
+  getSongLyric(id).then(res => {
+    const lyricString = res.lrc.lyric
+    const lyrics = parseLyric(lyricString) // 歌词解析
+    dispatch(changeLyricsAction(lyrics))
+  })
 })
 ```
 
@@ -567,15 +566,15 @@ src\App.tsx
 
 ```tsx
 function App() {
-	const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch()
 
-	useEffect(() => {
-		dispatch(playTheMusicAction(2003496926))
-	}, [])
+  useEffect(() => {
+    dispatch(playTheMusicAction(2003496926))
+  }, [])
 
-	return {
-		/*...*/
-	}
+  return {
+    /*...*/
+  }
 }
 ```
 
@@ -587,28 +586,28 @@ src\utils\format.ts
 
 ```typescript
 export const parseLyric = (lyricString: string): ILyricParse[] => {
-	// 1.将每一行歌词，作为元素，放入数组中
-	const lines = lyricString.split('\n')
+  // 1.将每一行歌词，作为元素，放入数组中
+  const lines = lyricString.split('\n')
 
-	// 2.将歌词解析成对象。
-	const timeRegExp = /\[(\d{2}):(\d{2})\.(\d{2,3})\]/
+  // 2.将歌词解析成对象。
+  const timeRegExp = /\[(\d{2}):(\d{2})\.(\d{2,3})\]/
 
-	const lyrics: ILyricParse[] = []
-	lines.forEach(item => {
-		const res = timeRegExp.exec(item)
-		if (!res) return
+  const lyrics: ILyricParse[] = []
+  lines.forEach(item => {
+    const res = timeRegExp.exec(item)
+    if (!res) return
 
-		const time1 = Number(res[1]) * 60 * 1000
-		const time2 = Number(res[2]) * 1000
-		const time3 = res[3].length === 2 ? Number(res[3]) * 10 : Number(res[3])
-		const time = time1 + time2 + time3
+    const time1 = Number(res[1]) * 60 * 1000
+    const time2 = Number(res[2]) * 1000
+    const time3 = res[3].length === 2 ? Number(res[3]) * 10 : Number(res[3])
+    const time = time1 + time2 + time3
 
-		const text = item.replace(timeRegExp, '')
+    const text = item.replace(timeRegExp, '')
 
-		lyrics.push({ time, text })
-	})
+    lyrics.push({ time, text })
+  })
 
-	return lyrics
+  return lyrics
 }
 ```
 
@@ -652,29 +651,29 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 ```typescript
 // Audio
 const onAudioTimeUpdate = () => {
-	// 获取当歌曲播放前时间
-	if (!audioRef.current) return
-	const currentTime = audioRef.current.currentTime * 1000
+  // 获取当歌曲播放前时间
+  if (!audioRef.current) return
+  const currentTime = audioRef.current.currentTime * 1000
 
-	// 计算当前歌曲播放进度
-	if (!isSliding) {
-		const progress = (currentTime / duration) * 100
-		setProgress(progress)
-		setCurrentTime(currentTime)
-	}
+  // 计算当前歌曲播放进度
+  if (!isSliding) {
+    const progress = (currentTime / duration) * 100
+    setProgress(progress)
+    setCurrentTime(currentTime)
+  }
 
-	// 匹配歌词
-	const findIndex = lyrics.findIndex(item => item.time > currentTime)
-	const index = findIndex === -1 ? lyrics.length - 1 : findIndex
-	if (lyricIndex === index) return
-	dispatch(changeLyricIndexongAction(index))
+  // 匹配歌词
+  const findIndex = lyrics.findIndex(item => item.time > currentTime)
+  const index = findIndex === -1 ? lyrics.length - 1 : findIndex
+  if (lyricIndex === index) return
+  dispatch(changeLyricIndexongAction(index))
 
-	// 展示歌词
-	message.open({
-		content: lyrics[index].text,
-		key: 'lyric',
-		duration: 0
-	})
+  // 展示歌词
+  message.open({
+    content: lyrics[index].text,
+    key: 'lyric',
+    duration: 0
+  })
 }
 ```
 
@@ -693,36 +692,36 @@ src\store\features\player\player.ts
 
 ```typescript
 export const playTheMusicAction = createAsyncThunk<void, number, IThunkState>(
-	'currentSong',
-	(id, { dispatch, getState }) => {
-		// 播放歌曲，分两种情况
-		const playSongList = getState().player.playSongList
-		const index = playSongList.findIndex(item => item.id === id)
-		if (index === -1) {
-			// 歌曲不在播放列表中
-			getSongDetail(id).then(res => {
-				if (!res.songs.length) return
-				const song = res.songs[0]
+  'currentSong',
+  (id, { dispatch, getState }) => {
+    // 播放歌曲，分两种情况
+    const playSongList = getState().player.playSongList
+    const index = playSongList.findIndex(item => item.id === id)
+    if (index === -1) {
+      // 歌曲不在播放列表中
+      getSongDetail(id).then(res => {
+        if (!res.songs.length) return
+        const song = res.songs[0]
 
-				const newPlaySongList = [...playSongList, song]
-				dispatch(changeCurrentSongAction(song))
-				dispatch(changePlaySongListAction(newPlaySongList))
-				dispatch(changePlaySongIndexAction(newPlaySongList.length - 1))
-			})
-		} else {
-			// 歌曲已在播放列表中
-			const song = playSongList[index]
-			dispatch(changeCurrentSongAction(song))
-			dispatch(changePlaySongListAction(index))
-		}
+        const newPlaySongList = [...playSongList, song]
+        dispatch(changeCurrentSongAction(song))
+        dispatch(changePlaySongListAction(newPlaySongList))
+        dispatch(changePlaySongIndexAction(newPlaySongList.length - 1))
+      })
+    } else {
+      // 歌曲已在播放列表中
+      const song = playSongList[index]
+      dispatch(changeCurrentSongAction(song))
+      dispatch(changePlaySongListAction(index))
+    }
 
-		// 歌词获取
-		getSongLyric(id).then(res => {
-			const lyricString = res.lrc.lyric
-			const lyrics = parseLyric(lyricString) // 歌词解析
-			dispatch(changeLyricsAction(lyrics))
-		})
-	}
+    // 歌词获取
+    getSongLyric(id).then(res => {
+      const lyricString = res.lrc.lyric
+      const lyrics = parseLyric(lyricString) // 歌词解析
+      dispatch(changeLyricsAction(lyrics))
+    })
+  }
 )
 ```
 
@@ -734,27 +733,27 @@ src\store\features\player\player.ts
 
 ```typescript
 export enum PLAY_MODE {
-	ORDER,
-	RANDOM,
-	CIRCULATION
+  ORDER,
+  RANDOM,
+  CIRCULATION
 }
 const initialState: {
-	//...
-	playMode: PLAY_MODE
+  //...
+  playMode: PLAY_MODE
 } = {
-	//...
-	playMode: PLAY_MODE.ORDER
+  //...
+  playMode: PLAY_MODE.ORDER
 }
 
 const playerSlice = createSlice({
-	name: 'player',
-	initialState,
-	reducers: {
-		//...
-		changePlayModeAction(state, { payload }) {
-			state.playMode = payload
-		}
-	}
+  name: 'player',
+  initialState,
+  reducers: {
+    //...
+    changePlayModeAction(state, { payload }) {
+      state.playMode = payload
+    }
+  }
 })
 ```
 
@@ -764,16 +763,16 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 
 ```tsx
 <BarOperator playMode={playMode}>
-	<div className='left'>
-		<button className='btn pip'></button>
-		<button className='btn sprite_playbar favor'></button>
-		<button className='btn sprite_playbar share'></button>
-	</div>
-	<div className='right sprite_playbar'>
-		<button className='btn sprite_playbar volume'></button>
-		<button className='btn sprite_playbar loop' onClick={onModeChangeClick}></button>
-		<button className='btn sprite_playbar playlist'></button>
-	</div>
+  <div className='left'>
+    <button className='btn pip'></button>
+    <button className='btn sprite_playbar favor'></button>
+    <button className='btn sprite_playbar share'></button>
+  </div>
+  <div className='right sprite_playbar'>
+    <button className='btn sprite_playbar volume'></button>
+    <button className='btn sprite_playbar loop' onClick={onModeChangeClick}></button>
+    <button className='btn sprite_playbar playlist'></button>
+  </div>
 </BarOperator>
 ```
 
@@ -781,21 +780,21 @@ src\views\player\app-player-bar\style.ts
 
 ```typescript
 interface IBarOperator {
-	playMode: number
+  playMode: number
 }
 export const BarOperator = styled.div<IBarOperator>`
-	.loop {
-		background-position: ${props => {
-			switch (props.playMode) {
-				case 1:
-					return '-66px -248px'
-				case 2:
-					return '-66px -344px'
-				default:
-					return '-3px -344px'
-			}
-		}};
-	}
+  .loop {
+    background-position: ${props => {
+      switch (props.playMode) {
+        case 1:
+          return '-66px -248px'
+        case 2:
+          return '-66px -344px'
+        default:
+          return '-3px -344px'
+      }
+    }};
+  }
 `
 ```
 
@@ -806,9 +805,9 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 ```typescript
 // ModeChange
 const onModeChangeClick = () => {
-	let newPlayMode = playMode + 1
-	if (newPlayMode > 2) newPlayMode = 1 // 边界判断
-	dispatch(changePlayModeAction(newPlayMode))
+  let newPlayMode = playMode + 1
+  if (newPlayMode > 2) newPlayMode = 1 // 边界判断
+  dispatch(changePlayModeAction(newPlayMode))
 }
 ```
 
@@ -820,16 +819,16 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 
 ```typescript
 const musicChange = (isNext = true) => {
-	dispatch(changeMusicAction(isNext))
+  dispatch(changeMusicAction(isNext))
 }
 
 // 上一首，播放/暂停，下一首
 const onPreClick = () => {
-	musicChange(false)
+  musicChange(false)
 }
 
 const onNextClick = () => {
-	musicChange(true)
+  musicChange(true)
 }
 ```
 
@@ -841,44 +840,44 @@ src\store\features\player\player.ts
 
 ```typescript
 export const changeMusicAction = createAsyncThunk<void, boolean, IThunkState>(
-	'changeMusic',
-	(isNext: boolean, { dispatch, getState }) => {
-		// 获取 state 中的数据
-		const { playMode, playSongIndex, playSongList } = getState().player
+  'changeMusic',
+  (isNext: boolean, { dispatch, getState }) => {
+    // 获取 state 中的数据
+    const { playMode, playSongIndex, playSongList } = getState().player
 
-		// 递归函数，用于随机播放时，获取歌曲索引
-		const _getDiffRandomNumber = (): number => {
-			const length = playSongList.length
-			const random = Math.floor(Math.random()) * length
-			return random === playSongIndex && length > 1 ? _getDiffRandomNumber() : random
-		}
+    // 递归函数，用于随机播放时，获取歌曲索引
+    const _getDiffRandomNumber = (): number => {
+      const length = playSongList.length
+      const random = Math.floor(Math.random()) * length
+      return random === playSongIndex && length > 1 ? _getDiffRandomNumber() : random
+    }
 
-		// 根据播放模式，切换歌曲
-		let newIndex = playSongIndex
-		switch (playMode) {
-			case PLAY_MODE.RANDOM: // 随机播放
-				newIndex = _getDiffRandomNumber() // 递归，直到找到与原值不同的一个随机数。
-				break
-			default:
-				newIndex = isNext ? playSongIndex + 1 : playSongIndex - 1
-				// 边界判断
-				if (newIndex > playSongList.length - 1) newIndex = 0
-				if (newIndex < 0) newIndex = playSongList.length - 1
-				break
-		}
+    // 根据播放模式，切换歌曲
+    let newIndex = playSongIndex
+    switch (playMode) {
+      case PLAY_MODE.RANDOM: // 随机播放
+        newIndex = _getDiffRandomNumber() // 递归，直到找到与原值不同的一个随机数。
+        break
+      default:
+        newIndex = isNext ? playSongIndex + 1 : playSongIndex - 1
+        // 边界判断
+        if (newIndex > playSongList.length - 1) newIndex = 0
+        if (newIndex < 0) newIndex = playSongList.length - 1
+        break
+    }
 
-		// 歌曲变更
-		const song = playSongList[newIndex]
-		dispatch(changeCurrentSongAction(song))
-		dispatch(changePlaySongIndexAction(newIndex))
+    // 歌曲变更
+    const song = playSongList[newIndex]
+    dispatch(changeCurrentSongAction(song))
+    dispatch(changePlaySongIndexAction(newIndex))
 
-		// 请求新的歌词
-		getSongLyric(song.id).then(res => {
-			const lyricStr = res.lrc.lyric
-			const lyrics = parseLyric(lyricStr)
-			dispatch(changeLyricsAction(lyrics))
-		})
-	}
+    // 请求新的歌词
+    getSongLyric(song.id).then(res => {
+      const lyricStr = res.lrc.lyric
+      const lyrics = parseLyric(lyricStr)
+      dispatch(changeLyricsAction(lyrics))
+    })
+  }
 )
 ```
 
@@ -890,14 +889,14 @@ src\views\player\app-player-bar\AppPlayerBar.tsx
 
 ```typescript
 const onAudioEnded = () => {
-	switch (playMode) {
-		case PLAY_MODE.CIRCULATION:
-			if (audioRef.current) audioRef.current.currentTime = 0
-			break
-		default:
-			musicChange(true)
-			break
-	}
+  switch (playMode) {
+    case PLAY_MODE.CIRCULATION:
+      if (audioRef.current) audioRef.current.currentTime = 0
+      break
+    default:
+      musicChange(true)
+      break
+  }
 }
 ```
 
@@ -909,7 +908,7 @@ src\views\discover\views\recommend\cpns\popular-ranking\cpns\ranking-item\Rankin
 
 ```typescript
 const onPlayClick = (id: number) => {
-	dispatch(playTheMusicAction(id))
+  dispatch(playTheMusicAction(id))
 }
 ```
 

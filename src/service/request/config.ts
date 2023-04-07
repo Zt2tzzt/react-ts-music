@@ -14,12 +14,12 @@ const TIME_OUT = 25000
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
 
 switch (process.env.NODE_ENV) {
-	case 'development':
-		BASE_URL = 'http://codercba.com:9002'
-		break
-	case 'production':
-		BASE_URL = 'http://codercba.com:9002'
-		break
+  case 'development':
+    BASE_URL = 'http://codercba.com:9002'
+    break
+  case 'production':
+    BASE_URL = 'http://codercba.com:9002'
+    break
 }
 
 export { BASE_URL, TIME_OUT }

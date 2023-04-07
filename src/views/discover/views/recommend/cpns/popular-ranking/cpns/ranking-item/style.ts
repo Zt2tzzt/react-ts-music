@@ -1,158 +1,158 @@
 import styled from 'styled-components'
 
 export default styled.div`
-	width: 230px;
-	&:last-child {
-		width: 228px;
-	}
+  width: 230px;
+  &:last-child {
+    width: 228px;
+  }
 
-	.header {
-		height: 100px;
-		display: flex;
-		margin: 20px 0 0 20px;
+  .header {
+    height: 100px;
+    display: flex;
+    margin: 20px 0 0 20px;
 
-		.image {
-			width: 80px;
-			height: 80px;
-			position: relative;
+    .image {
+      width: 80px;
+      height: 80px;
+      position: relative;
 
-			img {
-				display: block;
-				width: 80px;
-				height: 80px;
-			}
-		}
+      img {
+        display: block;
+        width: 80px;
+        height: 80px;
+      }
+    }
 
-		.info {
-			margin: 5px 0 0 10px;
+    .info {
+      margin: 5px 0 0 10px;
 
-			.name {
-				font-size: 14px;
-				font-weight: 700;
-				color: #333;
-			}
+      .name {
+        font-size: 14px;
+        font-weight: 700;
+        color: #333;
+      }
 
-			.btn {
-				display: inline-block;
-				text-indent: -9999px;
-				width: 22px;
-				height: 22px;
-				margin: 8px 10px 0 0;
-				cursor: pointer;
-			}
+      .btn {
+        display: inline-block;
+        text-indent: -9999px;
+        width: 22px;
+        height: 22px;
+        margin: 8px 10px 0 0;
+        cursor: pointer;
+      }
 
-			.play {
-				background-position: -267px -205px;
+      .play {
+        background-position: -267px -205px;
 
-				&:hover {
-					background-position: -267px -235px;
-				}
-			}
+        &:hover {
+          background-position: -267px -235px;
+        }
+      }
 
-			.favor {
-				background-position: -300px -205px;
+      .favor {
+        background-position: -300px -205px;
 
-				&:hover {
-					background-position: -300px -235px;
-				}
-			}
-		}
-	}
+        &:hover {
+          background-position: -300px -235px;
+        }
+      }
+    }
+  }
 
-	.list {
-		.item {
-			position: relative;
-			display: flex;
-			align-items: center;
-			height: 32px;
+  .list {
+    .item {
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 32px;
 
-			:nth-child(-n + 3) .index {
-				color: #c10d0c;
-			}
+      :nth-child(-n + 3) .index {
+        color: #c10d0c;
+      }
 
-			.index {
-				width: 35px;
-				text-align: center;
-				margin-left: 10px;
-				font-size: 10px;
-			}
+      .index {
+        width: 35px;
+        text-align: center;
+        margin-left: 10px;
+        font-size: 10px;
+      }
 
-			.info {
-				color: #000;
-				width: 180px;
-				height: 17px;
-				line-height: 17px;
-				display: flex;
-				justify-content: space-between;
+      .info {
+        color: #000;
+        width: 180px;
+        height: 17px;
+        line-height: 17px;
+        display: flex;
+        justify-content: space-between;
 
-				.name {
-					flex: 1;
-					${props => props.theme.mixin.textNoWrap}
-					cursor: pointer;
+        .name {
+          flex: 1;
+          ${props => props.theme.mixin.textNoWrap}
+          cursor: pointer;
 
-					&:hover {
-						text-decoration: underline;
-					}
-				}
+          &:hover {
+            text-decoration: underline;
+          }
+        }
 
-				.operator {
-					display: flex;
-					align-items: center;
-					display: none;
-					width: 82px;
+        .operator {
+          display: flex;
+          align-items: center;
+          display: none;
+          width: 82px;
 
-					.btn {
-						width: 17px;
-						height: 17px;
-						margin-left: 8px;
-						cursor: pointer;
-					}
+          .btn {
+            width: 17px;
+            height: 17px;
+            margin-left: 8px;
+            cursor: pointer;
+          }
 
-					.play {
-						background-position: -267px -268px;
+          .play {
+            background-position: -267px -268px;
 
-						&:hover {
-							background-position: -267px -288px;
-						}
-					}
+            &:hover {
+              background-position: -267px -288px;
+            }
+          }
 
-					.add {
-						position: relative;
-						top: 2px;
-						background-position: 0 -700px;
+          .add {
+            position: relative;
+            top: 2px;
+            background-position: 0 -700px;
 
-						&:hover {
-							background-position: -23px -700px;
-						}
-					}
+            &:hover {
+              background-position: -23px -700px;
+            }
+          }
 
-					.favor {
-						background-position: -297px -268px;
+          .favor {
+            background-position: -297px -268px;
 
-						&:hover {
-							background-position: -297px -288px;
-						}
-					}
-				}
-			}
+            &:hover {
+              background-position: -297px -288px;
+            }
+          }
+        }
+      }
 
-			&:hover {
-				.operator {
-					display: block;
-				}
-			}
-		}
-	}
+      &:hover {
+        .operator {
+          display: block;
+        }
+      }
+    }
+  }
 
-	.footer {
-		display: flex;
-		align-items: center;
-		justify-content: flex-end;
-		height: 32px;
-		padding-right: 20px;
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 32px;
+    padding-right: 20px;
 
-		> a:hover {
-			text-decoration: underline;
-		}
-	}
+    > a:hover {
+      text-decoration: underline;
+    }
+  }
 `

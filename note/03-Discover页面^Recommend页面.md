@@ -12,11 +12,11 @@ src\views\discover\views\recommend\Recommend.tsx
 
 ```tsx
 <RecommendWrapper>
-	<TopBanners></TopBanners>
-	<div className='content wrap_v2'>
-		<div className='left'>{/*...*/}</div>
-		<div className='right'>Right</div>
-	</div>
+  <TopBanners></TopBanners>
+  <div className='content wrap_v2'>
+    <div className='left'>{/*...*/}</div>
+    <div className='right'>Right</div>
+  </div>
 </RecommendWrapper>
 ```
 
@@ -102,12 +102,12 @@ src\views\discover\views\recommend\cpns\hot-recommend\HotRecommend.tsx
 
 ```tsx
 <RootWrapper>
-	<AreaHeaderV1
-		titleText='热门推荐'
-		keywords={['华语', '流行', '摇滚', '民谣', '电子']}
-		moreLink='/discover/songs'
-	></AreaHeaderV1>
-	//...
+  <AreaHeaderV1
+    titleText='热门推荐'
+    keywords={['华语', '流行', '摇滚', '民谣', '电子']}
+    moreLink='/discover/songs'
+  ></AreaHeaderV1>
+  //...
 </RootWrapper>
 ```
 
@@ -119,11 +119,11 @@ src\views\discover\views\recommend\cpns\hot-recommend\HotRecommend.tsx
 
 ```javascript
 module.exports = {
-	//...
-	rules: {
-		//...
-		'react/prop-types': 'off'
-	}
+  //...
+  rules: {
+    //...
+    'react/prop-types': 'off'
+  }
 }
 ```
 
@@ -140,27 +140,27 @@ src\views\discover\views\recommend\cpns\hot-recommend\HotRecommend.tsx
 
 ```tsx
 const HotRecommend: FC<IProps> = memo(() => {
-	const { hotRecommends } = useAppSelector(
-		state => ({
-			hotRecommends: state.recommend.hotRecommends
-		}),
-		shallowEqual
-	)
+  const { hotRecommends } = useAppSelector(
+    state => ({
+      hotRecommends: state.recommend.hotRecommends
+    }),
+    shallowEqual
+  )
 
-	return (
-		<RootWrapper>
-			<AreaHeaderV1
-				titleText='热门推荐'
-				keywords={['华语', '流行', '摇滚', '民谣', '电子']}
-				moreLink='/discover/songs'
-			></AreaHeaderV1>
-			<div className='recommend-list'>
-				{hotRecommends.map(item => (
-					<SongMenuItem key={item.id} itemData={item}></SongMenuItem>
-				))}
-			</div>
-		</RootWrapper>
-	)
+  return (
+    <RootWrapper>
+      <AreaHeaderV1
+        titleText='热门推荐'
+        keywords={['华语', '流行', '摇滚', '民谣', '电子']}
+        moreLink='/discover/songs'
+      ></AreaHeaderV1>
+      <div className='recommend-list'>
+        {hotRecommends.map(item => (
+          <SongMenuItem key={item.id} itemData={item}></SongMenuItem>
+        ))}
+      </div>
+    </RootWrapper>
+  )
 })
 ```
 
@@ -168,41 +168,41 @@ src\store\features\discover\recommend.ts
 
 ```typescript
 const initialState: {
-	banners: IBanner[]
-	hotRecommends: IPersonalized[]
+  banners: IBanner[]
+  hotRecommends: IPersonalized[]
 } = {
-	banners: [],
-	hotRecommends: []
+  banners: [],
+  hotRecommends: []
 }
 
 const recommendSlice = createSlice({
-	name: 'recommend',
-	initialState,
-	reducers: {
-		changeBannersAction(state, { payload }: PayloadAction<IBanner[]>) {
-			state.banners = payload
-		},
-		changeHotRecommendsAction(state, { payload }: PayloadAction<IPersonalized[]>) {
-			state.hotRecommends = payload
-		}
-	}
+  name: 'recommend',
+  initialState,
+  reducers: {
+    changeBannersAction(state, { payload }: PayloadAction<IBanner[]>) {
+      state.banners = payload
+    },
+    changeHotRecommendsAction(state, { payload }: PayloadAction<IPersonalized[]>) {
+      state.hotRecommends = payload
+    }
+  }
 })
 
 export const { changeBannersAction, changeHotRecommendsAction } = recommendSlice.actions
 export default recommendSlice.reducer
 
 export const fetchBannerDataAction = createAsyncThunk('banners', (param, { dispatch }) => {
-	getBanners().then(res => {
-		console.log('banners res:', res)
-		dispatch(changeBannersAction(res.banners))
-	})
+  getBanners().then(res => {
+    console.log('banners res:', res)
+    dispatch(changeBannersAction(res.banners))
+  })
 })
 
 export const fetchHotRecommendsAction = createAsyncThunk('hotRecommends', (param, { dispatch }) => {
-	getHotRecommend(8).then(res => {
-		console.log('hotRecommends res:', res)
-		dispatch(changeHotRecommendsAction(res.result))
-	})
+  getHotRecommend(8).then(res => {
+    console.log('hotRecommends res:', res)
+    dispatch(changeHotRecommendsAction(res.result))
+  })
 })
 ```
 
@@ -212,29 +212,29 @@ src\components\song-menu-item\SongMenuItem.tsx
 
 ```tsx
 interface IProps {
-	children?: ReactNode
-	itemData: IPersonalized
+  children?: ReactNode
+  itemData: IPersonalized
 }
 const SongMenuItem: FC<IProps> = memo(props => {
-	const { itemData } = props
+  const { itemData } = props
 
-	return (
-		<RootWrapper>
-			<div className='top'>
-				<img src={getImageSize(itemData.picUrl, 140)} alt='' />
-				<div className='cover sprite_cover'>
-					<div className='info sprite_cover'>
-						<span>
-							<i className='sprite_icon headset'></i>
-							<span className='count'>{formatCount(itemData.playCount)}</span>
-						</span>
-						<i className='sprite_icon play'></i>
-					</div>
-				</div>
-			</div>
-			<div className='bottom'>{itemData.name}</div>
-		</RootWrapper>
-	)
+  return (
+    <RootWrapper>
+      <div className='top'>
+        <img src={getImageSize(itemData.picUrl, 140)} alt='' />
+        <div className='cover sprite_cover'>
+          <div className='info sprite_cover'>
+            <span>
+              <i className='sprite_icon headset'></i>
+              <span className='count'>{formatCount(itemData.playCount)}</span>
+            </span>
+            <i className='sprite_icon play'></i>
+          </div>
+        </div>
+      </div>
+      <div className='bottom'>{itemData.name}</div>
+    </RootWrapper>
+  )
 })
 ```
 
@@ -248,7 +248,7 @@ src\utils\format.ts
 
 ```typescript
 export const getImageSize = (iamgeUrl: string, width: number, height: number = width) =>
-	iamgeUrl + `?param=${width}y${height}`
+  iamgeUrl + `?param=${width}y${height}`
 ```
 
 将播放量进行格式化，并展示。
@@ -257,11 +257,11 @@ src\utils\format.ts
 
 ```typescript
 export const formatCount = (count: number) => {
-	return count > 10000
-		? count < 100000000
-			? Math.floor(count / 10000) + '万'
-			: Math.floor(count / 100000000) + '亿'
-		: count
+  return count > 10000
+    ? count < 100000000
+      ? Math.floor(count / 10000) + '万'
+      : Math.floor(count / 100000000) + '亿'
+    : count
 }
 ```
 
@@ -288,13 +288,17 @@ src\components\song-menu-item\style.ts
 src\views\discover\views\recommend\cpns\new-albums\NewAlbums.tsx
 
 ```tsx
-{	/* speed 属性，用来调整轮播图滚动的速度。*/ }
+{
+  /* speed 属性，用来调整轮播图滚动的速度。*/
+}
 ;<Carousel ref={bannerRef} dots={false} speed={1500}>
-	{Array.from({ length: 2 }).map((_, index) => index)}
+  {Array.from({ length: 2 }).map((_, index) => index)}
 </Carousel>
 
-{/* 控制器2 */}
-<button className='sprite_02 arrow arrow-right' onClick={onNextClick}></button>
+{
+  /* 控制器2 */
+}
+;<button className='sprite_02 arrow arrow-right' onClick={onNextClick}></button>
 ```
 
 2.再搭建轮播图中的内容。
@@ -317,50 +321,50 @@ src\views\discover\views\recommend\cpns\new-albums\NewAlbums.tsx
 
 ```tsx
 const NewAlbums: FC<IProps> = memo(() => {
-	const bannerRef = useRef<ElementRef<typeof Carousel>>(null)
+  const bannerRef = useRef<ElementRef<typeof Carousel>>(null)
 
-	const { newAlbums } = useAppSelector(
-		state => ({
-			newAlbums: state.recommend.newAlbum
-		}),
-		shallowEqual
-	)
+  const { newAlbums } = useAppSelector(
+    state => ({
+      newAlbums: state.recommend.newAlbum
+    }),
+    shallowEqual
+  )
 
-	const onPreClick = () => {
-		bannerRef.current?.prev()
-	}
-	const onNextClick = () => {
-		bannerRef.current?.next()
-	}
+  const onPreClick = () => {
+    bannerRef.current?.prev()
+  }
+  const onNextClick = () => {
+    bannerRef.current?.next()
+  }
 
-	return (
-		<RootWrapper>
-			<AreaHeaderV1 titleText='新碟上架' moreLink='/discover/album'></AreaHeaderV1>
+  return (
+    <RootWrapper>
+      <AreaHeaderV1 titleText='新碟上架' moreLink='/discover/album'></AreaHeaderV1>
 
-			<div className='content'>
-				{/* 控制器1 */}
-				<button className='sprite_02 arrow arrow-left' onClick={onPreClick}></button>
+      <div className='content'>
+        {/* 控制器1 */}
+        <button className='sprite_02 arrow arrow-left' onClick={onPreClick}></button>
 
-				{/* 轮播图 */}
-				<div className='banner'>
-					<Carousel ref={bannerRef} dots={false} speed={1500}>
-						{Array.from({ length: 2 }).map((_, index) => (
-							<div key={index}>
-								<div className='album-list'>
-									{newAlbums.slice(index * 5, (index + 1) * 5).map(album => (
-										<NewAlbumItem key={album.id} itemData={album}></NewAlbumItem>
-									))}
-								</div>
-							</div>
-						))}
-					</Carousel>
-				</div>
+        {/* 轮播图 */}
+        <div className='banner'>
+          <Carousel ref={bannerRef} dots={false} speed={1500}>
+            {Array.from({ length: 2 }).map((_, index) => (
+              <div key={index}>
+                <div className='album-list'>
+                  {newAlbums.slice(index * 5, (index + 1) * 5).map(album => (
+                    <NewAlbumItem key={album.id} itemData={album}></NewAlbumItem>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </Carousel>
+        </div>
 
-				{/* 控制器2 */}
-				<button className='sprite_02 arrow arrow-right' onClick={onNextClick}></button>
-			</div>
-		</RootWrapper>
-	)
+        {/* 控制器2 */}
+        <button className='sprite_02 arrow arrow-right' onClick={onNextClick}></button>
+      </div>
+    </RootWrapper>
+  )
 })
 ```
 
@@ -383,7 +387,7 @@ src\views\discover\views\recommend\Recommend.tsx
 ```typescript
 const dispatch = useAppDispatch()
 useEffect(() => {
-	dispatch(fetchRecommendDataAction())
+  dispatch(fetchRecommendDataAction())
 }, [])
 ```
 
@@ -391,21 +395,21 @@ src\store\features\discover\recommend.ts
 
 ```typescript
 export const fetchRecommendDataAction = createAsyncThunk(
-	'recommendDdata',
-	(param, { dispatch }) => {
-		getBanners().then(res => {
-			console.log('banners res:', res)
-			dispatch(changeBannersAction(res.banners))
-		})
-		getHotRecommend(8).then(res => {
-			console.log('hotRecommends res:', res)
-			dispatch(changeHotRecommendsAction(res.result))
-		})
-		getNewAlbum().then(res => {
-			console.log('newAlbums res:', res)
-			dispatch(changeNewAlbumsAction(res.albums))
-		})
-	}
+  'recommendDdata',
+  (param, { dispatch }) => {
+    getBanners().then(res => {
+      console.log('banners res:', res)
+      dispatch(changeBannersAction(res.banners))
+    })
+    getHotRecommend(8).then(res => {
+      console.log('hotRecommends res:', res)
+      dispatch(changeHotRecommendsAction(res.result))
+    })
+    getNewAlbum().then(res => {
+      console.log('newAlbums res:', res)
+      dispatch(changeNewAlbumsAction(res.albums))
+    })
+  }
 )
 ```
 
@@ -421,12 +425,12 @@ src\views\discover\views\recommend\cpns\popular-ranking\PopularRanking.tsx
 
 ```tsx
 <RootWrapper>
-	<AreaHeaderV1 titleText='榜单' moreLink='/discover/ranking'></AreaHeaderV1>
-	<div className='content'>
-		{rankings.map(item => (
-			<RankingItem key={item.id} itemData={item}></RankingItem>
-		))}
-	</div>
+  <AreaHeaderV1 titleText='榜单' moreLink='/discover/ranking'></AreaHeaderV1>
+  <div className='content'>
+    {rankings.map(item => (
+      <RankingItem key={item.id} itemData={item}></RankingItem>
+    ))}
+  </div>
 </RootWrapper>
 ```
 
@@ -452,7 +456,7 @@ src\views\discover\views\recommend\Recommend.tsx
 ```typescript
 const dispatch = useAppDispatch()
 useEffect(() => {
-	dispatch(fetchRecommendDataAction())
+  dispatch(fetchRecommendDataAction())
 }, [])
 ```
 
@@ -474,18 +478,18 @@ src\store\features\discover\recommend.ts
 
 ```typescript
 export const fetchRecommendDataAction = createAsyncThunk(
-	'recommendDdata',
-	(param, { dispatch }) => {
-		//...
+  'recommendDdata',
+  (param, { dispatch }) => {
+    //...
 
-		// 榜单
-		const rankingIds = [19723756, 3779629, 2884035] // 榜单的 id 列表，用于发送网络请求。
-		Promise.all(rankingIds.map(id => getPopularRankingList(id))).then(ress => {
-			const res = ress.map(res => res.playlist)
-			console.log('popular ranking res:', res)
-			dispatch(changePopularRankingsAction(res))
-		})
-	}
+    // 榜单
+    const rankingIds = [19723756, 3779629, 2884035] // 榜单的 id 列表，用于发送网络请求。
+    Promise.all(rankingIds.map(id => getPopularRankingList(id))).then(ress => {
+      const res = ress.map(res => res.playlist)
+      console.log('popular ranking res:', res)
+      dispatch(changePopularRankingsAction(res))
+    })
+  }
 )
 ```
 
@@ -495,7 +499,7 @@ export const fetchRecommendDataAction = createAsyncThunk(
 
 ```typescript
 new Promise<number>((resolve, reject) => {
-	resolve(666)
+  resolve(666)
 })
 ```
 
@@ -509,46 +513,46 @@ src\views\discover\views\recommend\cpns\popular-ranking\cpns\ranking-item\Rankin
 
 ```tsx
 const RankingItem: FC<IProps> = memo(props => {
-	const { itemData } = props
-	const { tracks = [] } = itemData
+  const { itemData } = props
+  const { tracks = [] } = itemData
 
-	return (
-		<RootWrapper>
+  return (
+    <RootWrapper>
       {/* header */}
-			<div className='header'>
-				<div className='image'>
-					<img src={getImageSize(itemData.coverImgUrl, 80)} alt='' />
-					<a className='sprite_cover' href=''></a>
-				</div>
-				<div className='info'>
-					<div className='name'>{itemData.name}</div>
-					<div>
-						<button className='sprite_02 btn play'></button>
-						<button className='sprite_02 btn favor'></button>
-					</div>
-				</div>
-			</div>
+      <div className='header'>
+        <div className='image'>
+          <img src={getImageSize(itemData.coverImgUrl, 80)} alt='' />
+          <a className='sprite_cover' href=''></a>
+        </div>
+        <div className='info'>
+          <div className='name'>{itemData.name}</div>
+          <div>
+            <button className='sprite_02 btn play'></button>
+            <button className='sprite_02 btn favor'></button>
+          </div>
+        </div>
+      </div>
       {/* list */}
-			<div className='list'>
-				{tracks.slice(0, 10).map((item, index) => (
-					<div className='item' key={item.id}>
-						<div className='index'>{index + 1}</div>
-						<div className='info'>
-							<div className='name'>{item.name}</div>
-							<div className='operator'>
-								<button className='btn sprite_02 play'></button>
-								<button className='btn sprite_icon2 add'></button>
-								<button className='btn sprite_02 favor'></button>
-							</div>
-						</div>
-					</div>
-				))}
-			</div>
-			<div className='footer'>
-				<a href='#/discover/ranking'>查看全部 &gt;</a>
-			</div>
-		</RootWrapper>
-	)
+      <div className='list'>
+        {tracks.slice(0, 10).map((item, index) => (
+          <div className='item' key={item.id}>
+            <div className='index'>{index + 1}</div>
+            <div className='info'>
+              <div className='name'>{item.name}</div>
+              <div className='operator'>
+                <button className='btn sprite_02 play'></button>
+                <button className='btn sprite_icon2 add'></button>
+                <button className='btn sprite_02 favor'></button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className='footer'>
+        <a href='#/discover/ranking'>查看全部 &gt;</a>
+      </div>
+    </RootWrapper>
+  )
 })
 ```
 

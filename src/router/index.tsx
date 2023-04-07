@@ -16,56 +16,56 @@ const Recommend = lazy(() => import('@/views/discover/views/recommend/Recommend'
 const Songs = lazy(() => import('@/views/discover/views/songs/Songs'))
 
 const routes: RouteObject[] = [
-	{
-		path: '/',
-		element: <Navigate to='/discover'></Navigate>
-	},
-	{
-		path: '/discover',
-		element: <Discover></Discover>,
-		children: [
-			{
-				path: '/discover',
-				element: <Navigate to='/discover/recommend'></Navigate>
-			},
-			{
-				path: '/discover/recommend',
-				element: <Recommend></Recommend>
-			},
-			{
-				path: '/discover/ranking',
-				element: <Ranking></Ranking>
-			},
-			{
-				path: '/discover/songs',
-				element: <Songs></Songs>
-			},
-			{
-				path: '/discover/djradio',
-				element: <Djradio></Djradio>
-			},
-			{
-				path: '/discover/artist',
-				element: <Artist></Artist>
-			},
-			{
-				path: '/discover/album',
-				element: <Alibum></Alibum>
-			}
-		]
-	},
-	{
-		path: '/mine',
-		element: <Mine></Mine>
-	},
-	{
-		path: '/foucs',
-		element: <Focus></Focus>
-	},
-	{
-		path: '/download',
-		element: <Download></Download>
-	}
+  {
+    path: '/',
+    element: <Navigate to='/discover'></Navigate>
+  },
+  {
+    path: '/discover',
+    element: <Discover></Discover>,
+    children: [
+      {
+        path: '/discover',
+        element: <Navigate to='/discover/recommend'></Navigate>
+      },
+      {
+        path: '/discover/recommend',
+        element: <Recommend></Recommend>
+      },
+      {
+        path: '/discover/ranking',
+        element: <Ranking></Ranking>
+      },
+      {
+        path: '/discover/songs',
+        element: <Songs></Songs>
+      },
+      {
+        path: '/discover/djradio',
+        element: <Djradio></Djradio>
+      },
+      {
+        path: '/discover/artist',
+        element: <Artist></Artist>
+      },
+      {
+        path: '/discover/album',
+        element: <Alibum></Alibum>
+      }
+    ]
+  },
+  {
+    path: '/mine',
+    element: <Mine></Mine>
+  },
+  {
+    path: '/foucs',
+    element: <Focus></Focus>
+  },
+  {
+    path: '/download',
+    element: <Download></Download>
+  }
 ]
 
 export default routes

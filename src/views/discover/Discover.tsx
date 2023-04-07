@@ -4,17 +4,17 @@ import { Outlet } from 'react-router-dom'
 import NavBar from './cpns/nav-bar/NavBar'
 
 interface IProps {
-	children?: ReactNode
+  children?: ReactNode
 }
 const Discover: FC<IProps> = memo(() => {
-	return (
-		<div>
-			<NavBar></NavBar>
-			<Suspense>
-				<Outlet></Outlet>
-			</Suspense>
-		</div>
-	)
+  return (
+    <div>
+      <NavBar></NavBar>
+      <Suspense>
+        <Outlet></Outlet>
+      </Suspense>
+    </div>
+  )
 })
 
 Discover.displayName = 'Discover'

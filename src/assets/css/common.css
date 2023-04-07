@@ -1,46 +1,46 @@
 :root {
-	--textColor: #484848;
-	--textColorSecondary: #222;
+  --textColor: #484848;
+  --textColorSecondary: #222;
 }
 
 body,
 textarea,
 input,
 button {
-	font-size: 12px;
-	color: #333;
-	font-family: Arial, Helvetica, sans-serif;
-	background-color: #f5f5f5;
+  font-size: 12px;
+  color: #333;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f5f5f5;
 }
 
 .wrap_v1 {
-	width: 1100px;
-	margin: 0 auto;
+  width: 1100px;
+  margin: 0 auto;
 }
 
 .wrap_v2 {
-	width: 980px;
-	margin: 0 auto;
+  width: 980px;
+  margin: 0 auto;
 }
 
 .sprite_01 {
-	background: url(../img/sprite_01.png) no-repeat 0 9999px;
+  background: url(../img/sprite_01.png) no-repeat 0 9999px;
 }
 
 .sprite_02 {
-	background: url(../img/sprite_02.png) no-repeat 0 9999px;
+  background: url(../img/sprite_02.png) no-repeat 0 9999px;
 }
 
 .sprite_cover {
-	background: url(../img/sprite_cover.png) no-repeat 0 9999px;
+  background: url(../img/sprite_cover.png) no-repeat 0 9999px;
 }
 
 .sprite_icon {
-	background: url(../img/sprite_icon.png) no-repeat 0 9999px;
+  background: url(../img/sprite_icon.png) no-repeat 0 9999px;
 }
 
 .sprite_icon2 {
-	background: url(../img/sprite_icon2.png) no-repeat 0 9999px;
+  background: url(../img/sprite_icon2.png) no-repeat 0 9999px;
 }
 
 .sprite_playbar {

@@ -49,12 +49,12 @@ const TIME_OUT = 25000
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
 
 switch (process.env.NODE_ENV) {
-	case 'development':
-		BASE_URL = 'http://codercba.com:9002'
-		break
-	case 'production':
-		BASE_URL = 'http://codercba.com:9002'
-		break
+  case 'development':
+    BASE_URL = 'http://codercba.com:9002'
+    break
+  case 'production':
+    BASE_URL = 'http://codercba.com:9002'
+    break
 }
 ```
 
@@ -105,10 +105,10 @@ node_modules\react-scripts\lib\react-app.d.ts
 
 ```typescript
 declare namespace NodeJS {
-	interface ProcessEnv {
-		readonly NODE_ENV: 'development' | 'production' | 'test'
-		readonly PUBLIC_URL: string
-	}
+  interface ProcessEnv {
+    readonly NODE_ENV: 'development' | 'production' | 'test'
+    readonly PUBLIC_URL: string
+  }
 }
 ```
 
@@ -120,9 +120,9 @@ src\react-app-env.d.ts
 
 ```typescript
 declare namespace NodeJS {
-	interface ProcessEnv {
-		readonly REACT_APP_BASE_URL: string
-	}
+  interface ProcessEnv {
+    readonly REACT_APP_BASE_URL: string
+  }
 }
 ```
 
@@ -140,40 +140,40 @@ src\views\discover\recommend\Recommend.tsx
 
 ```tsx
 interface IProps {
-	children?: ReactNode
+  children?: ReactNode
 }
 
 export interface IBannerData {
-	imageUrl: string
-	targetId: number
-	targetType: number
-	titleColor: string
-	typeTitle: string
-	url: string
-	exclusive: boolean
-	scm: string
-	bannerBizType: string
+  imageUrl: string
+  targetId: number
+  targetType: number
+  titleColor: string
+  typeTitle: string
+  url: string
+  exclusive: boolean
+  scm: string
+  bannerBizType: string
 }
 
 interface IResult {
-	banners: IBannerData[]
-	code: number
+  banners: IBannerData[]
+  code: number
 }
 
 const Recommend: FC<IProps> = memo(() => {
-	const [banners, setBanners] = useState<IBannerData[]>([])
+  const [banners, setBanners] = useState<IBannerData[]>([])
 
-	useEffect(() => {
-		ztRequest.get<IResult>({ url: '/banner' }).then(res => setBanners(res.banners))
-	})
+  useEffect(() => {
+    ztRequest.get<IResult>({ url: '/banner' }).then(res => setBanners(res.banners))
+  })
 
-	return (
-		<div>
-			{banners.map((item, index) => (
-				<div key={index}>{item.imageUrl}</div>
-			))}
-		</div>
-	)
+  return (
+    <div>
+      {banners.map((item, index) => (
+        <div key={index}>{item.imageUrl}</div>
+      ))}
+    </div>
+  )
 })
 ```
 
@@ -189,9 +189,9 @@ src\views\demo\Demo.tsx
 import React, { PureComponent } from 'react'
 
 export class demo extends PureComponent {
-	render(): React.ReactNode {
-		return <div>demo</div>
-	}
+  render(): React.ReactNode {
+    return <div>demo</div>
+  }
 }
 
 export default demo
@@ -205,19 +205,19 @@ src\views\demo\Demo.tsx
 import React, { PureComponent } from 'react'
 
 interface IProps {
-	name: string
-	age: number
+  name: string
+  age: number
 }
 
 export class Demo extends PureComponent<IProps> {
-	render(): React.ReactNode {
-		return (
-			<div>
-				<h1>name: {this.props.name}</h1>
-				<h1>name: {this.props.age}</h1>
-			</div>
-		)
-	}
+  render(): React.ReactNode {
+    return (
+      <div>
+        <h1>name: {this.props.name}</h1>
+        <h1>name: {this.props.age}</h1>
+      </div>
+    )
+  }
 }
 
 export default Demo
@@ -231,32 +231,32 @@ src\views\demo\Demo.tsx
 import React, { PureComponent } from 'react'
 
 interface IProps {
-	name: string
-	age: number
+  name: string
+  age: number
 }
 
 interface IState {
-	msg: string
-	count: number
+  msg: string
+  count: number
 }
 
 export class Demo extends PureComponent<IProps, IState> {
-	constructor(props: IProps) {
-		super(props)
-		this.state = {
-			msg: 'haha',
-			count: 0
-		}
-	}
+  constructor(props: IProps) {
+    super(props)
+    this.state = {
+      msg: 'haha',
+      count: 0
+    }
+  }
 
-	render(): React.ReactNode {
-		return (
-			<div>
-				<h1>name: {this.props.name}</h1>
-				<h1>name: {this.props.age}</h1>
-			</div>
-		)
-	}
+  render(): React.ReactNode {
+    return (
+      <div>
+        <h1>name: {this.props.name}</h1>
+        <h1>name: {this.props.age}</h1>
+      </div>
+    )
+  }
 }
 
 export default Demo
@@ -270,29 +270,29 @@ export default Demo
 import React, { PureComponent } from 'react'
 
 interface IProps {
-	name: string
-	age: number
+  name: string
+  age: number
 }
 
 interface IState {
-	msg: string
-	count: number
+  msg: string
+  count: number
 }
 
 export class Demo extends PureComponent<IProps, IState> {
-	state = {
-		msg: 'haha',
-		count: 0
-	}
+  state = {
+    msg: 'haha',
+    count: 0
+  }
 
-	render(): React.ReactNode {
-		return (
-			<div>
-				<h1>name: {this.props.name}</h1>
-				<h1>name: {this.props.age}</h1>
-			</div>
-		)
-	}
+  render(): React.ReactNode {
+    return (
+      <div>
+        <h1>name: {this.props.name}</h1>
+        <h1>name: {this.props.age}</h1>
+      </div>
+    )
+  }
 }
 
 export default Demo
@@ -311,55 +311,55 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 interface IProps {
-	name: string
-	age: number
+  name: string
+  age: number
 }
 
 interface IState {
-	msg: string
-	count: number
+  msg: string
+  count: number
 }
 
 interface ISnaptShot {
-	address: string
+  address: string
 }
 
 export class Demo extends PureComponent<IProps, IState, ISnaptShot> {
-	state = {
-		msg: 'haha',
-		count: 0
-	}
+  state = {
+    msg: 'haha',
+    count: 0
+  }
 
-	static propTypes = {
-		name: PropTypes.string,
-		age: PropTypes.number
-	}
+  static propTypes = {
+    name: PropTypes.string,
+    age: PropTypes.number
+  }
 
-	getSnapshotBeforeUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>) {
-		console.log(prevProps)
-		console.log(prevState)
+  getSnapshotBeforeUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>) {
+    console.log(prevProps)
+    console.log(prevState)
 
-		return { address: 'LA' }
-	}
+    return { address: 'LA' }
+  }
 
-	componentDidUpdate(
-		prevProps: Readonly<IProps>,
-		prevState: Readonly<IState>,
-		snapshot?: ISnaptShot | undefined
-	): void {
-		console.log(prevProps)
-		console.log(prevState)
-		console.log(snapshot)
-	}
+  componentDidUpdate(
+    prevProps: Readonly<IProps>,
+    prevState: Readonly<IState>,
+    snapshot?: ISnaptShot | undefined
+  ): void {
+    console.log(prevProps)
+    console.log(prevState)
+    console.log(snapshot)
+  }
 
-	render(): React.ReactNode {
-		return (
-			<div>
-				<h1>name: {this.props.name}</h1>
-				<h1>name: {this.props.age}</h1>
-			</div>
-		)
-	}
+  render(): React.ReactNode {
+    return (
+      <div>
+        <h1>name: {this.props.name}</h1>
+        <h1>name: {this.props.age}</h1>
+      </div>
+    )
+  }
 }
 
 export default Demo
@@ -379,29 +379,29 @@ export default Demo
 type DirectionType = 'left' | 'right' | 'down' | 'up'
 
 interface IState {
-	count: number
-	message: string
-	address: string
-	height: number
-	direction: DirectionType
+  count: number
+  message: string
+  address: string
+  height: number
+  direction: DirectionType
 }
 
 const initialState: IState = {
-	count: 100,
-	message: 'hello redux',
-	address: '深圳市',
-	height: 1.88,
-	direction: 'left'
+  count: 100,
+  message: 'hello redux',
+  address: '深圳市',
+  height: 1.88,
+  direction: 'left'
 }
 
 const counterSlice = createSlice({
-	name: 'counter',
-	initialState,
-	reducers: {
-		changeMessageAction(state, { payload }) {
-			state.message = payload
-		}
-	}
+  name: 'counter',
+  initialState,
+  reducers: {
+    changeMessageAction(state, { payload }) {
+      state.message = payload
+    }
+  }
 })
 ```
 
@@ -415,13 +415,13 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 //...
 
 const counterSlice = createSlice({
-	name: 'counter',
-	initialState,
-	reducers: {
-		changeMessageAction(state, { payload }: PayloadAction<string>) {
-			state.message = payload
-		}
-	}
+  name: 'counter',
+  initialState,
+  reducers: {
+    changeMessageAction(state, { payload }: PayloadAction<string>) {
+      state.message = payload
+    }
+  }
 })
 ```
 
@@ -435,15 +435,15 @@ src\App.tsx
 
 ```tsx
 function App() {
-	return (
-		<div className='App'>
-			<AppHeader></AppHeader>
-			<Suspense>
-				<div className='main'>{useRoutes(routes)}</div>
-			</Suspense>
-			<AppFooter></AppFooter>
-		</div>
-	)
+  return (
+    <div className='App'>
+      <AppHeader></AppHeader>
+      <Suspense>
+        <div className='main'>{useRoutes(routes)}</div>
+      </Suspense>
+      <AppFooter></AppFooter>
+    </div>
+  )
 }
 ```
 
@@ -488,7 +488,7 @@ src\components\app-header\AppHeader.tsx
 import AppHeaderWrapper from './app-header-style'
 //...
 const AppHeader: FC<IProps> = memo(() => {
-	return <AppHeaderWrapper>{/*...*/}</AppHeaderWrapper>
+  return <AppHeaderWrapper>{/*...*/}</AppHeaderWrapper>
 })
 ```
 
@@ -498,17 +498,17 @@ src\assets\theme\index.ts
 
 ```typescript
 const theme = {
-	color: {
-		primary: '#C20C0C',
-		secondary: ''
-	},
-	size: {},
-	misin: {
-		wrapv1: `
+  color: {
+    primary: '#C20C0C',
+    secondary: ''
+  },
+  size: {},
+  misin: {
+    wrapv1: `
       width: 1100px;
       margin: 0 auto
     `
-	}
+  }
 }
 
 export default theme
@@ -523,15 +523,15 @@ import { ThemeProvider } from 'styled-components'
 import theme from './assets/theme'
 //...
 root.render(
-	<React.StrictMode>
-		<Provider store={store}>
-			<ThemeProvider theme={theme}>
-				<HashRouter>
-					<App />
-				</HashRouter>
-			</ThemeProvider>
-		</Provider>
-	</React.StrictMode>
+  <React.StrictMode>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <HashRouter>
+          <App />
+        </HashRouter>
+      </ThemeProvider>
+    </Provider>
+  </React.StrictMode>
 )
 ```
 
@@ -556,38 +556,38 @@ src\components\app-header\AppHeader.tsx
 
 ```tsx
 const AppHeader: FC<IProps> = memo(() => {
-	return (
-		<AppHeaderWrapper>
-			<div className='content wrap_v1'>
-				<HeaderLeftWrapper>
-					{/* logo */}
-					<a className='logo sprite_01' href='/'>
-						网易云音乐
-					</a>
-					{/* 一级路由 */}
-					<div className='title-list'>
-						{headerTitles.map(item => (
-							<div className='item' key={item.title}>
-								{item.type === 'path' ? (
-									<NavLink
-										to={item.link}
-										className={({ isActive }) => (isActive ? 'active' : undefined)}
-									>
-										{item.title}
-										<i className='icon sprite_01'></i>
-									</NavLink>
-								) : item.type === 'link' ? (
-									<a href={item.link} rel='noreferrer' target='_blank'>
-										{item.title}
-									</a>
-								) : undefined}
-							</div>
-						))}
-					</div>
-				</HeaderLeftWrapper>
-			</div>
-		</AppHeaderWrapper>
-	)
+  return (
+    <AppHeaderWrapper>
+      <div className='content wrap_v1'>
+        <HeaderLeftWrapper>
+          {/* logo */}
+          <a className='logo sprite_01' href='/'>
+            网易云音乐
+          </a>
+          {/* 一级路由 */}
+          <div className='title-list'>
+            {headerTitles.map(item => (
+              <div className='item' key={item.title}>
+                {item.type === 'path' ? (
+                  <NavLink
+                    to={item.link}
+                    className={({ isActive }) => (isActive ? 'active' : undefined)}
+                  >
+                    {item.title}
+                    <i className='icon sprite_01'></i>
+                  </NavLink>
+                ) : item.type === 'link' ? (
+                  <a href={item.link} rel='noreferrer' target='_blank'>
+                    {item.title}
+                  </a>
+                ) : undefined}
+              </div>
+            ))}
+          </div>
+        </HeaderLeftWrapper>
+      </div>
+    </AppHeaderWrapper>
+  )
 })
 ```
 
@@ -694,14 +694,14 @@ src\components\app-header\AppHeader.tsx
 ```tsx
 //...
 <HeaderRightWrapper>
-	<Input
-		// onFocus={onFoucs}
-		className='search'
-		placeholder='音乐/视频/电台/用户'
-		prefix={<SearchOutlined></SearchOutlined>}
-	></Input>
-	<span className='center'>创作者中心</span>
-	<span className='sign-in'>登录</span>
+  <Input
+    // onFocus={onFoucs}
+    className='search'
+    placeholder='音乐/视频/电台/用户'
+    prefix={<SearchOutlined></SearchOutlined>}
+  ></Input>
+  <span className='center'>创作者中心</span>
+  <span className='sign-in'>登录</span>
 </HeaderRightWrapper>
 //...
 ```
@@ -772,14 +772,14 @@ src\views\discover\Discover.tsx
 
 ```tsx
 const Discover: FC<IProps> = memo(() => {
-	return (
-		<div>
-			<NavBar></NavBar>
-			<Suspense>
-				<Outlet></Outlet>
-			</Suspense>
-		</div>
-	)
+  return (
+    <div>
+      <NavBar></NavBar>
+      <Suspense>
+        <Outlet></Outlet>
+      </Suspense>
+    </div>
+  )
 })
 ```
 
@@ -793,20 +793,20 @@ import discoverTitles from '@/assets/data/discover-titles.json'
 import { NavLink } from 'react-router-dom'
 
 interface IProps {
-	children?: ReactNode
+  children?: ReactNode
 }
 const NavBar: FC<IProps> = memo(() => {
-	return (
-		<NavBarWrapper>
-			<div className='nav wrap_v1'>
-				{discoverTitles.map(item => (
-					<div className='item' key={item.link}>
-						<NavLink to={item.link}>{item.title}</NavLink>
-					</div>
-				))}
-			</div>
-		</NavBarWrapper>
-	)
+  return (
+    <NavBarWrapper>
+      <div className='nav wrap_v1'>
+        {discoverTitles.map(item => (
+          <div className='item' key={item.link}>
+            <NavLink to={item.link}>{item.title}</NavLink>
+          </div>
+        ))}
+      </div>
+    </NavBarWrapper>
+  )
 })
 ```
 
@@ -886,28 +886,28 @@ import { IBanner } from '@/types'
 import { getBanners } from '@/service/features/discover/recommend'
 
 const initialState: {
-	banners: IBanner[]
+  banners: IBanner[]
 } = {
-	banners: []
+  banners: []
 }
 
 const recommendSlice = createSlice({
-	name: 'recommend',
-	initialState,
-	reducers: {
-		changeBannersAction(state, { payload }) {
-			state.banners = payload
-		}
-	}
+  name: 'recommend',
+  initialState,
+  reducers: {
+    changeBannersAction(state, { payload }) {
+      state.banners = payload
+    }
+  }
 })
 
 export const { changeBannersAction } = recommendSlice.actions
 export default recommendSlice.reducer
 
 export const fetchBannerDataAction = createAsyncThunk('banners', (param, { dispatch }) => {
-	getBanners().then(res => {
-		dispatch(changeBannersAction(res.banners))
-	})
+  getBanners().then(res => {
+    dispatch(changeBannersAction(res.banners))
+  })
 })
 ```
 
@@ -928,20 +928,20 @@ import TopBanners from './cpns/top-banners/TopBanners'
 import { useAppDispatch } from '@/store'
 
 interface IProps {
-	children?: ReactNode
+  children?: ReactNode
 }
 const Recommend: FC<IProps> = memo(() => {
-	// 发送请求
-	const dispatch = useAppDispatch()
-	useEffect(() => {
-		dispatch(fetchBannerDataAction())
-	}, [])
+  // 发送请求
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(fetchBannerDataAction())
+  }, [])
 
-	return (
-		<div>
-			<TopBanners></TopBanners>
-		</div>
-	)
+  return (
+    <div>
+      <TopBanners></TopBanners>
+    </div>
+  )
 })
 
 Recommend.displayName = 'Recommend'
@@ -957,10 +957,10 @@ src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
 ```typescript
 const { banners } = useAppSelector(
-	state => ({
-		banners: state.recommend.banners
-	}),
-	shallowEqual
+  state => ({
+    banners: state.recommend.banners
+  }),
+  shallowEqual
 )
 ```
 
@@ -976,45 +976,45 @@ src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
 ```tsx
 <TopBannersWrapper style={{ background: `url('${bgImgUrl}') center center / 6000px` }}>
-	<div className='banner wrap_v2'>
-		<BannerLeftWrapper>
-			{/* 轮播图 */}
-			{/* 轮播图切换的淡入，淡出效果编写。传入 effect 属性进行控制。*/}
-			<Carousel
-				autoplay
-				dots={false}
-				autoplaySpeed={3000}
-				effect='fade'
-				ref={carouselRef}
-				beforeChange={onCarouselBeforechange}
-			>
-				{banners.map(item => (
-					<div className='banner-item' key={item.imageUrl}>
-						<img className='image' src={item.imageUrl} alt={item.typeTitle} />
-					</div>
-				))}
-			</Carousel>
-			{/* 轮播图指示器 */}
-			<ul className='dots'>
-				{banners.map((item, index) => (
-					<li key={item.imageUrl}>
-						<span className={classNames('item', { active: index === currentIndex })}></span>
-					</li>
-				))}
-			</ul>
-		</BannerLeftWrapper>
+  <div className='banner wrap_v2'>
+    <BannerLeftWrapper>
+      {/* 轮播图 */}
+      {/* 轮播图切换的淡入，淡出效果编写。传入 effect 属性进行控制。*/}
+      <Carousel
+        autoplay
+        dots={false}
+        autoplaySpeed={3000}
+        effect='fade'
+        ref={carouselRef}
+        beforeChange={onCarouselBeforechange}
+      >
+        {banners.map(item => (
+          <div className='banner-item' key={item.imageUrl}>
+            <img className='image' src={item.imageUrl} alt={item.typeTitle} />
+          </div>
+        ))}
+      </Carousel>
+      {/* 轮播图指示器 */}
+      <ul className='dots'>
+        {banners.map((item, index) => (
+          <li key={item.imageUrl}>
+            <span className={classNames('item', { active: index === currentIndex })}></span>
+          </li>
+        ))}
+      </ul>
+    </BannerLeftWrapper>
 
-		{/*下载客户端*/}
-		<BannerRightWrapper>
-			<p>PC 安卓 iPhone WP iPad Mac 六大客户端</p>
-		</BannerRightWrapper>
+    {/*下载客户端*/}
+    <BannerRightWrapper>
+      <p>PC 安卓 iPhone WP iPad Mac 六大客户端</p>
+    </BannerRightWrapper>
 
-		{/*箭头控制器*/}
-		<BannerControlWrapper>
-			<button className='btn left' onClick={onPrevClick}></button>
-			<button className='btn right' onClick={onNextClick}></button>
-		</BannerControlWrapper>
-	</div>
+    {/*箭头控制器*/}
+    <BannerControlWrapper>
+      <button className='btn left' onClick={onPrevClick}></button>
+      <button className='btn right' onClick={onNextClick}></button>
+    </BannerControlWrapper>
+  </div>
 </TopBannersWrapper>
 ```
 
@@ -1031,10 +1031,10 @@ src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 const carouselRef = useRef<ElementRef<typeof Carousel>>(null)
 //...
 const onPrevClick = () => {
-	carouselRef.current?.prev()
+  carouselRef.current?.prev()
 }
 const onNextClick = () => {
-	carouselRef.current?.next()
+  carouselRef.current?.next()
 }
 ```
 
@@ -1046,16 +1046,16 @@ src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
 ```tsx
 const TopBanners: FC<IProps> = memo(() => {
-	//...
-	let bgImgUrl = ''
-	if (currentIndex >= 0 && banners.length > 0) {
-		bgImgUrl = banners[currentIndex].imageUrl + '?imageView&blur=40x20'
-	}
-	return (
-		<TopBannersWrapper style={{ background: `url('${bgImgUrl}') center center / 6000px` }}>
-			{/*...*/}
-		</TopBannersWrapper>
-	)
+  //...
+  let bgImgUrl = ''
+  if (currentIndex >= 0 && banners.length > 0) {
+    bgImgUrl = banners[currentIndex].imageUrl + '?imageView&blur=40x20'
+  }
+  return (
+    <TopBannersWrapper style={{ background: `url('${bgImgUrl}') center center / 6000px` }}>
+      {/*...*/}
+    </TopBannersWrapper>
+  )
 })
 ```
 
@@ -1073,38 +1073,38 @@ src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 ```tsx
 // 走马灯，切换前，事件
 const onCarouselBeforechange = useCallback(
-	(from: number, to: number) => {
-		setCurrentIndex(to)
-	},
-	[currentIndex]
+  (from: number, to: number) => {
+    setCurrentIndex(to)
+  },
+  [currentIndex]
 )
 
 //...
 
 let bgImgUrl = ''
 if (currentIndex >= 0 && banners.length > 0) {
-	bgImgUrl = banners[currentIndex].imageUrl + '?imageView&blur=40x20'
+  bgImgUrl = banners[currentIndex].imageUrl + '?imageView&blur=40x20'
 }
 
 //...
 ;<TopBannersWrapper style={{ background: `url('${bgImgUrl}') center center / 6000px` }}>
-	<div className='banner wrap_v2'>
-		<Carousel
-			autoplay
-			dots={false}
-			autoplaySpeed={3000}
-			effect='fade'
-			ref={carouselRef}
-			beforeChange={onCarouselBeforechange}
-		>
-			{banners.map(item => (
-				<div className='banner-item' key={item.imageUrl}>
-					<img className='image' src={item.imageUrl} alt={item.typeTitle} />
-				</div>
-			))}
-		</Carousel>
-		{/*...*/}
-	</div>
+  <div className='banner wrap_v2'>
+    <Carousel
+      autoplay
+      dots={false}
+      autoplaySpeed={3000}
+      effect='fade'
+      ref={carouselRef}
+      beforeChange={onCarouselBeforechange}
+    >
+      {banners.map(item => (
+        <div className='banner-item' key={item.imageUrl}>
+          <img className='image' src={item.imageUrl} alt={item.typeTitle} />
+        </div>
+      ))}
+    </Carousel>
+    {/*...*/}
+  </div>
 </TopBannersWrapper>
 ```
 
@@ -1124,29 +1124,29 @@ src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
 ```tsx
 <BannerLeftWrapper>
-	{/* 轮播图 */}
-	<Carousel
-		autoplay
-		dots={false}
-		autoplaySpeed={3000}
-		effect='fade'
-		ref={carouselRef}
-		beforeChange={onCarouselBeforechange}
-	>
-		{banners.map(item => (
-			<div className='banner-item' key={item.imageUrl}>
-				<img className='image' src={item.imageUrl} alt={item.typeTitle} />
-			</div>
-		))}
-	</Carousel>
-	{/* 轮播图指示器 */}
-	<ul className='dots'>
-		{banners.map((item, index) => (
-			<li key={item.imageUrl}>
-				<span className={classNames('item', { active: index === currentIndex })}></span>
-			</li>
-		))}
-	</ul>
+  {/* 轮播图 */}
+  <Carousel
+    autoplay
+    dots={false}
+    autoplaySpeed={3000}
+    effect='fade'
+    ref={carouselRef}
+    beforeChange={onCarouselBeforechange}
+  >
+    {banners.map(item => (
+      <div className='banner-item' key={item.imageUrl}>
+        <img className='image' src={item.imageUrl} alt={item.typeTitle} />
+      </div>
+    ))}
+  </Carousel>
+  {/* 轮播图指示器 */}
+  <ul className='dots'>
+    {banners.map((item, index) => (
+      <li key={item.imageUrl}>
+        <span className={classNames('item', { active: index === currentIndex })}></span>
+      </li>
+    ))}
+  </ul>
 </BannerLeftWrapper>
 ```
 

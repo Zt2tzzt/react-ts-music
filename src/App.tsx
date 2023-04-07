@@ -8,24 +8,24 @@ import { useAppDispatch } from './store'
 import { playTheMusicAction } from './store/features/player/player'
 
 function App() {
-	const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch()
 
-	useEffect(() => {
-		dispatch(playTheMusicAction(2003496926))
-	}, [])
+  useEffect(() => {
+    dispatch(playTheMusicAction(2003496926))
+  }, [])
 
-	return (
-		<div className='App'>
-			<AppHeader></AppHeader>
-			<Suspense>
-				<div className='main'>{useRoutes(routes)}</div>
-			</Suspense>
-			<AppFooter></AppFooter>
+  return (
+    <div className='App'>
+      <AppHeader></AppHeader>
+      <Suspense>
+        <div className='main'>{useRoutes(routes)}</div>
+      </Suspense>
+      <AppFooter></AppFooter>
 
-			{/* 播放器，工具栏 */}
-			<AppPlayerBar></AppPlayerBar>
-		</div>
-	)
+      {/* 播放器，工具栏 */}
+      <AppPlayerBar></AppPlayerBar>
+    </div>
+  )
 }
 
 export default App

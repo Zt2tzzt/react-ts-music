@@ -20,26 +20,26 @@ td,
 textarea,
 th,
 ul {
-	padding: 0;
-	margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 button {
-	background-color: #fff;
-	border: transparent;
-	outline: none;
+  background-color: #fff;
+  border: transparent;
+  outline: none;
 }
 
 a {
-	color: var(--textColor);
-	text-decoration: none;
+  color: var(--textColor);
+  text-decoration: none;
 }
 
 img {
-	vertical-align: top;
+  vertical-align: top;
 }
 
 ul,
 li {
-	list-style: none;
+  list-style: none;
 }
