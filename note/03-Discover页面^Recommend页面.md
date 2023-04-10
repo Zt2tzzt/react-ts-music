@@ -303,7 +303,7 @@ src\views\discover\views\recommend\cpns\new-albums\NewAlbums.tsx
 
 2.再搭建轮播图中的内容。
 
-在 `Recommend.tsx` 中，发送网络请求，获取新碟上架列表，并保存到 store 中。
+在 `Recommend.tsx` 中，派发异步 action，获取“新碟上架”列表，并保存到 store 中。
 
 在 `NewAlbums.tsx` 中，将新碟上架列表展示出来。
 
@@ -368,9 +368,8 @@ const NewAlbums: FC<IProps> = memo(() => {
 })
 ```
 
-> 【注意】：传入 `<Carousel>` 的直接子元素，被默认设置了行内样式，`display: inline-block; width: 100%`；优先级很高
+> 【注意】：传入 `<Carousel>` 的直接子元素，被默认设置了行内样式，`display: inline-block; width: 100%`；优先级很高；该样式不好覆盖。需要再嵌套一层展示。
 >
-> 该样式不好覆盖。需要再嵌套一层展示。
 
 调整样式。
 
@@ -419,8 +418,6 @@ export const fetchRecommendDataAction = createAsyncThunk(
 
 ### 1.样式调整
 
-在其中设置背景图片。
-
 src\views\discover\views\recommend\cpns\popular-ranking\PopularRanking.tsx
 
 ```tsx
@@ -433,6 +430,8 @@ src\views\discover\views\recommend\cpns\popular-ranking\PopularRanking.tsx
   </div>
 </RootWrapper>
 ```
+
+在其中设置背景图片。
 
 src\views\discover\views\recommend\cpns\popular-ranking\style.ts
 
@@ -460,17 +459,17 @@ useEffect(() => {
 }, [])
 ```
 
-> 【注意】：三个榜单分别要发送三次网络请求，榜单数据的组织，有两种方案：
+> 【注意】：三个榜单，分别要发送三次网络请求，榜单数据的组织，有两种方案：
 >
 > 方案一：渲染一次（项目中采用）
 >
-> - 等到三个网络请求都有结果后，再一次性渲染到页面。从页面渲染的角度来看，性能高。
+> - 等三个网络请求，都有结果后，再一次性渲染到页面。从页面渲染的角度来看，性能高。
 > - 虽然等待三次网络请求全部完成比较耗时，但是考虑到榜单在页面下方，并不会被用户立即看到，所以影响不大。
 >
 > 方案二：渲染多次。
 >
 > - 三个网络请求，一旦有一个返回数据，就进行一次渲染。
-> - 会渲染多次，性能低。
+> - 会渲染多次，从页面渲染的角度来看，性能低。
 
 使用 `Promise.all` 方法，
 
@@ -493,9 +492,8 @@ export const fetchRecommendDataAction = createAsyncThunk(
 )
 ```
 
-> 【补充】：理解 `Promise<T>` 中泛型的使用。
+> 【补充】：理解 `Promise<T>` 中泛型的使用；`T` 表示传入 `resolve` 的数据类型。
 >
-> `T` 表示传入 `resolve` 的数据类型。
 
 ```typescript
 new Promise<number>((resolve, reject) => {
