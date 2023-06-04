@@ -1,6 +1,8 @@
-# 一、项目搭建
+# 项目搭建 & 项目结构 & Discover页面
 
-## 1.axios 配置
+## 一、项目搭建
+
+### 1.axios 配置
 
 1.安装 _axios_ 依赖；
 
@@ -12,11 +14,11 @@ npm i axios
 
 3.将第三层封装中，interceptor 携带 token 的代码，暂时注释掉。
 
-## 2.区分环境（webpack）
+### 2.区分环境（webpack）
 
 _webpack_ 中如何区分环境？有三种方式：
 
-### 1.手动切换
+#### 1.手动切换
 
 在项目打包前，通过手动注释代码，来区分环境（不推荐）。
 
@@ -27,7 +29,7 @@ src\service\request\config.ts
 export const BASE_URL = 'http://codercba.prod:8000'
 ```
 
-### 2.环境变量
+#### 2.环境变量
 
 项目中使用该方案。
 
@@ -74,19 +76,19 @@ npm install -g server
 serve -s build # 启动本地服务，并指定 build 目录下的文件，作为资源。
 ```
 
-### 3.配置文件
+#### 3.配置文件
 
 在根目录编写以下文件，其中定义的变量，必须以 “`REACT_APP_`” 前缀开头，才能被 _webpack_ 读取。
 
 .env.development
 
-```
+```env
 REACT_APP_BASE_URL = 'HAHA'
 ```
 
 .env.production
 
-```
+```env
 REACT_APP_BASE_URL = 'HEHE'
 ```
 
@@ -97,7 +99,7 @@ index.tsx
 console.log(process.env.REACT_APP_BASE_URL)
 ```
 
-### 4.补充（类型）
+#### 4.补充（类型）
 
 webpack 环境变量 `process.env` 的类型，来自于 `src\react-app-env.d.ts` 文件所引用的位置。
 
@@ -126,11 +128,11 @@ declare namespace NodeJS {
 }
 ```
 
-## 3.API 文档
+### 3.API 文档
 
 阅读 [项目 API 文档](http://codercba.com:9002)。
 
-## 4.网络请求测试
+### 4.网络请求测试
 
 在 `Recommend.tsx` 中发送网络请求，进行 _axios_ 的测试。
 
@@ -177,7 +179,7 @@ const Recommend: FC<IProps> = memo(() => {
 })
 ```
 
-## 5.类组件类型【补充】
+### 5.类组件类型【补充】
 
 类组件中，TS 要怎么写？
 
@@ -365,11 +367,11 @@ export class Demo extends PureComponent<IProps, IState, ISnaptShot> {
 export default Demo
 ```
 
-## 6.状态管理（类型）
+### 6.状态管理（类型）
 
 使用 RTK 配置状态管理。
 
-1.` createSlice` 中 `initialState` 一般不需要指定类型，可以自动推导。
+1.`createSlice` 中 `initialState` 一般不需要指定类型，可以自动推导。
 
 如果手动指定类型，那么类型更加明确：
 
@@ -425,7 +427,7 @@ const counterSlice = createSlice({
 })
 ```
 
-# 二、项目结构搭建
+## 二、项目结构搭建
 
 在 component 目录下创建 `AppHeader.tsx` 和 `AppFooter.tsx` 两个组件。
 
@@ -447,7 +449,7 @@ function App() {
 }
 ```
 
-## 1.AppHeader 组件
+### 1.AppHeader 组件
 
 在 `AppHeader.tsx` 中调整样式。使用 _styled-components_
 
@@ -473,10 +475,10 @@ src\components\app-header\style.ts
 import styled from 'styled-components'
 
 const AppHeaderWrapper = styled.header`
-	height: 75px;
-	background-color: #242424;
-	font-size: 14px;
-	color: #fff;
+  height: 75px;
+  background-color: #242424;
+  font-size: 14px;
+  color: #fff;
   //...
 `
 export default AppHeaderWrapper
@@ -537,7 +539,7 @@ root.render(
 
 在 `AppHeader.tsx` 中加入 `<HeaderLeftWrapper>` 和 `<HeaderRightWrapper>` 区域。
 
-### 1.HeaderLeft 区域
+#### 1.HeaderLeft 区域
 
 在 `<HeaderLeftWrapper>` 中：
 
@@ -607,65 +609,65 @@ src\components\app-header\style.ts
 
 ```less
 export const HeaderLeftWrapper = styled.div`
-	display: flex;
+  display: flex;
 
-	.logo {
-		display: block;
-		width: 176px;
-		height: 70px;
-		background-position: 0 0;
-		text-indent: -9999px;
-	}
+  .logo {
+    display: block;
+    width: 176px;
+    height: 70px;
+    background-position: 0 0;
+    text-indent: -9999px;
+  }
 
-	.title-list {
-		display: flex;
-		line-height: 70px;
+  .title-list {
+    display: flex;
+    line-height: 70px;
 
-		.item {
-			position: relative;
+    .item {
+      position: relative;
 
-			a {
-				display: block;
-				padding: 0 20px;
-				color: #ccc;
-			}
+      a {
+        display: block;
+        padding: 0 20px;
+        color: #ccc;
+      }
 
-			:last-of-type a {
-				position: relative;
-				::after {
-					position: absolute;
-					content: '';
-					width: 28px;
-					height: 19px;
-					background-image: url(${require('@/assets/img/sprite_01.png')});
-					background-position: -190px 0;
-					top: 20px;
-					right: -15px;
-				}
-			}
+      :last-of-type a {
+        position: relative;
+        ::after {
+          position: absolute;
+          content: '';
+          width: 28px;
+          height: 19px;
+          background-image: url(${require('@/assets/img/sprite_01.png')});
+          background-position: -190px 0;
+          top: 20px;
+          right: -15px;
+        }
+      }
 
-			&:hover a,
-			.active {
-				color: #fff;
-				background-color: #000;
-			}
+      &:hover a,
+      .active {
+        color: #fff;
+        background-color: #000;
+      }
 
-			.active .icon {
-				position: absolute;
-				display: inline-block;
-				width: 12px;
-				height: 7px;
-				bottom: -1px;
-				left: 50%;
-				transform: translateX(-50%);
-				background-position: -226px 0;
-			}
-		}
-	}
+      .active .icon {
+        position: absolute;
+        display: inline-block;
+        width: 12px;
+        height: 7px;
+        bottom: -1px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-position: -226px 0;
+      }
+    }
+  }
 `
 ```
 
-### 2.HeaderRight 区域
+#### 2.HeaderRight 区域
 
 在 `<HeaderRightWrapper>` 中，编写搜索框。使用 _AntDesign_ 中的组件。
 
@@ -712,53 +714,53 @@ src\components\app-header\style.ts
 
 ```less
 export const HeaderRightWrapper = styled.div`
-	display: flex;
-	align-items: center;
-	color: #787878;
-	font-size: 12px;
+  display: flex;
+  align-items: center;
+  color: #787878;
+  font-size: 12px;
 
-	> .search {
-		width: 158px;
-		height: 32px;
-		border-radius: 16px;
+  > .search {
+    width: 158px;
+    height: 32px;
+    border-radius: 16px;
 
-		input::placeholder {
-			font-size: 12px;
-		}
-	}
+    input::placeholder {
+      font-size: 12px;
+    }
+  }
 
-	.center {
-		width: 90px;
-		height: 32px;
-		line-height: 32px;
-		margin: 0 16px;
-		text-align: center;
-		border: 1px #666 solid;
-		border-radius: 16px;
-		color: #ccc;
-		cursor: pointer;
+  .center {
+    width: 90px;
+    height: 32px;
+    line-height: 32px;
+    margin: 0 16px;
+    text-align: center;
+    border: 1px #666 solid;
+    border-radius: 16px;
+    color: #ccc;
+    cursor: pointer;
 
-		&:hover {
-			color: #fff;
-			border-color: #fff;
-		}
-	}
+    &:hover {
+      color: #fff;
+      border-color: #fff;
+    }
+  }
 
   .sign-in {
-		&:hover {
-			text-decoration: underline;
-			color: #fff;
-			cursor: pointer;
-		}
-	}
+    &:hover {
+      text-decoration: underline;
+      color: #fff;
+      cursor: pointer;
+    }
+  }
 `
 ```
 
-## 2.Discover 页面
+### 2.Discover 页面
 
 在 `Discover.tsx` 页面中，分为两部分内容，header 和 content。
 
-### 1.header 区域（NavBar）
+#### 1.header 区域（NavBar）
 
 在 `Discover.tsx` 中，创建 `<NavBar>`，用来表示 header 区域。
 
@@ -810,7 +812,7 @@ const NavBar: FC<IProps> = memo(() => {
 })
 ```
 
-调整样式
+调整样式：
 
 src\views\discover\cpns\nav-bar\style.ts
 
@@ -818,39 +820,39 @@ src\views\discover\cpns\nav-bar\style.ts
 import styled from 'styled-components'
 
 const NavBarWrapper = styled.nav`
-	height: 30px;
-	background-color: ${props => props.theme.color.primary};
+  height: 30px;
+  background-color: ${props => props.theme.color.primary};
 
-	.nav {
-		display: flex;
-		padding-left: 360px;
-		position: relative;
-		top: -4px;
+  .nav {
+    display: flex;
+    padding-left: 360px;
+    position: relative;
+    top: -4px;
 
-		.item {
-			a {
-				display: inline-block;
-				height: 20px;
-				line-height: 20px;
-				padding: 0 13px;
-				margin: 7px 17px 0;
-				color: #fff;
-				font-size: 12px;
+    .item {
+      a {
+        display: inline-block;
+        height: 20px;
+        line-height: 20px;
+        padding: 0 13px;
+        margin: 7px 17px 0;
+        color: #fff;
+        font-size: 12px;
 
-				&:hover,
-				&.active {
-					background-color: #9b0909;
-					border-radius: 20px;
-				}
-			}
-		}
-	}
+        &:hover,
+        &.active {
+          background-color: #9b0909;
+          border-radius: 20px;
+        }
+      }
+    }
+  }
 `
 
 export default NavBarWrapper
 ```
 
-### 2.Content 区域
+#### 2.Content 区域
 
 发送网络请求，采用分层架构，但目录按照业务来划分。
 
@@ -872,9 +874,9 @@ discover
     └─songs
 ```
 
-#### 1.Recommend.tsx 页面
+##### 1.Recommend.tsx 页面
 
-##### 1.轮播图组件 TopBanners.tsx
+###### 1.轮播图组件 TopBanners.tsx
 
 创建 recommend 的 store，在其中发送网络请求，使用 `createAsyncThunk`。
 
@@ -911,12 +913,14 @@ export const fetchBannerDataAction = createAsyncThunk('banners', (param, { dispa
 })
 ```
 
-> 【回顾】：两种处理异步 action 的方案（项目中使用方案二）。
+> 【回顾】：两种处理异步 action 的方案。
 >
 > - 方案一：在 `createAsyncThunk` 中返回结果，再在 `extraReducers` 选项中处理。
-> - 方案二：直接在 `createAsyncThunk` 处理。
+> - 方案二：直接在 `createAsyncThunk` 处理（项目中采用）。
 
-在 `Recommend.tsx` 中，派发 action，请求 `banners` 数据，保存到 store 中。
+在 `Recommend.tsx` 中，派发 action；
+
+请求 `banners` 数据，保存到 store 中。
 
 src\views\discover\views\recommend\Recommend.tsx
 
@@ -1072,12 +1076,9 @@ src\views\discover\views\recommend\cpns\top-banners\TopBanners.tsx
 
 ```tsx
 // 走马灯，切换前，事件
-const onCarouselBeforechange = useCallback(
-  (from: number, to: number) => {
-    setCurrentIndex(to)
-  },
-  [currentIndex]
-)
+const onCarouselBeforechange = useCallback((from: number, to: number) => {
+  setCurrentIndex(to)
+}, [])
 
 //...
 
@@ -1154,44 +1155,44 @@ src\views\discover\views\recommend\cpns\top-banners\style.ts
 
 ```less
 export const BannerLeftWrapper = styled.div`
-	position: relative;
-	width: 730px;
-	height: 100%;
+  position: relative;
+  width: 730px;
+  height: 100%;
 
-	.banner-item {
-		overflow: hidden;
-		height: 285px;
+  .banner-item {
+    overflow: hidden;
+    height: 285px;
 
-		.image {
-			height: 285px;
-			width: 100%;
-		}
-	}
+    .image {
+      height: 285px;
+      width: 100%;
+    }
+  }
 
-	.dots {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		margin: 0 auto;
-		display: flex;
-		justify-content: center;
+  .dots {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
 
-		> li {
-			margin: 0 2px;
+    > li {
+      margin: 0 2px;
 
-			.item {
-				display: inline-block;
-				width: 20px;
-				height: 20px;
-				background: url(${require('@/assets/img/banner_sprite.png')}) 3px -343px;
-				cursor: pointer;
+      .item {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background: url(${require('@/assets/img/banner_sprite.png')}) 3px -343px;
+        cursor: pointer;
 
-				&:hover,
-				&.active {
-					background-position: -14px -343px;
-				}
-			}
-		}
-	}
+        &:hover,
+        &.active {
+          background-position: -14px -343px;
+        }
+      }
+    }
+  }
 ```

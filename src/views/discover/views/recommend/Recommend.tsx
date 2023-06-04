@@ -16,6 +16,7 @@ interface IProps {
 }
 const Recommend: FC<IProps> = memo(() => {
   const dispatch = useAppDispatch()
+
   useEffect(() => {
     dispatch(fetchRecommendDataAction())
   }, [])

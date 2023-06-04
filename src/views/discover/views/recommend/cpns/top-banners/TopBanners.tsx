@@ -80,10 +80,12 @@ const TopBanners: FC<IProps> = memo(() => {
             ))}
           </ul>
         </BannerLeftWrapper>
+
         {/* 下载区域 */}
         <BannerRightWrapper>
           <p>PC 安卓 iPhone WP iPad Mac 六大客户端</p>
         </BannerRightWrapper>
+
         {/* 箭头 */}
         <BannerControlWrapper>
           <button className='btn left' onClick={onPrevClick}></button>

@@ -2,7 +2,7 @@
 // export const BASE_URL = 'http://coderwhy.dev:8000'
 // export const BASE_URL = 'http://codercba.prod:8000'
 
-// 方式二，根据process.env.NODE_ENV区分
+// 方式二，根据 process.env.NODE_ENV 区分
 /**
  * 开发环境：development
  * 生产环境：production
