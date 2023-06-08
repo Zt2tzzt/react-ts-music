@@ -1,10 +1,15 @@
-`Discover.tsx` 页面中的 `Recommend.tsx` 页面编写
+# Discover 页面 & Recommend 页面
 
-# 一、Recommend 页面
+`Discover.tsx` 页面中的 `Recommend.tsx` 页面编写。
 
-在 `Recommend.tsx` 中，轮播图（`<TopBanner>`）下方区域，分为两部分，左边区域和右边区域。
+## 一、Recommend 页面
 
-## 1.左、右区域布局
+在 `Recommend.tsx` 中，轮播图（`<TopBanner>`）下方区域，分为两部分，
+
+- 左边区域。
+- 右边区域。
+
+### 1.左、右区域布局
 
 为整个区域设置背景图片，图片上面有区域划分的线，设置样式时，要预留线的 1px 宽度。
 
@@ -28,26 +33,26 @@ src\views\discover\views\recommend\style.ts
 
 ```less
 const RecommendWrapper = styled.section`
-	> .content {
-		border: 1px #d3d3d3 solid;
-		background-image: url(${require('@/assets/img/wrap-bg.png')});
-		display: flex;
+  > .content {
+    border: 1px #d3d3d3 solid;
+    background-image: url(${require('@/assets/img/wrap-bg.png')});
+    display: flex;
 
-		> .left {
-			padding: 20px;
-			width: 729px;
+    > .left {
+      padding: 20px;
+      width: 729px;
       box-sizing: border-box;
-		}
+    }
 
-		> .right {
-			margin-left: 1px;
-			width: 250px;
-		}
-	}
+    > .right {
+      margin-left: 1px;
+      width: 250px;
+    }
+  }
 `
 ```
 
-# 二、HotRecommend 组件
+## 二、HotRecommend 组件
 
 在 `Recommend.tsx` 中，编写 `<HotRecommend>` 组件。用来表示“热门推荐”区域。
 
@@ -55,7 +60,7 @@ const RecommendWrapper = styled.section`
 
 ### 1.头部区域（AreaHeaderV1）
 
-创建组件 `AreaHeaderV1.tsx`
+创建组件 `AreaHeaderV1.tsx`。
 
 1.在 `AreaHeaderV1.tsx` 中，隐藏 `div.title` 中的 `div.keywords` 中的最后一个 `span.divider`。两种方案：
 
@@ -84,14 +89,14 @@ src\components\area-header-v1\AreaHeaderV1.tsx
 
 ```tsx
 interface IProps {
-	children?: ReactNode
-	titleText?: string
-	keywords?: string[]
-	moreText?: string
-	moreLink?: string
+  children?: ReactNode
+  titleText?: string
+  keywords?: string[]
+  moreText?: string
+  moreLink?: string
 }
 const AreaHeaderV1: FC<IProps> = memo(props => {
-	const { titleText = '默认标题', keywords = [], moreText = '更多', moreLink = '/' } = props
+  const { titleText = '默认标题', keywords = [], moreText = '更多', moreLink = '/' } = props
   //...
 }
 ```
@@ -269,7 +274,7 @@ export const formatCount = (count: number) => {
 
 src\components\song-menu-item\style.ts
 
-# 三、NewAlbums 组件
+## 三、NewAlbums 组件
 
 在 `Recommend.tsx` 中，编写“新碟上架”区域，创建 `<NewAlbums>` 组件。
 
@@ -369,7 +374,6 @@ const NewAlbums: FC<IProps> = memo(() => {
 ```
 
 > 【注意】：传入 `<Carousel>` 的直接子元素，被默认设置了行内样式，`display: inline-block; width: 100%`；优先级很高；该样式不好覆盖。需要再嵌套一层展示。
->
 
 调整样式。
 
@@ -412,7 +416,7 @@ export const fetchRecommendDataAction = createAsyncThunk(
 )
 ```
 
-# 四、PopularRanking 组件
+## 四、PopularRanking 组件
 
 在 `Recommend.tsx` 页面中，创建组件 `<PopularRanking>`，用来编写榜单区域。
 
@@ -437,12 +441,12 @@ src\views\discover\views\recommend\cpns\popular-ranking\style.ts
 
 ```less
 export default styled.section`
-	.content {
-		display: flex;
-		height: 472px;
-		margin-top: 20px;
-		background: url(${require('@/assets/img/recommend-top-bg.png')});
-	}
+  .content {
+    display: flex;
+    height: 472px;
+    margin-top: 20px;
+    background: url(${require('@/assets/img/recommend-top-bg.png')});
+  }
 `
 ```
 
@@ -493,7 +497,6 @@ export const fetchRecommendDataAction = createAsyncThunk(
 ```
 
 > 【补充】：理解 `Promise<T>` 中泛型的使用；`T` 表示传入 `resolve` 的数据类型。
->
 
 ```typescript
 new Promise<number>((resolve, reject) => {
