@@ -27,7 +27,6 @@ export interface IBanner {
   scm: string
   bannerBizType: string
 }
-
 export interface IBannersResult {
   banners: Array<IBanner>
   code: number
@@ -47,7 +46,6 @@ export interface IPersonalized {
   highQuality: boolean
   alg: string
 }
-
 export interface IPersonalizedResult {
   hasTaste: boolean
   code: number
@@ -56,7 +54,6 @@ export interface IPersonalizedResult {
 }
 
 // 新碟上架
-
 export interface IArtist {
   name: string
   id: number
@@ -72,12 +69,10 @@ export interface IArtist {
   topicPerson: number
   img1v1Id_str: string
 }
-
 export interface IArtistInAlbum extends IArtist {
   picId_str: string
   transNames?: Array<string>
 }
-
 export interface IAlbum {
   name: string
   id: number
@@ -104,7 +99,6 @@ export interface IAlbum {
   onSale: boolean
   picId_str: string
 }
-
 export interface iAlbumRsesult {
   code: number
   albums: Array<IAlbum>
@@ -341,7 +335,6 @@ export interface IPlaylist {
   algTags: any
   ToplistType: string
 }
-
 export interface IPopularRankingResult {
   code: number
   relatedVideos: any
@@ -395,7 +388,6 @@ export interface IPopularRankingResult {
 }
 
 // 艺术家
-
 export interface IArtist {
   albumSize: number
   alias: Array<string>
@@ -415,7 +407,6 @@ export interface IArtist {
   trans: string
   accountId?: number
 }
-
 export interface IArtistResult {
   artists: Array<IArtist>
   more: boolean

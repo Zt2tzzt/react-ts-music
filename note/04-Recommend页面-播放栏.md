@@ -347,7 +347,7 @@ export const BarControl = styled.div<IBarControl>`
 
 - 传入 `value` 属性，用于控制进度条进度；
 - 使用 `step` 属性，设置精确度；
-- 将 `tooltip` 属性改为 `{formatter: null}`，表示不展示提示框。
+- 将 `tooltip` 属性改为 `{ formatter: null }`，表示不展示提示框。
 
 在 `<audio>` 组件上，处理 `onTimeUpdate` 事件，
 
